@@ -1,6 +1,15 @@
 #pragma once
 #include <vector>
-#include "objs.h"
+// #include "objs.h"
+
+#include "Point.h"
+#include "Vector.h"
+#include "Ray.h"
+#include "Light.h"
+#include "Geometry.h"
+#include "Sphere.h"
+#include "Plane.h"
+
 using namespace std;
 
 /* Open .pov file, fill in variables, and create geometry */

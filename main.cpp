@@ -1,5 +1,5 @@
 #include "parse.h"
-#include "objs.h"
+// #include "objs.h"
 #include "Image.h"
 #include <vector>
 #include <iostream>
@@ -8,6 +8,9 @@
 #include <string.h>
 #include <string>
 #include <cmath>
+
+#include "Point.h"
+#include "Vector.h"
 
 using namespace std;
 

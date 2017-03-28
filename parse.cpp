@@ -1,5 +1,5 @@
 #include "parse.h"
-#include "objs.h"
+// #include "objs.h"
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
@@ -7,6 +7,7 @@
 #include <string.h>
 #include <string>
 #include <vector>
+
 using namespace std;
 
 /* Check argc and usage, fill in variables, attempt to open povray file */
