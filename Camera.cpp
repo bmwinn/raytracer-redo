@@ -16,9 +16,9 @@ Camera::Camera(Point center, Vector up, Vector right, Point lookat) {
 
 void Camera::Print() {
 	cout << "camera {" << endl;
-	cout << "  location   <" << center.x << ", " << center.y << ", " << center.z << ">" << endl;
+	cout << "  location   <" << center.getX() << ", " << center.getY() << ", " << center.getZ() << ">" << endl;
 	cout << "  up         <" << up.x << ", " << up.y << ", " << up.z << ">" << endl;
 	cout << "  right      <" << right.x << ", " << right.y << ", " << right.z << ">" << endl;
-	cout << "  look_at    <" << lookat.x << ", " << lookat.y << ", " << lookat.z << ">" << endl;
+	cout << "  look_at    <" << lookat.getX() << ", " << lookat.getY() << ", " << lookat.getZ() << ">" << endl;
 	cout << "}" << endl;
 }

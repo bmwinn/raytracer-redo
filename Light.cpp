@@ -11,6 +11,6 @@ Light::Light(Point center, Pigment pigment) {
 }
 
 void Light::Print() {
-	cout << "light {<" << center.x << ", " << center.y << ", " << center.z << "> ";
+	cout << "light {<" << center.getX() << ", " << center.getY() << ", " << center.getZ() << "> ";
 	cout << "color <" << pigment.r << ", " << pigment.g << ", " << pigment.b << ", " << pigment.f << ">}" << endl;
 }

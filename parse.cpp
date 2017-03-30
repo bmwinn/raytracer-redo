@@ -56,11 +56,11 @@ void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Lig
 
 					/* Fill in Camera center point */
 					token = strtok(line, " \tlocation<,");
-					camera->center.x = strtof(token, NULL);
+					camera->center.setX(strtof(token, NULL));
 					token = strtok(NULL, ", ");
-					camera->center.y = strtof(token, NULL);
+					camera->center.setY(strtof(token, NULL));
 					token = strtok(NULL, ", >");
-					camera->center.z = strtof(token, NULL);
+					camera->center.setZ(strtof(token, NULL));
 
 					/* Fill in Camera up vector */
 					povray->getline(line, 99);
@@ -83,11 +83,11 @@ void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Lig
 					/* Fill in Camera lookat point */
 					povray->getline(line, 99);
 					token = strtok(line, " \tlook_at<,");
-					camera->lookat.x = strtof(token, NULL);
+					camera->lookat.setX(strtof(token, NULL));
 					token = strtok(NULL, ", ");
-					camera->lookat.y = strtof(token, NULL);
+					camera->lookat.setY(strtof(token, NULL));
 					token = strtok(NULL, ", >");
-					camera->lookat.z = strtof(token, NULL);
+					camera->lookat.setZ(strtof(token, NULL));
 
 					/* Initialize magnitude of up and right vectors */
 					camera->up.SetMagnitude(camera->up.x, camera->up.y, camera->up.z);
@@ -98,11 +98,11 @@ void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Lig
 
 					/* Fill in Light center point */
 					token = strtok(NULL, " {<,");
-					light->center.x = strtof(token, NULL);
+					light->center.setX(strtof(token, NULL));
 					token = strtok(NULL, " {<,");
-					light->center.y = strtof(token, NULL);
+					light->center.setY(strtof(token, NULL));
 					token = strtok(NULL, " {<,");
-					light->center.z = strtof(token, NULL);
+					light->center.setZ(strtof(token, NULL));
 
 					strtok(NULL, " ");
 					token = strtok(NULL, " ");
@@ -131,11 +131,11 @@ void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Lig
 
 					/* Fill in sphere center point */
 					token = strtok(NULL, " {<,");
-					sphere->center.x = strtof(token, NULL);
+					sphere->center.setX(strtof(token, NULL));
 					token = strtok(NULL, " ,");
-					sphere->center.y = strtof(token, NULL);
+					sphere->center.setY(strtof(token, NULL));
 					token = strtok(NULL, " >");
-					sphere->center.z = strtof(token, NULL);
+					sphere->center.setZ(strtof(token, NULL));
 
 					/* Fill in sphere radius */
 					token = strtok(NULL, " ,");

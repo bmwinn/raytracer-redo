@@ -9,6 +9,7 @@
 #include "Sphere.h"
 #include "Plane.h"
 
+#include <vector>
 #include <stdio.h>
 #include <iostream>
 #include <fstream>

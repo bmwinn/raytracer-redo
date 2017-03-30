@@ -5,7 +5,7 @@
 void printUnitTest(string *test, int i, int j, float closestDistance, Ray *ray, Pigment *pixelPigment, color_t *color) {
 	if ((!test->compare("planes.pov") && ((i == 320 && j == 50) || (i == 50 && j == 240) || (i == 590 && j == 240))) || 
 		(!test->compare("spheres.pov") && ((i == 320 && j == 239) || (i == 360 && j == 219) || (i == 230 && j == 239) || (i == 120 && j == 349) || (i == 490 && j == 119)))) {
-		cout << "Pixel: [" << i << ", " << j << "]  Ray: {" << ray->start.x << " " << ray->start.y << " " << ray->start.z << "}";
+		cout << "Pixel: [" << i << ", " << j << "]  Ray: {" << ray->start.getX() << " " << ray->start.getY() << " " << ray->start.getZ() << "}";
 		cout << " -> {" << ray->direction.x << " " << ray->direction.y << " " << ray->direction.z << "}";
 		
 		if (closestDistance == 10000)

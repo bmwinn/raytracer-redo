@@ -1,9 +1,6 @@
 // TODO
-// rename .tga according to input .pov -> simple.pov = simple.tga
-// input name of resource directory
-//    loop through files in resource dir and draw all .povs
-// input name of result directory
-//    write all tgas to result directory
+// rethink fileops?
+// 
 
 #include "Parse.h"
 #include "Image.h"

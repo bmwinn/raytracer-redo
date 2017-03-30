@@ -17,7 +17,7 @@ Sphere::Sphere(Point center, float radius, Pigment pigment, Finish finish) {
 
 void Sphere::Print() {
 	cout << "sphere { ";
-	cout << "<" << center.x << ", " << center.y << ", " << center.z << ">, " << radius << endl;
+	cout << "<" << center.getX() << ", " << center.getY() << ", " << center.getZ() << ">, " << radius << endl;
 	cout << "  pigment { color <" << pigment.r << ", " << pigment.g << ", " << pigment.b << ", " << pigment.f << ">}" << endl;
 	cout << "  finish {ambient " << finish.ambient << " diffuse " << finish.diffuse << "}" << endl;
 	cout << "}" << endl;
@@ -26,7 +26,7 @@ void Sphere::Print() {
  /* Return distance along ray to sphere */
 float Sphere::Intersect(Ray *ray, Camera *camera) {
 	float distance, t1, t2, rad;
-	Vector difPC = Vector(camera->center.x - center.x, camera->center.y - center.y, camera->center.z - center.z);
+	Vector difPC = Vector(camera->center.getX() - center.getX(), camera->center.getY() - center.getY(), camera->center.getZ() - center.getZ());
 	Vector difPCCopy = Vector(difPC.x, difPC.y, difPC.z);
 	Vector dCopy = Vector(ray->direction.x, ray->direction.y, ray->direction.z);
 
