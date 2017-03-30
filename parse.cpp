@@ -1,23 +1,19 @@
-#include "parse.h"
-#include "objs.h"
-#include <stdio.h>
-#include <iostream>
-#include <fstream>
-#include <stdio.h>
-#include <string.h>
-#include <string>
-#include <vector>
+#include "Parse.h"
+
+// #include <stdio.h>
+// #include <iostream>
+// #include <fstream>
+// #include <stdio.h>
+// #include <string.h>
+// #include <string>
+// #include <vector>
+
 using namespace std;
 
 /* Check argc and usage, fill in variables, attempt to open povray file */
 int fileOps(int argc, char *argv[], int *width, int *height, string *test, vector<Geometry *> *allGeometry, Camera *camera, Light *light) {
 	string fileName;
 	fstream povray;
-
-	if (argc < 4) {
-		cout << "Error. Usage: ./raytrace <width> <height> <input_filename>" << endl;
-		return 1;
-	}
 
 	fileName = argv[3];
 	povray.open(fileName, fstream::in);
