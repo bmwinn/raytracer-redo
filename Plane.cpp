@@ -29,10 +29,10 @@ float Plane::Intersect(Ray *ray, Camera *camera) {
 	Vector difCameraPlane = Vector(onPlane.getX() - camera->center.getX(), onPlane.getY() - camera->center.getY(), onPlane.getZ() - camera->center.getZ());
 
 	/* If dot product is 0, return no hit */
-	if (ray->direction.dot(&normal) == 0)
+	if (ray->getDirection()->dot(&normal) == 0)
 		distance = -1;
 	else
-		distance = difCameraPlane.dot(&normal) / ray->direction.dot(&normal);
+		distance = difCameraPlane.dot(&normal) / ray->getDirection()->dot(&normal);
 	
 	return distance;
 }

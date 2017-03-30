@@ -26,3 +26,17 @@ Ray::Ray(int i, int j, int width, int height, Camera *camera) {
 	this->direction = Vector(us - camera->center.getX(), vs - camera->center.getY(), ws);
 	this->direction.normalize();
 }
+
+void Ray::setStart(Point *s) {
+	start.setX(s->getX());
+	start.setY(s->getY());
+	start.setZ(s->getZ());
+}
+void Ray::setDirection(Vector *d) {
+	direction.setX(d->getX());
+	direction.setY(d->getY());
+	direction.setZ(d->getZ());
+}
+
+Point *Ray::getStart() { return &start; }
+Vector *Ray::getDirection() { return &direction; }
