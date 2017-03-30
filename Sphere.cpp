@@ -27,10 +27,10 @@ void Sphere::Print() {
 float Sphere::Intersect(Ray *ray, Camera *camera) {
 	float distance, t1, t2, rad;
 	Vector difPC = Vector(camera->center.getX() - center.getX(), camera->center.getY() - center.getY(), camera->center.getZ() - center.getZ());
-	Vector difPCCopy = Vector(difPC.x, difPC.y, difPC.z);
-	Vector dCopy = Vector(ray->direction.x, ray->direction.y, ray->direction.z);
+	Vector difPCCopy = Vector(difPC.getX(), difPC.getY(), difPC.getZ());
+	Vector dCopy = Vector(ray->direction.getX(), ray->direction.getY(), ray->direction.getZ());
 
-	rad = pow(ray->direction.Dot(&difPC), 2) - (ray->direction.Dot(&dCopy) * (difPC.Dot(&difPCCopy)) - pow(radius, 2));
+	rad = pow(ray->direction.dot(&difPC), 2) - (ray->direction.dot(&dCopy) * (difPC.dot(&difPCCopy)) - pow(radius, 2));
 
 	/* If radicand is negative, return no hit */
 	if (rad < 0)
@@ -38,11 +38,11 @@ float Sphere::Intersect(Ray *ray, Camera *camera) {
 
 	/* Return smallest (closest) positive distance */
 	else if (rad == 0)
-		distance = -1 * ray->direction.Dot(&difPC) / ray->direction.Dot(&dCopy);
+		distance = -1 * ray->direction.dot(&difPC) / ray->direction.dot(&dCopy);
 
 	else {
-		t1 = (-1 * ray->direction.Dot(&difPC) + sqrt(rad)) / ray->direction.Dot(&dCopy);
-		t2 = (-1 * ray->direction.Dot(&difPC) - sqrt(rad)) / ray->direction.Dot(&dCopy);
+		t1 = (-1 * ray->direction.dot(&difPC) + sqrt(rad)) / ray->direction.dot(&dCopy);
+		t2 = (-1 * ray->direction.dot(&difPC) - sqrt(rad)) / ray->direction.dot(&dCopy);
 
 		if (t1 > 0 && t2 > 0)
 			distance = t1 < t2 ? t1 : t2;

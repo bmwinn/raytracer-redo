@@ -16,7 +16,7 @@ Plane::Plane(Vector normal, float distance, Pigment pigment, Finish finish) {
 
 void Plane::Print() {
 	cout << "plane {";
-	cout << "<" << normal.x << ", " << normal.y << ", " << normal.z << ">, " << distance << endl;
+	cout << "<" << normal.getX() << ", " << normal.getY() << ", " << normal.getZ() << ">, " << distance << endl;
 	cout << "  pigment {color <" << pigment.r << ", " << pigment.g << ", " << pigment.b << ", " << pigment.f << ">}" << endl;
 	cout << "  finish {ambient " << finish.ambient << " diffuse " << finish.diffuse << "}" << endl;
 	cout << "}" << endl;
@@ -25,14 +25,14 @@ void Plane::Print() {
  /* Return distance along ray to plane */
 float Plane::Intersect(Ray *ray, Camera *camera) {
 	float distance;
-	Point onPlane = Point(this->distance * normal.x, this->distance * normal.y, this->distance * normal.z);
+	Point onPlane = Point(this->distance * normal.getX(), this->distance * normal.getY(), this->distance * normal.getZ());
 	Vector difCameraPlane = Vector(onPlane.getX() - camera->center.getX(), onPlane.getY() - camera->center.getY(), onPlane.getZ() - camera->center.getZ());
 
 	/* If dot product is 0, return no hit */
-	if (ray->direction.Dot(&normal) == 0)
+	if (ray->direction.dot(&normal) == 0)
 		distance = -1;
 	else
-		distance = difCameraPlane.Dot(&normal) / ray->direction.Dot(&normal);
+		distance = difCameraPlane.dot(&normal) / ray->direction.dot(&normal);
 	
 	return distance;
 }

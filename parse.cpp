@@ -65,20 +65,20 @@ void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Lig
 					/* Fill in Camera up vector */
 					povray->getline(line, 99);
 					token = strtok(line, " \tup<,");
-					camera->up.x = strtof(token, NULL);
+					camera->up.setX(strtof(token, NULL));
 					token = strtok(NULL, ", ");
-					camera->up.y = strtof(token, NULL);
+					camera->up.setY(strtof(token, NULL));
 					token = strtok(NULL, ", >");
-					camera->up.z = strtof(token, NULL);
+					camera->up.setZ(strtof(token, NULL));
 
 					/* Fill in Camera right vector */
 					povray->getline(line, 99);
 					token = strtok(line, " \tright<,");
-					camera->right.x = strtof(token, NULL);
+					camera->right.setX(strtof(token, NULL));
 					token = strtok(NULL, ", ");
-					camera->right.y = strtof(token, NULL);
+					camera->right.setY(strtof(token, NULL));
 					token = strtok(NULL, ", >");
-					camera->right.z = strtof(token, NULL);
+					camera->right.setZ(strtof(token, NULL));
 
 					/* Fill in Camera lookat point */
 					povray->getline(line, 99);
@@ -90,8 +90,8 @@ void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Lig
 					camera->lookat.setZ(strtof(token, NULL));
 
 					/* Initialize magnitude of up and right vectors */
-					camera->up.SetMagnitude(camera->up.x, camera->up.y, camera->up.z);
-					camera->right.SetMagnitude(camera->right.x, camera->right.y, camera->right.z);
+					camera->up.setMagnitude(camera->up.getX(), camera->up.getY(), camera->up.getZ());
+					camera->right.setMagnitude(camera->right.getX(), camera->right.getY(), camera->right.getZ());
 				}
 				else if (!strcmp(token, "light_source")) {
 					*light = Light();
@@ -178,11 +178,11 @@ void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Lig
 
 					/* Fill in plane normal vector */
 					token = strtok(NULL, " {<,");
-					plane->normal.x = strtof(token, NULL);
+					plane->normal.setX(strtof(token, NULL));
 					token = strtok(NULL, " ,");
-					plane->normal.y = strtof(token, NULL);
+					plane->normal.setY(strtof(token, NULL));
 					token = strtok(NULL, " ,>");
-					plane->normal.z = strtof(token, NULL);
+					plane->normal.setZ(strtof(token, NULL));
 
 					/* Fill in distance along plane normal */
 					token = strtok(NULL, " ,");
@@ -218,7 +218,7 @@ void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Lig
 					plane->finish.diffuse = strtof(token, NULL);
 
 					/* Set Magnitude of normal vector */
-					plane->normal.SetMagnitude(plane->normal.x, plane->normal.y, plane->normal.z);
+					plane->normal.setMagnitude(plane->normal.getX(), plane->normal.getY(), plane->normal.getZ());
 					
 					/* Add plane to vector list of Geometry */
 					allGeometry->push_back(plane);

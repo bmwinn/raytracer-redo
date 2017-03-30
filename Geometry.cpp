@@ -7,9 +7,9 @@ Geometry::Geometry() {
 }
 
 void Geometry::SetNormal(Vector *other) {
-	normal.x = other->x;
-	normal.y = other->y;
-	normal.z = other->z;
+	normal.setX(other->getX());
+	normal.setY(other->getY());
+	normal.setZ(other->getZ());
 }
 
 void Geometry::SetPigment(Pigment *other) {

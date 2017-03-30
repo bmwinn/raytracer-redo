@@ -15,6 +15,7 @@ public:
 	float getX();
 	float getY();
 	float getZ();
+	
 private:
 	float x, y, z;
 };
