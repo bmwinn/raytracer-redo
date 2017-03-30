@@ -1,4 +1,4 @@
-#include "parse.h"
+#include "Parse.h"
 // #include "objs.h"
 #include <stdio.h>
 #include <iostream>
@@ -14,11 +14,6 @@ using namespace std;
 int fileOps(int argc, char *argv[], int *width, int *height, string *test, vector<Geometry *> *allGeometry, Camera *camera, Light *light) {
 	string fileName;
 	fstream povray;
-
-	if (argc < 4) {
-		cout << "Error. Usage: ./raytrace <width> <height> <input_filename>" << endl;
-		return 1;
-	}
 
 	fileName = argv[3];
 	povray.open(fileName, fstream::in);
