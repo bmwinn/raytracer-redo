@@ -16,7 +16,7 @@ void printUnitTest(string *test, int i, int j, float closestDistance, Ray *ray, 
 			if (!test->compare("spheres.pov"))
 				cout << "  Color: (" << (int) color->r << " " << (int) color->g << " " << (int) color->b << ")" << endl;
 			else
-				cout << "  Color: (" << pixelPigment->r << " " << pixelPigment->g << " " << pixelPigment->b << ")" << endl;
+				cout << "  Color: (" << pixelPigment->getR() << " " << pixelPigment->getG() << " " << pixelPigment->getB() << ")" << endl;
 		}
 	}
 }

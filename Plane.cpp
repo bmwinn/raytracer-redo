@@ -17,7 +17,7 @@ Plane::Plane(Vector normal, float distance, Pigment pigment, Finish finish) {
 void Plane::Print() {
 	cout << "plane {";
 	cout << "<" << normal.getX() << ", " << normal.getY() << ", " << normal.getZ() << ">, " << distance << endl;
-	cout << "  pigment {color <" << pigment.r << ", " << pigment.g << ", " << pigment.b << ", " << pigment.f << ">}" << endl;
+	cout << "  pigment {color <" << pigment.getR() << ", " << pigment.getG() << ", " << pigment.getB() << ", " << pigment.getF() << ">}" << endl;
 	cout << "  finish {ambient " << finish.ambient << " diffuse " << finish.diffuse << "}" << endl;
 	cout << "}" << endl;
 }

@@ -18,7 +18,7 @@ Sphere::Sphere(Point center, float radius, Pigment pigment, Finish finish) {
 void Sphere::Print() {
 	cout << "sphere { ";
 	cout << "<" << center.getX() << ", " << center.getY() << ", " << center.getZ() << ">, " << radius << endl;
-	cout << "  pigment { color <" << pigment.r << ", " << pigment.g << ", " << pigment.b << ", " << pigment.f << ">}" << endl;
+	cout << "  pigment { color <" << pigment.getR() << ", " << pigment.getG() << ", " << pigment.getB() << ", " << pigment.getF() << ">}" << endl;
 	cout << "  finish {ambient " << finish.ambient << " diffuse " << finish.diffuse << "}" << endl;
 	cout << "}" << endl;
 }

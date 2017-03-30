@@ -112,19 +112,19 @@ void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Lig
 
 					/* Fill in Light Pigment */
 					token = strtok(NULL, "< ,");
-					light->pigment.r = strtof(token, NULL);
+					light->pigment.setR(strtof(token, NULL));
 					token = strtok(NULL, " ,");
-					light->pigment.g = strtof(token, NULL);
+					light->pigment.setG(strtof(token, NULL));
 					token = strtok(NULL, " ,");
-					light->pigment.b = strtof(token, NULL);
+					light->pigment.setB(strtof(token, NULL));
 					
 					/* Fill in Light Pigment f value */
 					if (rgbf) {
 						token = strtok(NULL, " >}");
-						light->pigment.f = strtof(token, NULL);
+						light->pigment.setF(strtof(token, NULL));
 					}
 					else
-						light->pigment.f = 1;
+						light->pigment.setF(1);
 				}
 				else if (!strcmp(token, "sphere")) {
 					sphere = new Sphere();
@@ -150,18 +150,18 @@ void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Lig
 					rgbf = !strcmp(token, "rgbf");
 
 					token = strtok(NULL, " <,");
-					sphere->pigment.r = strtof(token, NULL);
+					sphere->pigment.setR(strtof(token, NULL));
 					token = strtok(NULL, " ,");
-					sphere->pigment.g = strtof(token, NULL);
+					sphere->pigment.setG(strtof(token, NULL));
 					token = strtok(NULL, " ,>}");
-					sphere->pigment.b = strtof(token, NULL);
+					sphere->pigment.setB(strtof(token, NULL));
 
 					if (rgbf) {
 						token = strtok(NULL, " ,>}");
-						sphere->pigment.f = strtof(token, NULL);
+						sphere->pigment.setF(strtof(token, NULL));
 					}
 					else
-						sphere->pigment.f = 1;
+						sphere->pigment.setF(1);
 
 					/* Fill in sphere Finish */
 					povray->getline(line, 99);
@@ -197,18 +197,18 @@ void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Lig
 					rgbf = !strcmp(token, "rgbf");
 
 					token = strtok(NULL, " <,");
-					plane->pigment.r = strtof(token, NULL);
+					plane->pigment.setR(strtof(token, NULL));
 					token = strtok(NULL, " ,");
-					plane->pigment.g = strtof(token, NULL);
+					plane->pigment.setG(strtof(token, NULL));
 					token = strtok(NULL, " ,>}");
-					plane->pigment.b = strtof(token, NULL);
+					plane->pigment.setB(strtof(token, NULL));
 
 					if (rgbf) {
 						token = strtok(NULL, " ,>}");
-						plane->pigment.f = strtof(token, NULL);
+						plane->pigment.setF(strtof(token, NULL));
 					}
 					else
-						plane->pigment.f = 1;
+						plane->pigment.setF(1);
 
 					/* Fill in plane Finish */
 					povray->getline(line, 99);

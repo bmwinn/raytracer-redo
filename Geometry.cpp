@@ -13,10 +13,10 @@ void Geometry::SetNormal(Vector *other) {
 }
 
 void Geometry::SetPigment(Pigment *other) {
-	pigment.r = other->r;
-	pigment.g = other->g;
-	pigment.b = other->b;
-	pigment.f = other->f;
+	pigment.setR(other->getR());
+	pigment.setG(other->getG());
+	pigment.setB(other->getB());
+	pigment.setF(other->getF());
 }
 
 void Geometry::SetFinish(Finish *other) {
