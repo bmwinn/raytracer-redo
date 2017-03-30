@@ -2,8 +2,6 @@
 #define _PLANE_H_
 
 #include "Geometry.h"
-// #include "Vector.h"
-// #include "Camera.h"
 
 /* Child of Geometry, inherits normal Vector and contains distance along normal Vecor */
 class Plane : public Geometry {

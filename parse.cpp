@@ -1,12 +1,12 @@
 #include "Parse.h"
-// #include "objs.h"
-#include <stdio.h>
-#include <iostream>
-#include <fstream>
-#include <stdio.h>
-#include <string.h>
-#include <string>
-#include <vector>
+
+// #include <stdio.h>
+// #include <iostream>
+// #include <fstream>
+// #include <stdio.h>
+// #include <string.h>
+// #include <string>
+// #include <vector>
 
 using namespace std;
 

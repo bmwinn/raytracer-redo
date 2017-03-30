@@ -1,5 +1,4 @@
 #include "Vector.h"
-#include <cmath>
 
 Vector::Vector() {
 	x = y = z = 0;
