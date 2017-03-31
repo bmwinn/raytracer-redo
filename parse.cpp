@@ -98,11 +98,11 @@ void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Lig
 
 					/* Fill in Light center point */
 					token = strtok(NULL, " {<,");
-					light->center.setX(strtof(token, NULL));
+					light->getCenter()->setX(strtof(token, NULL));
 					token = strtok(NULL, " {<,");
-					light->center.setY(strtof(token, NULL));
+					light->getCenter()->setY(strtof(token, NULL));
 					token = strtok(NULL, " {<,");
-					light->center.setZ(strtof(token, NULL));
+					light->getCenter()->setZ(strtof(token, NULL));
 
 					strtok(NULL, " ");
 					token = strtok(NULL, " ");
@@ -112,19 +112,19 @@ void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Lig
 
 					/* Fill in Light Pigment */
 					token = strtok(NULL, "< ,");
-					light->pigment.setR(strtof(token, NULL));
+					light->getPigment()->setR(strtof(token, NULL));
 					token = strtok(NULL, " ,");
-					light->pigment.setG(strtof(token, NULL));
+					light->getPigment()->setG(strtof(token, NULL));
 					token = strtok(NULL, " ,");
-					light->pigment.setB(strtof(token, NULL));
+					light->getPigment()->setB(strtof(token, NULL));
 					
 					/* Fill in Light Pigment f value */
 					if (rgbf) {
 						token = strtok(NULL, " >}");
-						light->pigment.setF(strtof(token, NULL));
+						light->getPigment()->setF(strtof(token, NULL));
 					}
 					else
-						light->pigment.setF(1);
+						light->getPigment()->setF(1);
 				}
 				else if (!strcmp(token, "sphere")) {
 					sphere = new Sphere();
