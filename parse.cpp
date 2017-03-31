@@ -131,15 +131,15 @@ void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Lig
 
 					/* Fill in sphere center point */
 					token = strtok(NULL, " {<,");
-					sphere->center.setX(strtof(token, NULL));
+					sphere->getCenter()->setX(strtof(token, NULL));
 					token = strtok(NULL, " ,");
-					sphere->center.setY(strtof(token, NULL));
+					sphere->getCenter()->setY(strtof(token, NULL));
 					token = strtok(NULL, " >");
-					sphere->center.setZ(strtof(token, NULL));
+					sphere->getCenter()->setZ(strtof(token, NULL));
 
 					/* Fill in sphere radius */
 					token = strtok(NULL, " ,");
-					sphere->radius = strtof(token, NULL);
+					sphere->setRadius(strtof(token, NULL));
 
 					/* Fill in sphere Pigment */
 					povray->getline(line, 99);

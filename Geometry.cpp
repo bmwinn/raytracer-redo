@@ -6,24 +6,10 @@ Geometry::Geometry() {
 	finish = Finish();
 }
 
-void Geometry::SetNormal(Vector *other) {
-	normal.setX(other->getX());
-	normal.setY(other->getY());
-	normal.setZ(other->getZ());
-}
-
-void Geometry::SetPigment(Pigment *other) {
-	pigment.setR(other->getR());
-	pigment.setG(other->getG());
-	pigment.setB(other->getB());
-	pigment.setF(other->getF());
-}
-
-void Geometry::SetFinish(Finish *other) {
-	finish.setAmbient(other->getAmbient());
-	finish.setDiffuse(other->getDiffuse());
-	finish.setSpecular(other->getSpecular());
-	finish.setRoughness(other->getRoughness());
+Geometry::Geometry(Vector *n, Pigment *p, Finish *f) {
+	setNormal(n);
+	setPigment(p);
+	setFinish(f);
 }
 
 /* Virtual function, should not be called */

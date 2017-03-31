@@ -1,21 +1,26 @@
 #include "Sphere.h"
 
-// Sphere::Sphere() : Geometry() {}
 Sphere::Sphere() : Geometry() {
 	center = Point();
 	radius = 0;
-	// normal = Vector();
-	// pigment = Pigment();
-	// finish = Finish();
 }
 
-// Sphere::Sphere() : Geometry(...) {}
-Sphere::Sphere(Point center, float radius, Pigment pigment, Finish finish) {
+Sphere::Sphere(Point center, float radius,
+	Vector *normal, Pigment *pigment, Finish *finish) :
+	Geometry(normal, pigment, finish) {
 	this->center = center;
 	this->radius = radius;
-	setPigment(&pigment);
-	setFinish(&finish);
 }
+
+void Sphere::setCenter(Point *c) {
+	center.setX(c->getX());
+	center.setY(c->getY());
+	center.setZ(c->getZ());
+}
+void Sphere::setRadius(float r) { radius = r; }
+
+Point *Sphere::getCenter() { return &center; }
+float Sphere::getRadius() { return radius; }
 
 void Sphere::Print() {
 	cout << "sphere { ";

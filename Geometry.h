@@ -18,6 +18,7 @@ using namespace std;
 class Geometry {
 public:
 	Geometry();
+	Geometry(Vector *n, Pigment *p, Finish *f);
 	void SetNormal(Vector *normal);
 	void SetPigment(Pigment *pigment);
 	void SetFinish(Finish *finish);
