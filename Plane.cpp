@@ -26,7 +26,7 @@ void Plane::Print() {
 float Plane::Intersect(Ray *ray, Camera *camera) {
 	float distance;
 	Point onPlane = Point(this->distance * normal.getX(), this->distance * normal.getY(), this->distance * normal.getZ());
-	Vector difCameraPlane = Vector(onPlane.getX() - camera->center.getX(), onPlane.getY() - camera->center.getY(), onPlane.getZ() - camera->center.getZ());
+	Vector difCameraPlane = Vector(onPlane.getX() - camera->getCenter()->getX(), onPlane.getY() - camera->getCenter()->getY(), onPlane.getZ() - camera->getCenter()->getZ());
 
 	/* If dot product is 0, return no hit */
 	if (ray->getDirection()->dot(&normal) == 0)

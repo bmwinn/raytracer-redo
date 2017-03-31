@@ -15,7 +15,9 @@ public:
 	void setY(float y);
 	void setZ(float z);
 	void setMagnitude(float x, float y, float z);
-
+	void setMagnitude(float magnitude);
+	void setMagnitude(Vector *other);
+	
 	float getX();
 	float getY();
 	float getZ();

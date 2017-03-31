@@ -26,7 +26,7 @@ void Sphere::Print() {
  /* Return distance along ray to sphere */
 float Sphere::Intersect(Ray *ray, Camera *camera) {
 	float distance, t1, t2, rad;
-	Vector difPC = Vector(camera->center.getX() - center.getX(), camera->center.getY() - center.getY(), camera->center.getZ() - center.getZ());
+	Vector difPC = Vector(camera->getCenter()->getX() - center.getX(), camera->getCenter()->getY() - center.getY(), camera->getCenter()->getZ() - center.getZ());
 	Vector difPCCopy = Vector(difPC.getX(), difPC.getY(), difPC.getZ());
 	Vector dCopy = Vector(ray->getDirection()->getX(), ray->getDirection()->getY(), ray->getDirection()->getZ());
 
