@@ -57,20 +57,6 @@ int main(int argc, char *argv[]) {
 
 	Image img(width, height);
 
-	Point c = Point(0, 4, 10);
-	Vector *n = new Vector(0, 0, 0);
-	Pigment *p = new Pigment(1, 0, 0, 1);
-	Finish *f = new Finish(1, 1, 0, 1);
-	Sphere *testSphere = new Sphere(c, 3, n, p, f);
-	allGeometry.push_back(testSphere);
-
-	// Plane::Plane(float distance, Vector *normal, Pigment *pigment, Finish *finish) :
-	Vector *n2 = new Vector(1, 0, 0);
-	Pigment *p2 = new Pigment(0, 1, 0, 1);
-	Finish *f2 = new Finish(1, 1, 0, 1);
-	Plane *testPlane = new Plane(1, n2, p2, f2);
-	allGeometry.push_back(testPlane);
-
 	/* Loop through pixels */
 	for (int i = 0; i < width; i++){
 		for (int j = 0; j < height; j++) {
