@@ -1,18 +1,17 @@
 #include "Plane.h"
 
 Plane::Plane() : Geometry() {
-	// normal = Vector();
 	distance = 0;
-	// pigment = Pigment();
-	// finish = Finish();
 }
 
-Plane::Plane(Vector normal, float distance, Pigment pigment, Finish finish) {
+Plane::Plane(float distance, Vector *normal, Pigment *pigment, Finish *finish) :
+	Geometry(normal, pigment, finish) {
 	this->distance = distance;
-	setFinish(&finish);
-	setPigment(&pigment);
-	setNormal(&normal);
 }
+
+void Plane::setDistance(float d) { distance = d; }
+
+float Plane::getDistance() { return distance; }
 
 void Plane::Print() {
 	cout << "plane {";

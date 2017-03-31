@@ -7,9 +7,15 @@
 class Plane : public Geometry {
 public:
 	Plane();
-	Plane(Vector normal, float distance, Pigment pigment, Finish finish);
+	Plane(float distance, Vector *normal, Pigment *pigment, Finish *finish);
 	void Print();
 	float Intersect(Ray *ray, Camera *camera);
+
+	void setDistance(float d);
+
+	float getDistance();
+
+private:
 	float distance;
 };
 
