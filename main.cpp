@@ -61,7 +61,7 @@ int main(int argc, char *argv[]) {
 	for (int i = 0; i < width; i++){
 		for (int j = 0; j < height; j++) {
 			Ray ray = Ray(i, j, width, height, &camera);
-			Pigment pixelPigment = Pigment();
+			Pigment *pixelPigment = new Pigment();
 			closestDistance = 10000;
 
 			/* Initialize current pixel to background color */
@@ -75,8 +75,8 @@ int main(int argc, char *argv[]) {
 				/* Update closest distance from camera to geometry */
 				if (distance > 0 && distance < closestDistance) {
 				   closestDistance = distance;
-				   pixelPigment = allGeometry.at(g)->pigment;
-					setColor(&color, &pixelPigment);
+				   pixelPigment = allGeometry.at(g)->getPigment();
+					setColor(&color, pixelPigment);
 
 					/* Update current pixel color to geometry color */
 					img.pixel(i, j, color);
@@ -84,7 +84,7 @@ int main(int argc, char *argv[]) {
 			}
 
 			/* Print unit test results */ 
-			printUnitTest(&test, i, j, closestDistance, &ray, &pixelPigment, &color);
+			printUnitTest(&test, i, j, closestDistance, &ray, pixelPigment, &color);
 		}
 	}
 

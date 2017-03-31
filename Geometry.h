@@ -23,6 +23,16 @@ public:
 	void SetFinish(Finish *finish);
 	virtual void Print();
 	virtual float Intersect(Ray *ray, Camera *camera);
+
+	void setNormal(Vector *n);
+	void setPigment(Pigment *p);
+	void setFinish(Finish *f);
+
+	Vector *getNormal();
+	Pigment *getPigment();
+	Finish *getFinish();
+
+private:
 	Vector normal;
 	Pigment pigment;
 	Finish finish;

@@ -1,25 +1,27 @@
 #include "Sphere.h"
 
-Sphere::Sphere() {
+// Sphere::Sphere() : Geometry() {}
+Sphere::Sphere() : Geometry() {
 	center = Point();
 	radius = 0;
-	normal = Vector();
-	pigment = Pigment();
-	finish = Finish();
+	// normal = Vector();
+	// pigment = Pigment();
+	// finish = Finish();
 }
 
+// Sphere::Sphere() : Geometry(...) {}
 Sphere::Sphere(Point center, float radius, Pigment pigment, Finish finish) {
 	this->center = center;
 	this->radius = radius;
-	this->pigment = pigment;
-	this->finish = finish;
+	setPigment(&pigment);
+	setFinish(&finish);
 }
 
 void Sphere::Print() {
 	cout << "sphere { ";
 	cout << "<" << center.getX() << ", " << center.getY() << ", " << center.getZ() << ">, " << radius << endl;
-	cout << "  pigment { color <" << pigment.getR() << ", " << pigment.getG() << ", " << pigment.getB() << ", " << pigment.getF() << ">}" << endl;
-	cout << "  finish {ambient " << finish.getAmbient() << " diffuse " << finish.getDiffuse() << "}" << endl;
+	cout << "  pigment { color <" << getPigment()->getR() << ", " << getPigment()->getG() << ", " << getPigment()->getB() << ", " << getPigment()->getF() << ">}" << endl;
+	cout << "  finish {ambient " << getFinish()->getAmbient() << " diffuse " << getFinish()->getDiffuse() << "}" << endl;
 	cout << "}" << endl;
 }
 

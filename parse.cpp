@@ -150,25 +150,25 @@ void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Lig
 					rgbf = !strcmp(token, "rgbf");
 
 					token = strtok(NULL, " <,");
-					sphere->pigment.setR(strtof(token, NULL));
+					sphere->getPigment()->setR(strtof(token, NULL));
 					token = strtok(NULL, " ,");
-					sphere->pigment.setG(strtof(token, NULL));
+					sphere->getPigment()->setG(strtof(token, NULL));
 					token = strtok(NULL, " ,>}");
-					sphere->pigment.setB(strtof(token, NULL));
+					sphere->getPigment()->setB(strtof(token, NULL));
 
 					if (rgbf) {
 						token = strtok(NULL, " ,>}");
-						sphere->pigment.setF(strtof(token, NULL));
+						sphere->getPigment()->setF(strtof(token, NULL));
 					}
 					else
-						sphere->pigment.setF(1);
+						sphere->getPigment()->setF(1);
 
 					/* Fill in sphere Finish */
 					povray->getline(line, 99);
 					token = strtok(line, "finish {ambient");
-					sphere->finish.setAmbient(strtof(token, NULL));
+					sphere->getFinish()->setAmbient(strtof(token, NULL));
 					token = strtok(NULL, "diffuse ");
-					sphere->finish.setDiffuse(strtof(token, NULL));
+					sphere->getFinish()->setDiffuse(strtof(token, NULL));
 
 					/* Add sphere to vector list of geometry */
 					allGeometry->push_back(sphere);
@@ -178,11 +178,11 @@ void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Lig
 
 					/* Fill in plane normal vector */
 					token = strtok(NULL, " {<,");
-					plane->normal.setX(strtof(token, NULL));
+					plane->getNormal()->setX(strtof(token, NULL));
 					token = strtok(NULL, " ,");
-					plane->normal.setY(strtof(token, NULL));
+					plane->getNormal()->setY(strtof(token, NULL));
 					token = strtok(NULL, " ,>");
-					plane->normal.setZ(strtof(token, NULL));
+					plane->getNormal()->setZ(strtof(token, NULL));
 
 					/* Fill in distance along plane normal */
 					token = strtok(NULL, " ,");
@@ -197,28 +197,28 @@ void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Lig
 					rgbf = !strcmp(token, "rgbf");
 
 					token = strtok(NULL, " <,");
-					plane->pigment.setR(strtof(token, NULL));
+					plane->getPigment()->setR(strtof(token, NULL));
 					token = strtok(NULL, " ,");
-					plane->pigment.setG(strtof(token, NULL));
+					plane->getPigment()->setG(strtof(token, NULL));
 					token = strtok(NULL, " ,>}");
-					plane->pigment.setB(strtof(token, NULL));
+					plane->getPigment()->setB(strtof(token, NULL));
 
 					if (rgbf) {
 						token = strtok(NULL, " ,>}");
-						plane->pigment.setF(strtof(token, NULL));
+						plane->getPigment()->setF(strtof(token, NULL));
 					}
 					else
-						plane->pigment.setF(1);
+						plane->getPigment()->setF(1);
 
 					/* Fill in plane Finish */
 					povray->getline(line, 99);
 					token = strtok(line, "finish {ambient");
-					plane->finish.setAmbient(strtof(token, NULL));
+					plane->getFinish()->setAmbient(strtof(token, NULL));
 					token = strtok(NULL, "diffuse ");
-					plane->finish.setDiffuse(strtof(token, NULL));
+					plane->getFinish()->setDiffuse(strtof(token, NULL));
 
 					/* Set Magnitude of normal vector */
-					plane->normal.setMagnitude(&plane->normal);
+					plane->getNormal()->setMagnitude(plane->getNormal());
 					
 					/* Add plane to vector list of Geometry */
 					allGeometry->push_back(plane);
