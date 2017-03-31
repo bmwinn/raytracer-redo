@@ -20,10 +20,10 @@ void Geometry::SetPigment(Pigment *other) {
 }
 
 void Geometry::SetFinish(Finish *other) {
-	finish.ambient = other->ambient;
-	finish.diffuse = other->diffuse;
-	finish.specular = other->specular;
-	finish.roughness = other->roughness;
+	finish.setAmbient(other->getAmbient());
+	finish.setDiffuse(other->getDiffuse());
+	finish.setSpecular(other->getSpecular());
+	finish.setRoughness(other->getRoughness());
 }
 
 /* Virtual function, should not be called */

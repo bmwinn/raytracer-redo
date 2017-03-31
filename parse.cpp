@@ -166,9 +166,9 @@ void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Lig
 					/* Fill in sphere Finish */
 					povray->getline(line, 99);
 					token = strtok(line, "finish {ambient");
-					sphere->finish.ambient = strtof(token, NULL);
+					sphere->finish.setAmbient(strtof(token, NULL));
 					token = strtok(NULL, "diffuse ");
-					sphere->finish.diffuse = strtof(token, NULL);
+					sphere->finish.setDiffuse(strtof(token, NULL));
 
 					/* Add sphere to vector list of geometry */
 					allGeometry->push_back(sphere);
@@ -213,9 +213,9 @@ void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Lig
 					/* Fill in plane Finish */
 					povray->getline(line, 99);
 					token = strtok(line, "finish {ambient");
-					plane->finish.ambient = strtof(token, NULL);
+					plane->finish.setAmbient(strtof(token, NULL));
 					token = strtok(NULL, "diffuse ");
-					plane->finish.diffuse = strtof(token, NULL);
+					plane->finish.setDiffuse(strtof(token, NULL));
 
 					/* Set Magnitude of normal vector */
 					plane->normal.setMagnitude(plane->normal.getX(), plane->normal.getY(), plane->normal.getZ());

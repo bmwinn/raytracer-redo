@@ -19,7 +19,7 @@ void Sphere::Print() {
 	cout << "sphere { ";
 	cout << "<" << center.getX() << ", " << center.getY() << ", " << center.getZ() << ">, " << radius << endl;
 	cout << "  pigment { color <" << pigment.getR() << ", " << pigment.getG() << ", " << pigment.getB() << ", " << pigment.getF() << ">}" << endl;
-	cout << "  finish {ambient " << finish.ambient << " diffuse " << finish.diffuse << "}" << endl;
+	cout << "  finish {ambient " << finish.getAmbient() << " diffuse " << finish.getDiffuse() << "}" << endl;
 	cout << "}" << endl;
 }
 
