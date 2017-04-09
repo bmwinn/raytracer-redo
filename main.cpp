@@ -1,9 +1,6 @@
 // TODO
-// rename .tga according to input .pov -> simple.pov = simple.tga
-// input name of resource directory
-//    loop through files in resource dir and draw all .povs
-// input name of result directory
-//    write all tgas to result directory
+// rethink fileops?
+// 
 
 #include "Parse.h"
 #include "Image.h"
@@ -21,10 +18,10 @@ using namespace std;
 
 /* Fill color_t variable (with Image.cpp compatibility) from my own Pigment class */
 void setColor(color_t *color, Pigment *pixelPigment) {
-	color->r = pixelPigment->r * 255;
-	color->g = pixelPigment->g * 255;
-	color->b = pixelPigment->b * 255;
-	color->f = pixelPigment->f;
+	color->r = pixelPigment->getR() * 255;
+	color->g = pixelPigment->getG() * 255;
+	color->b = pixelPigment->getB() * 255;
+	color->f = pixelPigment->getF();
 }
 
 int main(int argc, char *argv[]) {
@@ -64,7 +61,7 @@ int main(int argc, char *argv[]) {
 	for (int i = 0; i < width; i++){
 		for (int j = 0; j < height; j++) {
 			Ray ray = Ray(i, j, width, height, &camera);
-			Pigment pixelPigment = Pigment();
+			Pigment *pixelPigment = new Pigment();
 			closestDistance = 10000;
 
 			/* Initialize current pixel to background color */
@@ -78,8 +75,8 @@ int main(int argc, char *argv[]) {
 				/* Update closest distance from camera to geometry */
 				if (distance > 0 && distance < closestDistance) {
 				   closestDistance = distance;
-				   pixelPigment = allGeometry.at(g)->pigment;
-					setColor(&color, &pixelPigment);
+				   pixelPigment = allGeometry.at(g)->getPigment();
+					setColor(&color, pixelPigment);
 
 					/* Update current pixel color to geometry color */
 					img.pixel(i, j, color);
@@ -87,7 +84,7 @@ int main(int argc, char *argv[]) {
 			}
 
 			/* Print unit test results */ 
-			printUnitTest(&test, i, j, closestDistance, &ray, &pixelPigment, &color);
+			printUnitTest(&test, i, j, closestDistance, &ray, pixelPigment, &color);
 		}
 	}
 

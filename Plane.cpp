@@ -1,38 +1,37 @@
 #include "Plane.h"
 
-Plane::Plane() {
-	normal = Vector();
+Plane::Plane() : Geometry() {
 	distance = 0;
-	pigment = Pigment();
-	finish = Finish();
 }
 
-Plane::Plane(Vector normal, float distance, Pigment pigment, Finish finish) {
-	this->normal = normal;
+Plane::Plane(float distance, Vector *normal, Pigment *pigment, Finish *finish) :
+	Geometry(normal, pigment, finish) {
 	this->distance = distance;
-	this->pigment = pigment;
-	this->finish = finish;
 }
+
+void Plane::setDistance(float d) { distance = d; }
+
+float Plane::getDistance() { return distance; }
 
 void Plane::Print() {
 	cout << "plane {";
-	cout << "<" << normal.x << ", " << normal.y << ", " << normal.z << ">, " << distance << endl;
-	cout << "  pigment {color <" << pigment.r << ", " << pigment.g << ", " << pigment.b << ", " << pigment.f << ">}" << endl;
-	cout << "  finish {ambient " << finish.ambient << " diffuse " << finish.diffuse << "}" << endl;
+	cout << "<" << getNormal()->getX() << ", " << getNormal()->getY() << ", " << getNormal()->getZ() << ">, " << distance << endl;
+	cout << "  pigment {color <" << getPigment()->getR() << ", " << getPigment()->getG() << ", " << getPigment()->getB() << ", " << getPigment()->getF() << ">}" << endl;
+	cout << "  finish {ambient " << getFinish()->getAmbient() << " diffuse " << getFinish()->getDiffuse() << "}" << endl;
 	cout << "}" << endl;
 }
 
  /* Return distance along ray to plane */
 float Plane::Intersect(Ray *ray, Camera *camera) {
 	float distance;
-	Point onPlane = Point(this->distance * normal.x, this->distance * normal.y, this->distance * normal.z);
-	Vector difCameraPlane = Vector(onPlane.x - camera->center.x, onPlane.y - camera->center.y, onPlane.z - camera->center.z);
+	Point onPlane = Point(this->distance * getNormal()->getX(), this->distance * getNormal()->getY(), this->distance * getNormal()->getZ());
+	Vector difCameraPlane = Vector(onPlane.getX() - camera->getCenter()->getX(), onPlane.getY() - camera->getCenter()->getY(), onPlane.getZ() - camera->getCenter()->getZ());
 
 	/* If dot product is 0, return no hit */
-	if (ray->direction.Dot(&normal) == 0)
+	if (ray->getDirection()->dot(getNormal()) == 0)
 		distance = -1;
 	else
-		distance = difCameraPlane.Dot(&normal) / ray->direction.Dot(&normal);
+		distance = difCameraPlane.dot(getNormal()) / ray->getDirection()->dot(getNormal());
 	
 	return distance;
 }

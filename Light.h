@@ -14,6 +14,14 @@ public:
 	Light();
 	Light(Point center, Pigment pigment);
 	void Print();
+
+	void setCenter(Point *c);
+	void setPigment(Pigment *p);
+
+	Point *getCenter();
+	Pigment *getPigment();
+
+private:
 	Point center;
 	Pigment pigment;
 };

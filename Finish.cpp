@@ -10,3 +10,13 @@ Finish::Finish(float ambient, float diffuse, float specular, float roughness) {
 	this->specular = specular;
 	this->roughness = roughness;
 }
+
+void Finish::setAmbient(float a) { ambient = a; }
+void Finish::setDiffuse(float d) { diffuse = d; }
+void Finish::setSpecular(float s) { specular = s; }
+void Finish::setRoughness(float r) { roughness = r; }
+
+float Finish::getAmbient() { return ambient; }
+float Finish::getDiffuse() { return diffuse; }
+float Finish::getSpecular() { return specular; }
+float Finish::getRoughness() { return roughness; }
