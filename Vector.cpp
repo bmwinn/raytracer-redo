@@ -22,10 +22,28 @@ void Vector::cross(Vector *other, Vector *result) {
 }
 
 void Vector::normalize() {
-	x /= magnitude;
-	y /= magnitude;
-	z /= magnitude;
-	magnitude = 1;
+	if (magnitude <= 0) {
+		cout << "bad magnitude" << endl;
+		print();
+	}
+
+	else {
+		x /= magnitude;
+		y /= magnitude;
+		z /= magnitude;
+		magnitude = 1;
+	}
+}
+
+void Vector::print() {
+	cout << "Vector <" << x << ", " << y << ", " << z << ">" << endl;
+}
+
+void Vector::operator*=(float scalar) {
+	x *= scalar;
+	y *= scalar;
+	z *= scalar;
+	setMagnitude(x, y, z);
 }
 
 void Vector::setX(float x) { this->x = x; }
