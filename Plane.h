@@ -8,9 +8,11 @@ class Plane : public Geometry {
 public:
 	Plane();
 	Plane(float distance, Vector *normal, Pigment *pigment, Finish *finish);
-	void Print();
-	float Intersect(Ray *ray, Camera *camera);
+	void print();
+	float intersect(Ray *ray, Camera *camera);
+	void blinnPhong(int g, Ray *ray, float rayDistance, Pigment *pixelPigment, Light *light, Camera *camera, vector<Geometry *> *allGeometry);
 
+	void setOnGeom();
 	void setDistance(float d);
 
 	float getDistance();

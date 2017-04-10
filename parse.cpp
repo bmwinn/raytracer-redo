@@ -169,7 +169,11 @@ void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Lig
 					sphere->getFinish()->setAmbient(strtof(token, NULL));
 					token = strtok(NULL, "diffuse ");
 					sphere->getFinish()->setDiffuse(strtof(token, NULL));
-
+					token = strtok(NULL, "specular ");
+					sphere->getFinish()->setSpecular(strtof(token, NULL));
+					token = strtok(NULL, "roughness }");
+					sphere->getFinish()->setRoughness(strtof(token, NULL));
+					
 					/* Add sphere to vector list of geometry */
 					allGeometry->push_back(sphere);
 				}

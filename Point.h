@@ -17,6 +17,7 @@ public:
 	float getZ();
 	
 private:
+	// make public
 	float x, y, z;
 };
 
