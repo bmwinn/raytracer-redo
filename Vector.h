@@ -2,6 +2,9 @@
 #define _VECTOR_H_
 
 #include <cmath>
+#include <iostream>
+
+using namespace std;
 
 class Vector {
 public:
@@ -10,6 +13,9 @@ public:
 	float dot(Vector *other);
 	void cross(Vector *other, Vector *result);
 	void normalize();
+	void print();
+
+	void operator*=(float scalar);
 
 	// add to vector:
 	// vector = point - point;
