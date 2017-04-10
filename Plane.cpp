@@ -13,7 +13,7 @@ void Plane::setDistance(float d) { distance = d; }
 
 float Plane::getDistance() { return distance; }
 
-void Plane::Print() {
+void Plane::print() {
 	cout << "plane {";
 	cout << "<" << getNormal()->getX() << ", " << getNormal()->getY() << ", " << getNormal()->getZ() << ">, " << distance << endl;
 	cout << "  pigment {color <" << getPigment()->getR() << ", " << getPigment()->getG() << ", " << getPigment()->getB() << ", " << getPigment()->getF() << ">}" << endl;
@@ -22,7 +22,7 @@ void Plane::Print() {
 }
 
  /* Return distance along ray to plane */
-float Plane::Intersect(Ray *ray, Camera *camera) {
+float Plane::intersect(Ray *ray, Camera *camera) {
 	float distance;
 	Point onPlane = Point(this->distance * getNormal()->getX(), this->distance * getNormal()->getY(), this->distance * getNormal()->getZ());
 	Vector difCameraPlane = Vector(onPlane.getX() - camera->getCenter()->getX(), onPlane.getY() - camera->getCenter()->getY(), onPlane.getZ() - camera->getCenter()->getZ());
@@ -34,4 +34,10 @@ float Plane::Intersect(Ray *ray, Camera *camera) {
 		distance = difCameraPlane.dot(getNormal()) / ray->getDirection()->dot(getNormal());
 	
 	return distance;
+}
+
+void Plane::blinnPhong(int g, Ray *ray, float rayDistance, Pigment *pixelPigment, Light *light, Camera *camera, vector<Geometry *> *allGeometry) {
+	Geometry::setOnGeom(ray, rayDistance);
+	blinnPhongAmbient(pixelPigment, light);
+	blinnPhongDiffuse(pixelPigment, light);
 }

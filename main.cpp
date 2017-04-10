@@ -25,7 +25,7 @@ void setColor(color_t *color, Pigment *pixelPigment) {
 }
 
 int main(int argc, char *argv[]) {
-	int width, height;
+	int width, height, curGeom;
 	string input, outTGA;
 	float distance, closestDistance;
 	string test;
@@ -61,8 +61,9 @@ int main(int argc, char *argv[]) {
 	for (int i = 0; i < width; i++){
 		for (int j = 0; j < height; j++) {
 			Ray ray = Ray(i, j, width, height, &camera);
-			Pigment *pixelPigment = new Pigment();
 			closestDistance = 10000;
+			curGeom = 0;
+			Pigment *pixelPigment = new Pigment();
 
 			/* Initialize current pixel to background color */
 			img.pixel(i, j, black);
@@ -70,12 +71,16 @@ int main(int argc, char *argv[]) {
 			/* Loop through geometry */
 			for (int g = 0; g < allGeometry.size(); g++) {
 				/* Find distance along ray to current geometry */
-				distance = allGeometry.at(g)->Intersect(&ray, &camera);
+				distance = allGeometry.at(g)->intersect(&ray, &camera);
 
 				/* Update closest distance from camera to geometry */
 				if (distance > 0 && distance < closestDistance) {
 				   closestDistance = distance;
-				   pixelPigment = allGeometry.at(g)->getPigment();
+				   curGeom = g;
+				   pixelPigment->reset();
+				   // pixelPigment = allGeometry.at(g)->getPigment();
+				   allGeometry.at(g)->blinnPhong(g, &ray, closestDistance, pixelPigment, &light, &camera, &allGeometry);
+				   pixelPigment->setColorT(&color);
 					setColor(&color, pixelPigment);
 
 					/* Update current pixel color to geometry color */
@@ -85,6 +90,14 @@ int main(int argc, char *argv[]) {
 
 			/* Print unit test results */ 
 			printUnitTest(&test, i, j, closestDistance, &ray, pixelPigment, &color);
+			printUnitTest2(&test, i, j, curGeom, closestDistance, &ray, allGeometry.at(curGeom), &light, &camera);
+// void printUnitTest2(string *test, int i, int j, int curGeom, float closestDistance, Ray *ray, Geometry *geometry, Light *light, Camera *camera) {
+
+			for (int g = 0; g < allGeometry.size(); g++) {
+				allGeometry.at(g)->pigmentA.reset();
+				allGeometry.at(g)->pigmentD.reset();
+				allGeometry.at(g)->pigmentS.reset();
+			}
 		}
 	}
 

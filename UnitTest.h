@@ -21,4 +21,31 @@ void printUnitTest(string *test, int i, int j, float closestDistance, Ray *ray, 
 	}
 }
 
+void printUnitTest2(string *test, int i, int j, int curGeom, float closestDistance, Ray *ray, Geometry *geometry, Light *light, Camera *camera) {
+	if (!test->compare("simple.pov") && ((i == 420 && j == 130) || (i == 120 && j == 120) || (i == 295 && j == 265))) {
+		if (i == 420 && j == 130)
+			cout << "Shadow" << endl;
+		else if (i == 120 && j == 120)
+			cout << "Diffuse plane" << endl;
+		else
+			cout << "Specular highlight on sphere" << endl;
+
+		cout << "Pixel: [" << i << ", " << j << "] Ray: {" << ray->getStart()->getX() << " " << ray->getStart()->getY() << " " << ray->getStart()->getZ() << "}";
+		cout << " -> {" << ray->getDirection()->getX() << " " << ray->getDirection()->getY() << " " << ray->getDirection()->getZ() << "}";
+
+		if (closestDistance < 0)
+			cout << "\tnot hit\tno hit" << endl;
+		else {
+			cout << "\tT=" << closestDistance << endl;
+		}
+
+		cout << "Ambient: (" << geometry->pigmentA.getR() * 255 << ", " << geometry->pigmentA.getG() * 255 << ", " << geometry->pigmentA.getB() * 255 << ") ";
+		cout << "Diffuse: (" << geometry->pigmentD.getR() * 255 << ", " << geometry->pigmentD.getG() * 255 << ", " << geometry->pigmentD.getB() * 255 << ") ";
+		cout << "Specular: (" << geometry->pigmentS.getR() * 255 << ", " << geometry->pigmentS.getG() * 255 << ", " << geometry->pigmentS.getB() * 255 << ")" << endl;
+		// cout << "Feeler: {" << geometry->feeler.direction.x << " " << geometry->feeler.direction.y << " " << geometry->feeler.direction.z << "}" << endl;
+		cout << endl;
+	}
+}
+
+
 #endif

@@ -11,6 +11,10 @@ public:
 	void cross(Vector *other, Vector *result);
 	void normalize();
 
+	// add to vector:
+	// vector = point - point;
+	// vector = vector + vector
+
 	void setX(float x);
 	void setY(float y);
 	void setZ(float z);
@@ -24,6 +28,7 @@ public:
 	float getMagnitude();
 
 private:
+	// make public
 	float x, y, z, magnitude;
 };
 
