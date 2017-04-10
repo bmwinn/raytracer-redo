@@ -22,7 +22,7 @@ void Sphere::setRadius(float r) { radius = r; }
 Point *Sphere::getCenter() { return &center; }
 float Sphere::getRadius() { return radius; }
 
-void Sphere::Print() {
+void Sphere::print() {
 	cout << "sphere { ";
 	cout << "<" << center.getX() << ", " << center.getY() << ", " << center.getZ() << ">, " << radius << endl;
 	cout << "  pigment { color <" << getPigment()->getR() << ", " << getPigment()->getG() << ", " << getPigment()->getB() << ", " << getPigment()->getF() << ">}" << endl;
@@ -31,7 +31,7 @@ void Sphere::Print() {
 }
 
  /* Return distance along ray to sphere */
-float Sphere::Intersect(Ray *ray, Camera *camera) {
+float Sphere::intersect(Ray *ray, Camera *camera) {
 	float distance, t1, t2, rad;
 	Vector difPC = Vector(camera->getCenter()->getX() - center.getX(), camera->getCenter()->getY() - center.getY(), camera->getCenter()->getZ() - center.getZ());
 	Vector difPCCopy = Vector(difPC.getX(), difPC.getY(), difPC.getZ());
@@ -62,4 +62,18 @@ float Sphere::Intersect(Ray *ray, Camera *camera) {
 	}
 
 	return distance;
+}
+
+void Sphere::blinnPhong(int g, Ray *ray, float rayDistance, Pigment *pixelPigment, Light *light, Camera *camera, 
+	vector<Geometry *> *allGeometry) {
+	setOnGeom(ray, rayDistance);
+	Vector newNormal = Vector((onGeom.getX() - center.getX())/radius,
+					(onGeom.getY() - center.getY())/radius,
+					(onGeom.getZ() - center.getZ())/radius);
+	newNormal.normalize();
+	setNormal(&newNormal);
+
+	blinnPhongAmbient(pixelPigment, light);
+	blinnPhongDiffuse(pixelPigment, light);
+	blinnPhongSpecular(pixelPigment, light, camera);
 }

@@ -18,6 +18,7 @@ public:
 	float getRoughness();
 
 private:
+	// make public?
 	float ambient, diffuse, specular, roughness;
 };
 

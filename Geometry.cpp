@@ -4,23 +4,107 @@ Geometry::Geometry() {
 	normal = Vector();
 	pigment = Pigment();
 	finish = Finish();
+
+	pigmentA = Pigment();
+	pigmentD = Pigment();
+	pigmentS = Pigment();
+	onGeom = Point();
 }
 
 Geometry::Geometry(Vector *n, Pigment *p, Finish *f) {
+	normal = Vector();
+	pigment = Pigment();
+	finish = Finish();
+
 	setNormal(n);
 	setPigment(p);
 	setFinish(f);
+
+	pigmentA = Pigment();
+	pigmentD = Pigment();
+	pigmentS = Pigment();
+	onGeom = Point();	
 }
 
 /* Virtual function, should not be called */
-void Geometry::Print() {
+void Geometry::print() {
 	cout << "This is a Geometry object." << endl;
 }
 
 /* Virtual function, should not be called */
-float Geometry::Intersect(Ray *ray, Camera *camera) {
+float Geometry::intersect(Ray *ray, Camera *camera) {
 	cout << "Geometry object intersect." << endl;
 	return 10000;
+}
+
+void Geometry::setOnGeom(Ray *ray, float rayDistance) {
+	onGeom.setX(ray->getStart()->getX() + rayDistance * ray->getDirection()->getX());
+	onGeom.setY(ray->getStart()->getY() + rayDistance * ray->getDirection()->getY());
+	onGeom.setZ(ray->getStart()->getZ() + rayDistance * ray->getDirection()->getZ());
+}
+
+void Geometry::blinnPhong(int g, Ray *ray, float rayDistance, Pigment *pixelPigment, Light *light, Camera *camera, vector<Geometry *> *allGeometry) {
+	cout << "Geometry object Blinn Phong." << endl;
+}
+
+void Geometry::blinnPhongAmbient(Pigment *pixelPigment, Light *light) {
+	Pigment cappedLight = Pigment(light->getPigment()->getR(), light->getPigment()->getG(), light->getPigment()->getB());
+	if (cappedLight.getR() > 1)
+		cappedLight.setR(1);
+
+	if (cappedLight.getG() > 1)
+		cappedLight.setG(1);
+
+	if (cappedLight.getB() > 1)
+		cappedLight.setB(1);
+
+	pigmentA.setR(finish.getAmbient() * pigment.getR() * cappedLight.getR());
+	pigmentA.setG(finish.getAmbient() * pigment.getG() * cappedLight.getG());
+	pigmentA.setB(finish.getAmbient() * pigment.getB() * cappedLight.getB());
+
+	*pixelPigment += &pigmentA;
+}
+
+void Geometry::blinnPhongDiffuse(Pigment *pixelPigment, Light *light) {
+	float zero = 0;
+
+	Vector lightVector = Vector(light->getCenter()->getX() - onGeom.getX(),
+								light->getCenter()->getY() - onGeom.getY(),
+								light->getCenter()->getZ() - onGeom.getZ());
+	lightVector.normalize();
+
+	float dp = max(normal.dot(&lightVector), zero);
+	pigmentD.setR(finish.getDiffuse() * pigment.getR() * light->getPigment()->getR() * dp);
+	pigmentD.setG(finish.getDiffuse() * pigment.getG() * light->getPigment()->getG() * dp);
+	pigmentD.setB(finish.getDiffuse() * pigment.getB() * light->getPigment()->getB() * dp);
+	
+	*pixelPigment += &pigmentD;
+}
+
+void Geometry::blinnPhongSpecular(Pigment *pixelPigment, Light *light, Camera *camera) {
+	float zero = 0;
+
+	Vector lightVector = Vector(light->getCenter()->getX() - onGeom.getX(),
+								light->getCenter()->getY() - onGeom.getY(),
+								light->getCenter()->getZ() - onGeom.getZ());
+	Vector view = Vector(camera->getCenter()->getX() - onGeom.getX(),
+						 camera->getCenter()->getY() - onGeom.getY(),
+						 camera->getCenter()->getZ() - onGeom.getZ());
+
+	lightVector.normalize();
+	view.normalize();
+
+	Vector half = Vector(view.getX() + lightVector.getX(), view.getY() + lightVector.getY(), view.getZ() + lightVector.getZ());
+	half.normalize();
+
+	float shiny = 1.0/finish.getRoughness();
+	float shine = pow(max(half.dot(&normal), zero), shiny);
+
+	pigmentS.setR(finish.getSpecular() * pigment.getR() * light->getPigment()->getR() * shine);
+	pigmentS.setG(finish.getSpecular() * pigment.getG() * light->getPigment()->getG() * shine);
+	pigmentS.setB(finish.getSpecular() * pigment.getB() * light->getPigment()->getB() * shine);
+
+	*pixelPigment += &pigmentS;
 }
 
 void Geometry::setNormal(Vector *n) {
