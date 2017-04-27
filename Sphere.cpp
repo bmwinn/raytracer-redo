@@ -31,9 +31,9 @@ void Sphere::print() {
 }
 
  /* Return distance along ray to sphere */
-float Sphere::intersect(Ray *ray, Camera *camera) {
+float Sphere::intersect(Ray *ray, Point *point) {
 	float distance, t1, t2, rad;
-	Vector difPC = Vector(camera->getCenter()->getX() - center.getX(), camera->getCenter()->getY() - center.getY(), camera->getCenter()->getZ() - center.getZ());
+	Vector difPC = Vector(point->getX() - center.getX(), point->getY() - center.getY(), point->getZ() - center.getZ());
 	Vector difPCCopy = Vector(difPC.getX(), difPC.getY(), difPC.getZ());
 	Vector dCopy = Vector(ray->getDirection()->getX(), ray->getDirection()->getY(), ray->getDirection()->getZ());
 
@@ -74,6 +74,10 @@ void Sphere::blinnPhong(int g, Ray *ray, float rayDistance, Pigment *pixelPigmen
 	setNormal(&newNormal);
 
 	blinnPhongAmbient(pixelPigment, light);
-	blinnPhongDiffuse(pixelPigment, light);
-	blinnPhongSpecular(pixelPigment, light, camera);
+
+	bool noShadow = shadowFeeler(g, light, allGeometry);
+	if (noShadow) {
+		blinnPhongDiffuse(pixelPigment, light);
+		blinnPhongSpecular(pixelPigment, light, camera);
+	}
 }

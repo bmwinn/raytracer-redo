@@ -71,7 +71,7 @@ int main(int argc, char *argv[]) {
 			/* Loop through geometry */
 			for (int g = 0; g < allGeometry.size(); g++) {
 				/* Find distance along ray to current geometry */
-				distance = allGeometry.at(g)->intersect(&ray, &camera);
+				distance = allGeometry.at(g)->intersect(&ray, camera.getCenter());
 
 				/* Update closest distance from camera to geometry */
 				if (distance > 0 && distance < closestDistance) {
@@ -81,17 +81,16 @@ int main(int argc, char *argv[]) {
 				   // pixelPigment = allGeometry.at(g)->getPigment();
 				   allGeometry.at(g)->blinnPhong(g, &ray, closestDistance, pixelPigment, &light, &camera, &allGeometry);
 				   pixelPigment->setColorT(&color);
-					setColor(&color, pixelPigment);
+				   setColor(&color, pixelPigment);
 
 					/* Update current pixel color to geometry color */
-					img.pixel(i, j, color);
+				   img.pixel(i, j, color);
 				}
 			}
 
 			/* Print unit test results */ 
 			printUnitTest(&test, i, j, closestDistance, &ray, pixelPigment, &color);
 			printUnitTest2(&test, i, j, curGeom, closestDistance, &ray, allGeometry.at(curGeom), &light, &camera);
-// void printUnitTest2(string *test, int i, int j, int curGeom, float closestDistance, Ray *ray, Geometry *geometry, Light *light, Camera *camera) {
 
 			for (int g = 0; g < allGeometry.size(); g++) {
 				allGeometry.at(g)->pigmentA.reset();
