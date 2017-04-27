@@ -75,16 +75,16 @@ int main(int argc, char *argv[]) {
 
 				/* Update closest distance from camera to geometry */
 				if (distance > 0 && distance < closestDistance) {
-				   closestDistance = distance;
-				   curGeom = g;
-				   pixelPigment->reset();
-				   // pixelPigment = allGeometry.at(g)->getPigment();
-				   allGeometry.at(g)->blinnPhong(g, &ray, closestDistance, pixelPigment, &light, &camera, &allGeometry);
-				   pixelPigment->setColorT(&color);
-				   setColor(&color, pixelPigment);
+				    closestDistance = distance;
+				    curGeom = g;
+				    pixelPigment->reset();
+				    // pixelPigment = allGeometry.at(g)->getPigment();
+				    allGeometry.at(g)->blinnPhong(&ray, closestDistance, pixelPigment, &light, &camera, &allGeometry);
+				    pixelPigment->setColorT(&color);
+				    setColor(&color, pixelPigment);
 
 					/* Update current pixel color to geometry color */
-				   img.pixel(i, j, color);
+				    img.pixel(i, j, color);
 				}
 			}
 

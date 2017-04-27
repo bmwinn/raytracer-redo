@@ -45,7 +45,7 @@ void Geometry::setOnGeom(Ray *ray, float rayDistance) {
 	onGeom.setZ(ray->getStart()->getZ() + rayDistance * ray->getDirection()->getZ());
 }
 
-void Geometry::blinnPhong(int g, Ray *ray, float rayDistance, Pigment *pixelPigment, Light *light, Camera *camera, vector<Geometry *> *allGeometry) {
+void Geometry::blinnPhong(Ray *ray, float rayDistance, Pigment *pixelPigment, Light *light, Camera *camera, vector<Geometry *> *allGeometry) {
 	cout << "Geometry object Blinn Phong." << endl;
 }
 
@@ -111,7 +111,7 @@ void Geometry::blinnPhongSpecular(Pigment *pixelPigment, Light *light, Camera *c
 
 // Send shadow feeler ray from current geometry
 // Return boolean that determines if another object blockes the light source from current object
-bool Geometry::shadowFeeler(int g, Light *light, vector<Geometry *> *allGeometry) {
+bool Geometry::shadowFeeler(Light *light, vector<Geometry *> *allGeometry) {
 	float dist = 0;
 	float lightDistance = onGeom.distance(light->getCenter());
 
@@ -122,8 +122,7 @@ bool Geometry::shadowFeeler(int g, Light *light, vector<Geometry *> *allGeometry
 	feeler = Ray(onGeom, feelVector);
 
 	for (int geom = 0; geom < allGeometry->size(); geom++) {
-		if (geom != g)
-			dist = allGeometry->at(geom)->intersect(&feeler, &onGeom);
+		dist = allGeometry->at(geom)->intersect(&feeler, &onGeom);
 
 		// if object with positive distance is closer than light source
 		if (dist > 0.001 && dist < lightDistance)

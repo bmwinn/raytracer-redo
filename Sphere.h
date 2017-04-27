@@ -10,7 +10,7 @@ public:
 	Sphere(Point center, float radius, Vector *normal, Pigment *pigment, Finish *finish);
 	void print();
 	float intersect(Ray *ray, Point *point);
-	void blinnPhong(int g, Ray *ray, float rayDistance, Pigment *pixelPigment, Light *light, Camera *camera, vector<Geometry *> *allGeometry);
+	void blinnPhong(Ray *ray, float rayDistance, Pigment *pixelPigment, Light *light, Camera *camera, vector<Geometry *> *allGeometry);
 	
 	void setCenter(Point *c);
 	void setRadius(float r);

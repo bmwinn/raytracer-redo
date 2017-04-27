@@ -29,14 +29,14 @@ public:
 	virtual void print();
 	virtual float intersect(Ray *ray, Point *point);
 	
-	virtual void blinnPhong(int g, Ray *ray, float rayDistance, Pigment *pixelPigment, Light *light, Camera *camera, vector<Geometry *> *allGeometry);
+	virtual void blinnPhong(Ray *ray, float rayDistance, Pigment *pixelPigment, Light *light, Camera *camera, vector<Geometry *> *allGeometry);
 	void blinnPhongAmbient(Pigment *pixelPigment, Light *light);
 	void blinnPhongDiffuse(Pigment *pixelPigment, Light *light);
 	void blinnPhongSpecular(Pigment *pixelPigment, Light *light, Camera *camera);
 	void setOnGeom(Ray *ray, float rayDistance);
 	void resetPigments();
 
-	bool shadowFeeler(int g, Light *light, vector<Geometry *> *allGeometry);
+	bool shadowFeeler(Light *light, vector<Geometry *> *allGeometry);
 
 	void setNormal(Vector *n);
 	void setPigment(Pigment *p);
