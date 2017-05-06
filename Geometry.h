@@ -50,9 +50,9 @@ public:
 	Pigment pigmentA, pigmentD, pigmentS; // stores Ambient, Diffuse, Specular pigments during BP
 
 	Ray feeler; // stores shadow feeler for Blinn Phong
+	Vector normal;
 
 private:
-	Vector normal;
 	Pigment pigment; // stores object color
 	Finish finish;
 };

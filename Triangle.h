@@ -17,13 +17,15 @@ public:
 	Triangle(Point *vA, Point *vB, Point *vC);
 	void print();
 	float intersect(Ray *ray);
-	Pigment blinnPhong(Ray *ray, float rayDist);
+	void blinnPhong(Ray *ray, float rayDistance, Pigment *pixelPigment, Light *light, Camera *camera, 
+	    vector<Geometry *> *allGeometry);
+	// void blinnPhong(Ray *ray, float rayDist);
 
 	void setVectors();
 	void setNormal(Ray *ray);
 
 	Point vertexA, vertexB, vertexC;
-	Vector AB, BC;
+	Vector AB, AC;
 };
 
 #endif

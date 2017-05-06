@@ -8,7 +8,7 @@ Triangle::Triangle() : Geometry() {
 	vertexB = Point();
 	vertexC = Point();
 	AB = Vector();
-	BC = Vector();
+	AC = Vector();
 }
 Triangle::Triangle(Point *vA, Point *vB, Point *vC) : Geometry() {
 	// change to vertexA = *vA; ?
@@ -23,14 +23,18 @@ Triangle::Triangle(Point *vA, Point *vB, Point *vC) : Geometry() {
 }
 
 void Triangle::setVectors() {
-	AB = vertexA - vertexB;
-	AC = vertexA - vertexC;
+	AB = Vector(vertexA.getX() - vertexB.getX(),
+		        vertexA.getY() - vertexB.getY(),
+		        vertexA.getZ() - vertexB.getZ());
+	AC = Vector(vertexA.getX() - vertexC.getX(),
+		        vertexA.getY() - vertexC.getY(),
+		        vertexA.getZ() - vertexC.getZ());
 }
 void Triangle::setNormal(Ray *ray) {
 	AB.cross(&AC, &normal);
 	normal.normalize();
 
-	if (ray->direction.dot(&normal) > 0)
+	if (ray->getDirection()->dot(&normal) > 0)
 		normal *= -1;
 }
 void Triangle::print() {
@@ -58,9 +62,9 @@ float Triangle::intersect(Ray *ray) {
 	e = vertexA.getY() - vertexC.getY();
 	f = vertexA.getZ() - vertexC.getZ();
 
-	g = ray->direction.getX();
-	h = ray->direction.getY();
-	i = ray->direction.getZ();
+	g = ray->getDirection()->getX();
+	h = ray->getDirection()->getY();
+	i = ray->getDirection()->getZ();
 
 	j = vertexA.getX() - ray->getStart()->getX();
 	k = vertexA.getY() - ray->getStart()->getY();
@@ -85,16 +89,17 @@ float Triangle::intersect(Ray *ray) {
 	else
 		return -1;
 }
-Pigment Triangle::blinnPhong(Ray *ray, float rayDist) {
-	setOnGeom(ray, rayDist);
-	setNormal(ray);
-	blinnPhongAmbient();
+// void Triangle::blinnPhong(Ray *ray, float rayDist) {
+void Triangle::blinnPhong(Ray *ray, float rayDistance, Pigment *pixelPigment, Light *light,
+	Camera *camera, vector<Geometry *> *allGeometry) {
 
-	bool noShadow = shadowFeeler();
+	setOnGeom(ray, rayDistance);
+	setNormal(ray);
+	blinnPhongAmbient(pixelPigment, light);
+
+	bool noShadow = shadowFeeler(light, allGeometry);
 
 	if (noShadow) {
-		blinnPhongDiffuse();
+		blinnPhongDiffuse(pixelPigment, light);
 	}
-
-	return pigment;
 }

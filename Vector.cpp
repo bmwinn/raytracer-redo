@@ -46,7 +46,7 @@ void Vector::operator*=(float scalar) {
 	setMagnitude(x, y, z);
 }
 Vector Vector::operator-(Vector other) {
-	return Vector(x - other->getX(), y - other->getY(), z - other->getZ());
+	return Vector(x - other.getX(), y - other.getY(), z - other.getZ());
 }
 
 void Vector::setX(float x) { this->x = x; }

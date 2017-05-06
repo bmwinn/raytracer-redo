@@ -31,6 +31,7 @@ int fileOps(int argc, char *argv[], int *width, int *height, string *test, vecto
 void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Light *light) {
 	Sphere *sphere;
 	Plane *plane;
+	Triangle *triangle;
 	int rgbf;
 	char line[100], *token;
 
@@ -219,6 +220,70 @@ void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Lig
 					/* Add plane to vector list of Geometry */
 					allGeometry->push_back(plane);
 				}
+				else if (!strcmp(token, "triangle")) {
+					triangle = new Triangle();
+
+					/* Fill in triangle vertexA */
+					povray->getline(line, 99);
+					token = strtok(NULL, " \t{<,");
+					triangle->vertexA.setX(strtof(token, NULL));
+					token = strtok(NULL, " ,");
+					triangle->vertexA.setY(strtof(token, NULL));
+					token = strtok(NULL, " ,>");
+					triangle->vertexA.setZ(strtof(token, NULL));
+
+					/* Fill in triangle vertexB */
+					povray->getline(line, 99);
+					token = strtok(NULL, " \t{<,");
+					triangle->vertexB.setX(strtof(token, NULL));
+					token = strtok(NULL, " ,");
+					triangle->vertexB.setY(strtof(token, NULL));
+					token = strtok(NULL, " ,>");
+					triangle->vertexB.setZ(strtof(token, NULL));
+
+					/* Fill in triangle vertexC */
+					povray->getline(line, 99);
+					token = strtok(NULL, " \t{<,");
+					triangle->vertexC.setX(strtof(token, NULL));
+					token = strtok(NULL, " ,");
+					triangle->vertexC.setY(strtof(token, NULL));
+					token = strtok(NULL, " ,>");
+					triangle->vertexC.setZ(strtof(token, NULL));
+
+					triangle->setVectors();
+
+					/* Fill in triangle Pigment */
+					povray->getline(line, 99);
+					token = strtok(line, "pigment {");
+					token = strtok(NULL, " ");
+
+					/* Determine if Pigment is rgb or rgbf */
+					rgbf = !strcmp(token, "rgbf");
+
+					token = strtok(NULL, " <,");
+					triangle->getPigment()->setR(strtof(token, NULL));
+					token = strtok(NULL, " ,");
+					triangle->getPigment()->setG(strtof(token, NULL));
+					token = strtok(NULL, " ,>}");
+					triangle->getPigment()->setB(strtof(token, NULL));
+
+					if (rgbf) {
+						token = strtok(NULL, " ,>}");
+						triangle->getPigment()->setF(strtof(token, NULL));
+					}
+					else
+						triangle->getPigment()->setF(1);
+
+					/* Fill in triangle Finish */
+					povray->getline(line, 99);
+					token = strtok(line, "finish {ambient");
+					triangle->getFinish()->setAmbient(strtof(token, NULL));
+					token = strtok(NULL, "diffuse ");
+					triangle->getFinish()->setDiffuse(strtof(token, NULL));
+
+					/* Add triangle to vector list of Geometry */
+					allGeometry->push_back(triangle);
+				}				
 			}
 		}
 	}
