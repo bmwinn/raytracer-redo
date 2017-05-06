@@ -14,7 +14,7 @@ Camera::Camera(Point center, Vector up, Vector right, Point lookat) {
 	this->lookat = lookat;
 }
 
-void Camera::Print() {
+void Camera::print() {
 	cout << "camera {" << endl;
 	cout << "  location   <" << center.getX() << ", " << center.getY() << ", " << center.getZ() << ">" << endl;
 	cout << "  up         <" << up.getX() << ", " << up.getY() << ", " << up.getZ() << ">" << endl;

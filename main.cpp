@@ -51,16 +51,19 @@ int main(int argc, char *argv[]) {
 	outTGA += ".tga";
 
 	/* Attempt to open .pov file, fill in variables, and create geometry */
-	if (fileOps(argc, argv, &width, &height, &test, &allGeometry, &camera, &light))
+	if (fileOps(argc, argv, &width, &height, &test, &allGeometry, &camera, &light)) {
 		/* Otherwise, fileOps prints error message. Quit program. */
 		return 1;
+	}
 
 	Image img(width, height);
+
+	camera.print();
 
 	/* Loop through pixels */
 	for (int i = 0; i < width; i++){
 		for (int j = 0; j < height; j++) {
-			Ray ray = Ray(i, j, width, height, &camera);
+			Ray *ray = new Ray(i, j, width, height, &camera);
 			closestDistance = 10000;
 			curGeom = 0;
 			Pigment *pixelPigment = new Pigment();
@@ -71,7 +74,7 @@ int main(int argc, char *argv[]) {
 			/* Loop through geometry */
 			for (int g = 0; g < allGeometry.size(); g++) {
 				/* Find distance along ray to current geometry */
-				distance = allGeometry.at(g)->intersect(&ray, camera.getCenter());
+				distance = allGeometry.at(g)->intersect(ray, camera.getCenter());
 
 				/* Update closest distance from camera to geometry */
 				if (distance > 0 && distance < closestDistance) {
@@ -79,7 +82,7 @@ int main(int argc, char *argv[]) {
 				    curGeom = g;
 				    pixelPigment->reset();
 				    // pixelPigment = allGeometry.at(g)->getPigment();
-				    allGeometry.at(g)->blinnPhong(&ray, closestDistance, pixelPigment, &light, &camera, &allGeometry);
+				    allGeometry.at(g)->blinnPhong(ray, closestDistance, pixelPigment, &light, &camera, &allGeometry);
 				    pixelPigment->setColorT(&color);
 				    setColor(&color, pixelPigment);
 
@@ -89,8 +92,8 @@ int main(int argc, char *argv[]) {
 			}
 
 			/* Print unit test results */ 
-			printUnitTest(&test, i, j, closestDistance, &ray, pixelPigment, &color);
-			printUnitTest2(&test, i, j, curGeom, closestDistance, &ray, allGeometry.at(curGeom), &light, &camera);
+			printUnitTest(&test, i, j, closestDistance, ray, pixelPigment, &color);
+			printUnitTest2(&test, i, j, curGeom, closestDistance, ray, allGeometry.at(curGeom), &light, &camera);
 
 			for (int g = 0; g < allGeometry.size(); g++) {
 				allGeometry.at(g)->pigmentA.reset();

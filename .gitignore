@@ -1,5 +1,8 @@
 raytrace
 .DS_Store
 temp
+build
 tga/
 *.tga
+.pov
+*script

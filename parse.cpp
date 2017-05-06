@@ -1,13 +1,5 @@
 #include "Parse.h"
 
-// #include <stdio.h>
-// #include <iostream>
-// #include <fstream>
-// #include <stdio.h>
-// #include <string.h>
-// #include <string>
-// #include <vector>
-
 using namespace std;
 
 /* Check argc and usage, fill in variables, attempt to open povray file */

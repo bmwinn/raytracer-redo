@@ -5,6 +5,7 @@
 #include "Vector.h"
 #include "Ray.h"
 #include "Light.h"
+#include "Camera.h"
 #include "Geometry.h"
 #include "Sphere.h"
 #include "Plane.h"
