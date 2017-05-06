@@ -81,7 +81,6 @@ int main(int argc, char *argv[]) {
 				    closestDistance = distance;
 				    curGeom = g;
 				    pixelPigment->reset();
-				    // pixelPigment = allGeometry.at(g)->getPigment();
 				    allGeometry.at(g)->blinnPhong(ray, closestDistance, pixelPigment, &light, &camera, &allGeometry);
 				    pixelPigment->setColorT(&color);
 				    setColor(&color, pixelPigment);
