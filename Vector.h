@@ -16,7 +16,7 @@ public:
 	void print();
 
 	void operator*=(float scalar);
-
+	Vector operator-(Vector other);
 	// add to vector:
 	// vector = point - point;
 	// vector = vector + vector

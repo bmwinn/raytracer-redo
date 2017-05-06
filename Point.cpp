@@ -17,6 +17,10 @@ float Point::distance(Point *other) {
 	return sqrt(pow(x - other->getX(), 2) + pow(y - other->getY(), 2) + pow(z - other->getZ(), 2));
 }
 
+void Point::print() {
+	cout << "point " << x << " " << y << " " << z << endl;
+}
+
 void Point::setX(float x) { this->x = x; }
 void Point::setY(float y) { this->y = y; }
 void Point::setZ(float z) { this->z = z; }

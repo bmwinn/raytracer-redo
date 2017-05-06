@@ -1,0 +1,6 @@
+* change intersect from (ray, point) to (ray)
+  -> ray contains important point
+* make point xyz public, erase getters and setters
+* make vector xyz, magnitude public, erase getters and setters
+* Triangle.cpp:   // change to vertexA = *vA; ?
+

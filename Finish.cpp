@@ -11,6 +11,11 @@ Finish::Finish(float ambient, float diffuse, float specular, float roughness) {
 	this->roughness = roughness;
 }
 
+void Finish::print() {
+	std::cout << "finish a " << ambient << " d " << diffuse << " s " << specular;
+	cout << " rou " << roughness << endl;
+}
+
 void Finish::setAmbient(float a) { ambient = a; }
 void Finish::setDiffuse(float d) { diffuse = d; }
 void Finish::setSpecular(float s) { specular = s; }
