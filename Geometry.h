@@ -14,6 +14,8 @@
 
 using namespace std;
 
+// TODO: clean up publics and privates
+
 /* Parent class to all Geometric objects */
 /* Passes to children normal Vector, Pigment value, and Finish value */
 /* Passes to children virtual classes to Print values and Intersect object with Ray */
@@ -25,16 +27,16 @@ public:
 	void SetPigment(Pigment *pigment);
 	void SetFinish(Finish *finish);
 	virtual void print();
-	virtual float intersect(Ray *ray, Camera *camera);
+	virtual float intersect(Ray *ray, Point *point);
 	
-	/* new */
-	virtual void blinnPhong(int g, Ray *ray, float rayDistance, Pigment *pixelPigment, Light *light, Camera *camera, vector<Geometry *> *allGeometry);
+	virtual void blinnPhong(Ray *ray, float rayDistance, Pigment *pixelPigment, Light *light, Camera *camera, vector<Geometry *> *allGeometry);
 	void blinnPhongAmbient(Pigment *pixelPigment, Light *light);
 	void blinnPhongDiffuse(Pigment *pixelPigment, Light *light);
 	void blinnPhongSpecular(Pigment *pixelPigment, Light *light, Camera *camera);
 	void setOnGeom(Ray *ray, float rayDistance);
 	void resetPigments();
-	/* */
+
+	bool shadowFeeler(Light *light, vector<Geometry *> *allGeometry);
 
 	void setNormal(Vector *n);
 	void setPigment(Pigment *p);
@@ -44,10 +46,10 @@ public:
 	Pigment *getPigment();
 	Finish *getFinish();
 
-	/* new */
 	Point onGeom; // stores point on geometry surface
 	Pigment pigmentA, pigmentD, pigmentS; // stores Ambient, Diffuse, Specular pigments during BP
-	/* */
+
+	Ray feeler; // stores shadow feeler for Blinn Phong
 
 private:
 	Vector normal;

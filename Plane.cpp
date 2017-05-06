@@ -22,22 +22,26 @@ void Plane::print() {
 }
 
  /* Return distance along ray to plane */
-float Plane::intersect(Ray *ray, Camera *camera) {
+float Plane::intersect(Ray *ray, Point *point) {
 	float distance;
 	Point onPlane = Point(this->distance * getNormal()->getX(), this->distance * getNormal()->getY(), this->distance * getNormal()->getZ());
-	Vector difCameraPlane = Vector(onPlane.getX() - camera->getCenter()->getX(), onPlane.getY() - camera->getCenter()->getY(), onPlane.getZ() - camera->getCenter()->getZ());
+	Vector difPointPlane = Vector(onPlane.getX() - point->getX(), onPlane.getY() - point->getY(), onPlane.getZ() - point->getZ());
 
 	/* If dot product is 0, return no hit */
 	if (ray->getDirection()->dot(getNormal()) == 0)
 		distance = -1;
 	else
-		distance = difCameraPlane.dot(getNormal()) / ray->getDirection()->dot(getNormal());
+		distance = difPointPlane.dot(getNormal()) / ray->getDirection()->dot(getNormal());
 	
 	return distance;
 }
 
-void Plane::blinnPhong(int g, Ray *ray, float rayDistance, Pigment *pixelPigment, Light *light, Camera *camera, vector<Geometry *> *allGeometry) {
+void Plane::blinnPhong(Ray *ray, float rayDistance, Pigment *pixelPigment, Light *light, Camera *camera, vector<Geometry *> *allGeometry) {
 	Geometry::setOnGeom(ray, rayDistance);
 	blinnPhongAmbient(pixelPigment, light);
-	blinnPhongDiffuse(pixelPigment, light);
+
+	bool noShadow = shadowFeeler(light, allGeometry);
+	if (noShadow) {
+		blinnPhongDiffuse(pixelPigment, light);
+	}
 }

@@ -4,6 +4,7 @@ Geometry::Geometry() {
 	normal = Vector();
 	pigment = Pigment();
 	finish = Finish();
+	feeler = Ray();
 
 	pigmentA = Pigment();
 	pigmentD = Pigment();
@@ -15,6 +16,7 @@ Geometry::Geometry(Vector *n, Pigment *p, Finish *f) {
 	normal = Vector();
 	pigment = Pigment();
 	finish = Finish();
+	feeler = Ray();
 
 	setNormal(n);
 	setPigment(p);
@@ -32,7 +34,7 @@ void Geometry::print() {
 }
 
 /* Virtual function, should not be called */
-float Geometry::intersect(Ray *ray, Camera *camera) {
+float Geometry::intersect(Ray *ray, Point *point) {
 	cout << "Geometry object intersect." << endl;
 	return 10000;
 }
@@ -43,7 +45,7 @@ void Geometry::setOnGeom(Ray *ray, float rayDistance) {
 	onGeom.setZ(ray->getStart()->getZ() + rayDistance * ray->getDirection()->getZ());
 }
 
-void Geometry::blinnPhong(int g, Ray *ray, float rayDistance, Pigment *pixelPigment, Light *light, Camera *camera, vector<Geometry *> *allGeometry) {
+void Geometry::blinnPhong(Ray *ray, float rayDistance, Pigment *pixelPigment, Light *light, Camera *camera, vector<Geometry *> *allGeometry) {
 	cout << "Geometry object Blinn Phong." << endl;
 }
 
@@ -105,6 +107,29 @@ void Geometry::blinnPhongSpecular(Pigment *pixelPigment, Light *light, Camera *c
 	pigmentS.setB(finish.getSpecular() * pigment.getB() * light->getPigment()->getB() * shine);
 
 	*pixelPigment += &pigmentS;
+}
+
+// Send shadow feeler ray from current geometry
+// Return boolean that determines if another object blockes the light source from current object
+bool Geometry::shadowFeeler(Light *light, vector<Geometry *> *allGeometry) {
+	float dist = 0;
+	float lightDistance = onGeom.distance(light->getCenter());
+
+	Vector feelVector = Vector(light->getCenter()->getX() - onGeom.getX(),
+								light->getCenter()->getY() - onGeom.getY(),
+								light->getCenter()->getZ() - onGeom.getZ());
+	feelVector.normalize();
+	feeler = Ray(onGeom, feelVector);
+
+	for (int geom = 0; geom < allGeometry->size(); geom++) {
+		dist = allGeometry->at(geom)->intersect(&feeler, &onGeom);
+
+		// if object with positive distance is closer than light source
+		if (dist > 0.001 && dist < lightDistance)
+			return false; // don't color pixel
+	}
+
+	return true;
 }
 
 void Geometry::setNormal(Vector *n) {

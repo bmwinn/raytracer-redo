@@ -9,8 +9,8 @@ public:
 	Plane();
 	Plane(float distance, Vector *normal, Pigment *pigment, Finish *finish);
 	void print();
-	float intersect(Ray *ray, Camera *camera);
-	void blinnPhong(int g, Ray *ray, float rayDistance, Pigment *pixelPigment, Light *light, Camera *camera, vector<Geometry *> *allGeometry);
+	float intersect(Ray *ray, Point *point);
+	void blinnPhong(Ray *ray, float rayDistance, Pigment *pixelPigment, Light *light, Camera *camera, vector<Geometry *> *allGeometry);
 
 	void setOnGeom();
 	void setDistance(float d);

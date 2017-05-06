@@ -13,7 +13,7 @@ class Camera {
 public:
 	Camera();
 	Camera(Point center, Vector up, Vector right, Point lookat);
-	void Print();
+	void print();
 
 	void setCenter(Point *c);
 	void setLookAt(Point *l);
