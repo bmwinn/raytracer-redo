@@ -12,9 +12,9 @@ Triangle::Triangle() : Geometry() {
 }
 Triangle::Triangle(Point *vA, Point *vB, Point *vC) : Geometry() {
 	// change to vertexA = *vA; ?
-	vertexA = Point(vA->getX(), vA->getY(), vA->getZ());
-	vertexB = Point(vB->getX(), vB->getY(), vB->getZ());
-	vertexC = Point(vC->getX(), vC->getY(), vC->getZ());
+	vertexA = Point(vA->x, vA->y, vA->z);
+	vertexB = Point(vB->x, vB->y, vB->z);
+	vertexC = Point(vC->x, vC->y, vC->z);
 	setVectors();
 
 	normal = Vector();
@@ -23,12 +23,12 @@ Triangle::Triangle(Point *vA, Point *vB, Point *vC) : Geometry() {
 }
 
 void Triangle::setVectors() {
-	AB = Vector(vertexA.getX() - vertexB.getX(),
-		        vertexA.getY() - vertexB.getY(),
-		        vertexA.getZ() - vertexB.getZ());
-	AC = Vector(vertexA.getX() - vertexC.getX(),
-		        vertexA.getY() - vertexC.getY(),
-		        vertexA.getZ() - vertexC.getZ());
+	AB = Vector(vertexA.x - vertexB.x,
+		        vertexA.y - vertexB.y,
+		        vertexA.z - vertexB.z);
+	AC = Vector(vertexA.x - vertexC.x,
+		        vertexA.y - vertexC.y,
+		        vertexA.z - vertexC.z);
 }
 void Triangle::setNormal(Ray *ray) {
 	AB.cross(&AC, &normal);
@@ -54,21 +54,21 @@ float Triangle::intersect(Ray *ray, Point *point) {
 	float distance, t, gamma, beta;
 	float M, a, b, c, d, e, f, g, h, i, j, k, l;
 
-	a = vertexA.getX() - vertexB.getX();
-	b = vertexA.getY() - vertexB.getY();
-	c = vertexA.getZ() - vertexB.getZ();
+	a = vertexA.x - vertexB.x;
+	b = vertexA.y - vertexB.y;
+	c = vertexA.z - vertexB.z;
 
-	d = vertexA.getX() - vertexC.getX();
-	e = vertexA.getY() - vertexC.getY();
-	f = vertexA.getZ() - vertexC.getZ();
+	d = vertexA.x - vertexC.x;
+	e = vertexA.y - vertexC.y;
+	f = vertexA.z - vertexC.z;
 
-	g = ray->getDirection()->getX();
-	h = ray->getDirection()->getY();
-	i = ray->getDirection()->getZ();
+	g = ray->getDirection()->x;
+	h = ray->getDirection()->y;
+	i = ray->getDirection()->z;
 
-	j = vertexA.getX() - ray->getStart()->getX();
-	k = vertexA.getY() - ray->getStart()->getY();
-	l = vertexA.getZ() - ray->getStart()->getZ();
+	j = vertexA.x - ray->getStart()->x;
+	k = vertexA.y - ray->getStart()->y;
+	l = vertexA.z - ray->getStart()->z;
 
 	M = a*(e*i - h*f) + b*(g*f - d*i) + c*(d*h - e*g);
 	t = -1 * (f*(a*k - j*b) + e*(j*c - a*l) + d*(b*l - k*c))/M;

@@ -13,9 +13,10 @@ Sphere::Sphere(Point center, float radius,
 }
 
 void Sphere::setCenter(Point *c) {
-	center.setX(c->getX());
-	center.setY(c->getY());
-	center.setZ(c->getZ());
+	center = *c;
+	// center.setX(c->getX());
+	// center.setY(c->getY());
+	// center.setZ(c->getZ());
 }
 void Sphere::setRadius(float r) { radius = r; }
 
@@ -24,7 +25,7 @@ float Sphere::getRadius() { return radius; }
 
 void Sphere::print() {
 	cout << "sphere { ";
-	cout << "<" << center.getX() << ", " << center.getY() << ", " << center.getZ() << ">, " << radius << endl;
+	cout << "<" << center.x << ", " << center.y << ", " << center.z << ">, " << radius << endl;
 	cout << "  pigment { color <" << getPigment()->getR() << ", " << getPigment()->getG() << ", " << getPigment()->getB() << ", " << getPigment()->getF() << ">}" << endl;
 	cout << "  finish {ambient " << getFinish()->getAmbient() << " diffuse " << getFinish()->getDiffuse() << "}" << endl;
 	cout << "}" << endl;
@@ -33,9 +34,9 @@ void Sphere::print() {
  /* Return distance along ray to sphere */
 float Sphere::intersect(Ray *ray, Point *point) {
 	float distance, t1, t2, rad;
-	Vector difPC = Vector(point->getX() - center.getX(), point->getY() - center.getY(), point->getZ() - center.getZ());
-	Vector difPCCopy = Vector(difPC.getX(), difPC.getY(), difPC.getZ());
-	Vector dCopy = Vector(ray->getDirection()->getX(), ray->getDirection()->getY(), ray->getDirection()->getZ());
+	Vector difPC = Vector(point->x - center.x, point->y - center.y, point->z - center.z);
+	Vector difPCCopy = Vector(difPC.x, difPC.y, difPC.z);
+	Vector dCopy = Vector(ray->getDirection()->x, ray->getDirection()->y, ray->getDirection()->z);
 
 	rad = pow(ray->getDirection()->dot(&difPC), 2) - (ray->getDirection()->dot(&dCopy) * (difPC.dot(&difPCCopy)) - pow(radius, 2));
 
@@ -67,9 +68,9 @@ float Sphere::intersect(Ray *ray, Point *point) {
 void Sphere::blinnPhong(Ray *ray, float rayDistance, Pigment *pixelPigment, Light *light, Camera *camera, 
 	vector<Geometry *> *allGeometry) {
 	setOnGeom(ray, rayDistance);
-	Vector newNormal = Vector((onGeom.getX() - center.getX())/radius,
-					(onGeom.getY() - center.getY())/radius,
-					(onGeom.getZ() - center.getZ())/radius);
+	Vector newNormal = Vector((onGeom.x - center.x)/radius,
+					(onGeom.y - center.y)/radius,
+					(onGeom.z - center.z)/radius);
 	newNormal.normalize();
 	setNormal(&newNormal);
 

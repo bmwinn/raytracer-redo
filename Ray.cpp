@@ -13,24 +13,24 @@ Ray::Ray(Point start, Vector direction) {
 /* Constructor comes in handy during main pixel loop */
 Ray::Ray(int i, int j, int width, int height, Camera *camera) {
 	float us, vs, ws, right, left, bottom, top;
-	start = Point(camera->getCenter()->getX(), camera->getCenter()->getY(), camera->getCenter()->getZ());
+	start = Point(camera->getCenter()->x, camera->getCenter()->y, camera->getCenter()->z);
 	
-	right = camera->getRight()->getMagnitude() / 2.0;
-	left = -1 * camera->getRight()->getMagnitude() / 2.0;
-	bottom = -1 * camera->getUp()->getMagnitude() / 2.0;
-	top = camera->getUp()->getMagnitude() / 2.0;
+	right = camera->getRight()->magnitude / 2.0;
+	left = -1 * camera->getRight()->magnitude / 2.0;
+	bottom = -1 * camera->getUp()->magnitude / 2.0;
+	top = camera->getUp()->magnitude / 2.0;
 
 	us = left + (right - left) * (i + 0.5) / (float) width;
 	vs = bottom + (top - bottom) * (j + 0.5) / (float) height;
 	ws = -1;
 
 	/* Find, normalize new basis vectors */
-	Vector w = Vector(camera->getCenter()->getX() - camera->getLookAt()->getX(),
-						camera->getCenter()->getY() - camera->getLookAt()->getY(),
-						camera->getCenter()->getZ() - camera->getLookAt()->getZ());
+	Vector w = Vector(camera->getCenter()->x - camera->getLookAt()->x,
+						camera->getCenter()->y - camera->getLookAt()->y,
+						camera->getCenter()->z - camera->getLookAt()->z);
 	w.normalize();
 
-	Vector u = Vector(camera->getRight()->getX(), camera->getRight()->getY(), camera->getRight()->getZ());
+	Vector u = Vector(camera->getRight()->x, camera->getRight()->y, camera->getRight()->z);
 	u.normalize();
 
 	Vector v = Vector();
@@ -42,19 +42,22 @@ Ray::Ray(int i, int j, int width, int height, Camera *camera) {
 	w *= ws;
 
 	// this->direction = Vector(us - camera->getCenter()->getX(), vs - camera->getCenter()->getY(), ws);
-	direction = Vector(u.getX() + v.getX() + w.getX(), u.getY() + v.getY() + w.getY(), u.getZ() + v.getZ() + w.getZ());
+	direction = u + v + w;
+	// direction = Vector(u.getX() + v.getX() + w.getX(), u.getY() + v.getY() + w.getY(), u.getZ() + v.getZ() + w.getZ());
 	direction.normalize();
 }
 
 void Ray::setStart(Point *s) {
-	start.setX(s->getX());
-	start.setY(s->getY());
-	start.setZ(s->getZ());
+	start = *s;
+	// start.setX(s->getX());
+	// start.setY(s->getY());
+	// start.setZ(s->getZ());
 }
 void Ray::setDirection(Vector *d) {
-	direction.setX(d->getX());
-	direction.setY(d->getY());
-	direction.setZ(d->getZ());
+	direction = *d;
+	// direction.setX(d->getX());
+	// direction.setY(d->getY());
+	// direction.setZ(d->getZ());
 }
 
 Point *Ray::getStart() { return &start; }

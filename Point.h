@@ -3,6 +3,8 @@
 
 #include <iostream>
 
+#include "Vector.h"
+
 using namespace std;
 
 class Point {
@@ -13,15 +15,17 @@ public:
 	float distance(Point *other);
 	void print();
 
-	void setX(float x);
-	void setY(float y);
-	void setZ(float z);
+	Vector operator-(Point other);
 
-	float getX();
-	float getY();
-	float getZ();
+	// void setX(float x);
+	// void setY(float y);
+	// void setZ(float z);
+
+	// float getX();
+	// float getY();
+	// float getZ();
 	
-private:
+// private:
 	// make public
 	float x, y, z;
 };
