@@ -1,8 +1,5 @@
 * change intersect from (ray, point) to (ray)
   -> ray contains important point
-* make point xyz public, erase getters and setters
-* make vector xyz, magnitude public, erase getters and setters
-* Triangle.cpp:   // change to vertexA = *vA; ?
 * which things in geometry need to be private?
   -> how can certain things be accessed by geom children but not others?
 * Add *light, *camera, and *allGeometry<> to Geometry objs

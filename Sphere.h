@@ -9,7 +9,8 @@ public:
 	Sphere();
 	Sphere(Point center, float radius, Vector *normal, Pigment *pigment, Finish *finish);
 	void print();
-	float intersect(Ray *ray, Point *point);
+	void printType();
+	float intersect(Ray *ray);
 	void blinnPhong(Ray *ray, float rayDistance, Pigment *pixelPigment, Light *light, Camera *camera, vector<Geometry *> *allGeometry);
 	
 	void setCenter(Point *c);

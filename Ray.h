@@ -11,6 +11,8 @@ public:
 	Ray(Point start, Vector direction);
 	Ray(int i, int j, int width, int height, Camera *camera);
 
+	void print();
+
 	void setStart(Point *s);
 	void setDirection(Vector *d);
 

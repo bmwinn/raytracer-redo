@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <string>
+#include <cstring>
 #include <cmath>
 
 using namespace std;
@@ -33,6 +34,8 @@ int main(int argc, char *argv[]) {
 	Camera camera;
 	color_t color, black = {0, 0, 0, 0};
 	vector<Geometry *> allGeometry;
+
+	string p = "Plane";
 
 	if (argc != 5) {
 		cout << "Error. Usage: ./raytrace <width> <height> <input_file> <output_directory>" << endl;
@@ -72,7 +75,7 @@ int main(int argc, char *argv[]) {
 			/* Loop through geometry */
 			for (int g = 0; g < allGeometry.size(); g++) {
 				/* Find distance along ray to current geometry */
-				distance = allGeometry.at(g)->intersect(ray, camera.getCenter());
+				distance = allGeometry.at(g)->intersect(ray);
 
 				/* Update closest distance from camera to geometry */
 				if (distance > 0 && distance < closestDistance) {
@@ -89,8 +92,8 @@ int main(int argc, char *argv[]) {
 			}
 
 			/* Print unit test results */ 
-			printUnitTest(&test, i, j, closestDistance, ray, pixelPigment, &color);
-			printUnitTest2(&test, i, j, curGeom, closestDistance, ray, allGeometry.at(curGeom), &light, &camera);
+			// printUnitTest(&test, i, j, closestDistance, ray, pixelPigment, &color);
+			// printUnitTest2(&test, i, j, curGeom, closestDistance, ray, allGeometry.at(curGeom), &light, &camera);
 
 			for (int g = 0; g < allGeometry.size(); g++) {
 				allGeometry.at(g)->pigmentA.reset();
@@ -104,7 +107,3 @@ int main(int argc, char *argv[]) {
 
 	return 0;
 }
-
-
-
-

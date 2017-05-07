@@ -175,15 +175,21 @@ void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Lig
 
 					/* Fill in plane normal vector */
 					token = strtok(NULL, " {<,");
-					plane->getNormal()->x = strtof(token, NULL);
+					plane->normal.x = strtof(token, NULL);
 					token = strtok(NULL, " ,");
-					plane->getNormal()->y = strtof(token, NULL);
+					plane->normal.y = strtof(token, NULL);
 					token = strtok(NULL, " ,>");
-					plane->getNormal()->z = strtof(token, NULL);
+					plane->normal.z = strtof(token, NULL);
+
+					/* Set Magnitude of normal vector */
+					plane->normal.setMagnitude(plane->getNormal());
+					plane->normal.normalize();
 
 					/* Fill in distance along plane normal */
 					token = strtok(NULL, " ,");
 					plane->setDistance(strtof(token, NULL));
+
+					plane->setOnGeom();
 
 					/* Fill in plane Pigment */
 					povray->getline(line, 99);
@@ -214,9 +220,6 @@ void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Lig
 					token = strtok(NULL, "diffuse ");
 					plane->getFinish()->setDiffuse(strtof(token, NULL));
 
-					/* Set Magnitude of normal vector */
-					plane->getNormal()->setMagnitude(plane->getNormal());
-					
 					/* Add plane to vector list of Geometry */
 					allGeometry->push_back(plane);
 				}

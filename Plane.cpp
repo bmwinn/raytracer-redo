@@ -10,8 +10,13 @@ Plane::Plane(float distance, Vector *normal, Pigment *pigment, Finish *finish) :
 }
 
 void Plane::setDistance(float d) { distance = d; }
-
+void Plane::setOnGeom() {
+	onGeom.x = distance * normal.x;
+	onGeom.y = distance * normal.y;
+	onGeom.z = distance * normal.z;	
+}
 float Plane::getDistance() { return distance; }
+
 
 void Plane::print() {
 	cout << "plane {";
@@ -20,12 +25,13 @@ void Plane::print() {
 	cout << "  finish {ambient " << getFinish()->getAmbient() << " diffuse " << getFinish()->getDiffuse() << "}" << endl;
 	cout << "}" << endl;
 }
+void Plane::printType() { cout << "plane" << endl; }
 
  /* Return distance along ray to plane */
-float Plane::intersect(Ray *ray, Point *point) {
+float Plane::intersect(Ray *ray) {
 	float distance;
-	Point onPlane = Point(this->distance * getNormal()->x, this->distance * getNormal()->y, this->distance * getNormal()->z);
-	Vector difPointPlane = Vector(onPlane.x - point->x, onPlane.y - point->y, onPlane.z - point->z);
+	Vector difPointPlane = onGeom - *ray->getStart();
+	// Vector difPointPlane = Vector(onGeom.x - ray->getStart()->x, onGeom.y - ray->getStart()->y, onGeom.z - ray->getStart()->z);
 
 	/* If dot product is 0, return no hit */
 	if (ray->getDirection()->dot(getNormal()) == 0)

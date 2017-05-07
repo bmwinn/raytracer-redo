@@ -32,9 +32,12 @@ Geometry::Geometry(Vector *n, Pigment *p, Finish *f) {
 void Geometry::print() {
 	cout << "This is a Geometry object." << endl;
 }
+void Geometry::printType() {
+	cout << "Geometry" << endl;
+}
 
 /* Virtual function, should not be called */
-float Geometry::intersect(Ray *ray, Point *point) {
+float Geometry::intersect(Ray *ray) {
 	cout << "Geometry object intersect." << endl;
 	return 10000;
 }
@@ -97,7 +100,6 @@ void Geometry::blinnPhongSpecular(Pigment *pixelPigment, Light *light, Camera *c
 	view.normalize();
 
 	Vector half = view + lightVector;
-	// Vector half = Vector(view.getX() + lightVector.getX(), view.getY() + lightVector.getY(), view.getZ() + lightVector.getZ());
 	half.normalize();
 
 	float shiny = 1.0/finish.getRoughness();
@@ -123,7 +125,8 @@ bool Geometry::shadowFeeler(Light *light, vector<Geometry *> *allGeometry) {
 	feeler = Ray(onGeom, feelVector);
 
 	for (int geom = 0; geom < allGeometry->size(); geom++) {
-		dist = allGeometry->at(geom)->intersect(&feeler, &onGeom);
+		// dist = allGeometry->at(geom)->intersect(&feeler, &onGeom);
+		dist = allGeometry->at(geom)->intersect(&feeler);
 
 		// if object with positive distance is closer than light source
 		if (dist > 0.001 && dist < lightDistance)
@@ -135,9 +138,6 @@ bool Geometry::shadowFeeler(Light *light, vector<Geometry *> *allGeometry) {
 
 void Geometry::setNormal(Vector *n) {
 	normal = *n;
-	// normal.setX(n->getX());
-	// normal.setY(n->getY());
-	// normal.setZ(n->getZ());
 	normal.magnitude = n->magnitude;
 }
 void Geometry::setPigment(Pigment *p) {

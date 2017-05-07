@@ -13,7 +13,7 @@ Ray::Ray(Point start, Vector direction) {
 /* Constructor comes in handy during main pixel loop */
 Ray::Ray(int i, int j, int width, int height, Camera *camera) {
 	float us, vs, ws, right, left, bottom, top;
-	start = Point(camera->getCenter()->x, camera->getCenter()->y, camera->getCenter()->z);
+	start = *camera->getCenter();
 	
 	right = camera->getRight()->magnitude / 2.0;
 	left = -1 * camera->getRight()->magnitude / 2.0;
@@ -25,12 +25,10 @@ Ray::Ray(int i, int j, int width, int height, Camera *camera) {
 	ws = -1;
 
 	/* Find, normalize new basis vectors */
-	Vector w = Vector(camera->getCenter()->x - camera->getLookAt()->x,
-						camera->getCenter()->y - camera->getLookAt()->y,
-						camera->getCenter()->z - camera->getLookAt()->z);
+	Vector w = *camera->getCenter() - *camera->getLookAt();
 	w.normalize();
 
-	Vector u = Vector(camera->getRight()->x, camera->getRight()->y, camera->getRight()->z);
+	Vector u = *camera->getRight();
 	u.normalize();
 
 	Vector v = Vector();
@@ -41,23 +39,20 @@ Ray::Ray(int i, int j, int width, int height, Camera *camera) {
 	v *= vs;
 	w *= ws;
 
-	// this->direction = Vector(us - camera->getCenter()->getX(), vs - camera->getCenter()->getY(), ws);
 	direction = u + v + w;
-	// direction = Vector(u.getX() + v.getX() + w.getX(), u.getY() + v.getY() + w.getY(), u.getZ() + v.getZ() + w.getZ());
 	direction.normalize();
+}
+
+void Ray::print() {
+	start.print();
+	direction.print();
 }
 
 void Ray::setStart(Point *s) {
 	start = *s;
-	// start.setX(s->getX());
-	// start.setY(s->getY());
-	// start.setZ(s->getZ());
 }
 void Ray::setDirection(Vector *d) {
 	direction = *d;
-	// direction.setX(d->getX());
-	// direction.setY(d->getY());
-	// direction.setZ(d->getZ());
 }
 
 Point *Ray::getStart() { return &start; }

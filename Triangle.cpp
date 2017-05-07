@@ -11,10 +11,9 @@ Triangle::Triangle() : Geometry() {
 	AC = Vector();
 }
 Triangle::Triangle(Point *vA, Point *vB, Point *vC) : Geometry() {
-	// change to vertexA = *vA; ?
-	vertexA = Point(vA->x, vA->y, vA->z);
-	vertexB = Point(vB->x, vB->y, vB->z);
-	vertexC = Point(vC->x, vC->y, vC->z);
+	vertexA = *vA;
+	vertexB = *vB;
+	vertexC = *vC;
 	setVectors();
 
 	normal = Vector();
@@ -23,12 +22,8 @@ Triangle::Triangle(Point *vA, Point *vB, Point *vC) : Geometry() {
 }
 
 void Triangle::setVectors() {
-	AB = Vector(vertexA.x - vertexB.x,
-		        vertexA.y - vertexB.y,
-		        vertexA.z - vertexB.z);
-	AC = Vector(vertexA.x - vertexC.x,
-		        vertexA.y - vertexC.y,
-		        vertexA.z - vertexC.z);
+	AB = vertexA - vertexB;
+	AC = vertexA - vertexC;
 }
 void Triangle::setNormal(Ray *ray) {
 	AB.cross(&AC, &normal);
@@ -37,6 +32,7 @@ void Triangle::setNormal(Ray *ray) {
 	if (ray->getDirection()->dot(&normal) > 0)
 		normal *= -1;
 }
+
 void Triangle::print() {
 	cout << "triangle {" << endl << "   ";
 	vertexA.print();
@@ -50,7 +46,10 @@ void Triangle::print() {
 	getFinish()->print();
 	cout << "}" << endl << endl;
 }
-float Triangle::intersect(Ray *ray, Point *point) {
+void Triangle::printType() {
+	cout << "Triangle" << endl;
+}
+float Triangle::intersect(Ray *ray) {
 	float distance, t, gamma, beta;
 	float M, a, b, c, d, e, f, g, h, i, j, k, l;
 

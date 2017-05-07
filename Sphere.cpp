@@ -14,9 +14,6 @@ Sphere::Sphere(Point center, float radius,
 
 void Sphere::setCenter(Point *c) {
 	center = *c;
-	// center.setX(c->getX());
-	// center.setY(c->getY());
-	// center.setZ(c->getZ());
 }
 void Sphere::setRadius(float r) { radius = r; }
 
@@ -30,15 +27,17 @@ void Sphere::print() {
 	cout << "  finish {ambient " << getFinish()->getAmbient() << " diffuse " << getFinish()->getDiffuse() << "}" << endl;
 	cout << "}" << endl;
 }
+void Sphere::printType() {
+	cout << "Sphere" << endl;
+}
 
- /* Return distance along ray to sphere */
-float Sphere::intersect(Ray *ray, Point *point) {
+/* Return distance along ray to sphere */
+float Sphere::intersect(Ray *ray) {
 	float distance, t1, t2, rad;
-	Vector difPC = Vector(point->x - center.x, point->y - center.y, point->z - center.z);
-	Vector difPCCopy = Vector(difPC.x, difPC.y, difPC.z);
-	Vector dCopy = Vector(ray->getDirection()->x, ray->getDirection()->y, ray->getDirection()->z);
+	Vector difPC = *ray->getStart() - center;
+	Vector rayD = *ray->getDirection();
 
-	rad = pow(ray->getDirection()->dot(&difPC), 2) - (ray->getDirection()->dot(&dCopy) * (difPC.dot(&difPCCopy)) - pow(radius, 2));
+	rad = pow(rayD.dot(&difPC), 2) - rayD.dot(&rayD) * ((difPC.dot(&difPC)) - pow(radius, 2));
 
 	/* If radicand is negative, return no hit */
 	if (rad < 0)
@@ -46,11 +45,11 @@ float Sphere::intersect(Ray *ray, Point *point) {
 
 	/* Return smallest (closest) positive distance */
 	else if (rad == 0)
-		distance = -1 * ray->getDirection()->dot(&difPC) / ray->getDirection()->dot(&dCopy);
+		distance = -1 * rayD.dot(&difPC) / rayD.dot(&rayD);
 
 	else {
-		t1 = (-1 * ray->getDirection()->dot(&difPC) + sqrt(rad)) / ray->getDirection()->dot(&dCopy);
-		t2 = (-1 * ray->getDirection()->dot(&difPC) - sqrt(rad)) / ray->getDirection()->dot(&dCopy);
+		t1 = (-1 * rayD.dot(&difPC) + sqrt(rad)) / rayD.dot(&rayD);
+		t2 = (-1 * rayD.dot(&difPC) - sqrt(rad)) / rayD.dot(&rayD);
 
 		if (t1 > 0 && t2 > 0)
 			distance = t1 < t2 ? t1 : t2;

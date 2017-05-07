@@ -53,20 +53,9 @@ Vector Vector::operator+(Vector other) {
 	return Vector(x + other.x, y + other.y, z + other.z);
 }
 
-// void Vector::setX(float x) { this->x = x; }
-// void Vector::setY(float y) { this->y = y; }
-// void Vector::setZ(float z) { this->z = z; }
 void Vector::setMagnitude(float x, float y, float z) {
 	magnitude = sqrt(pow(x, 2) + pow(y, 2) + pow(z, 2));
 }
-// void Vector::setMagnitude(float magnitude) {
-// 	this->magnitude = magnitude;
-// }
 void Vector::setMagnitude(Vector *other) {
 	magnitude = sqrt(pow(other->x, 2) + pow(other->y, 2) + pow(other->z, 2));
 }
-
-// float Vector::getX() { return x; }
-// float Vector::getY() { return y; }
-// float Vector::getZ() { return z; }
-// float Vector::getMagnitude() { return magnitude; }
