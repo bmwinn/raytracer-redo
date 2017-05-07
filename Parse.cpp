@@ -141,14 +141,6 @@ void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Lig
 					/* Fill in sphere Finish */
 					povray->getline(line, 99);
 					fillFinish(line, sphere);
-					// token = strtok(line, "finish {ambient");
-					// sphere->getFinish()->setAmbient(strtof(token, NULL));
-					// token = strtok(NULL, "diffuse ");
-					// sphere->getFinish()->setDiffuse(strtof(token, NULL));
-					// token = strtok(NULL, "specular ");
-					// sphere->getFinish()->setSpecular(strtof(token, NULL));
-					// token = strtok(NULL, "roughness }");
-					// sphere->getFinish()->setRoughness(strtof(token, NULL));
 					
 					/* Add sphere to vector list of geometry */
 					allGeometry->push_back(sphere);
@@ -181,10 +173,6 @@ void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Lig
 					/* Fill in plane Finish */
 					povray->getline(line, 99);
 					fillFinish(line, plane);
-					// token = strtok(line, "finish {ambient");
-					// plane->getFinish()->setAmbient(strtof(token, NULL));
-					// token = strtok(NULL, "diffuse ");
-					// plane->getFinish()->setDiffuse(strtof(token, NULL));
 
 					/* Add plane to vector list of Geometry */
 					allGeometry->push_back(plane);
@@ -228,10 +216,6 @@ void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Lig
 					/* Fill in triangle Finish */
 					povray->getline(line, 99);
 					fillFinish(line, triangle);
-					// token = strtok(line, "finish {ambient");
-					// triangle->getFinish()->setAmbient(strtof(token, NULL));
-					// token = strtok(NULL, "diffuse }");
-					// triangle->getFinish()->setDiffuse(strtof(token, NULL));
 
 					/* Add triangle to vector list of Geometry */
 					allGeometry->push_back(triangle);
