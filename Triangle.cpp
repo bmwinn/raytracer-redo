@@ -89,16 +89,14 @@ float Triangle::intersect(Ray *ray) {
 		return -1;
 }
 // void Triangle::blinnPhong(Ray *ray, float rayDist) {
-void Triangle::blinnPhong(Ray *ray, float rayDistance, Pigment *pixelPigment, Light *light,
-	Camera *camera, vector<Geometry *> *allGeometry) {
-
+void Triangle::blinnPhong(Ray *ray, float rayDistance) {
 	setOnGeom(ray, rayDistance);
 	setNormal(ray);
-	blinnPhongAmbient(pixelPigment, light);
+	blinnPhongAmbient();
 
-	bool noShadow = shadowFeeler(light, allGeometry);
+	bool noShadow = shadowFeeler();
 
 	if (noShadow) {
-		blinnPhongDiffuse(pixelPigment, light);
+		blinnPhongDiffuse();
 	}
 }

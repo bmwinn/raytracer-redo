@@ -24,22 +24,19 @@ class Geometry {
 public:
 	Geometry();
 	Geometry(Vector *n, Pigment *p, Finish *f);
-	void SetNormal(Vector *normal);
-	void SetPigment(Pigment *pigment);
-	void SetFinish(Finish *finish);
 	virtual void print();
 	virtual void printType();
+	
 	virtual float intersect(Ray *ray);
 	
-	virtual void blinnPhong(Ray *ray, float rayDistance, Pigment *pixelPigment, Light *light, Camera *camera, vector<Geometry *> *allGeometry);
-	void blinnPhongAmbient(Pigment *pixelPigment, Light *light);
-	void blinnPhongDiffuse(Pigment *pixelPigment, Light *light);
-	void blinnPhongSpecular(Pigment *pixelPigment, Light *light, Camera *camera);
-	void setOnGeom(Ray *ray, float rayDistance);
 	void resetPigments();
+	virtual void blinnPhong(Ray *ray, float rayDistance);
+	void blinnPhongAmbient();
+	void blinnPhongDiffuse();
+	void blinnPhongSpecular();
+	bool shadowFeeler();
 
-	bool shadowFeeler(Light *light, vector<Geometry *> *allGeometry);
-
+	void setOnGeom(Ray *ray, float rayDistance);
 	void setNormal(Vector *n);
 	void setPigment(Pigment *p);
 	void setFinish(Finish *f);
@@ -53,6 +50,11 @@ public:
 
 	Ray feeler; // stores shadow feeler for Blinn Phong
 	Vector normal;
+
+	Light *light;
+	Camera *camera;
+	vector<Geometry *> *allGeometry;
+	Pigment *pixel;
 
 private:
 	Pigment pigment; // stores object color

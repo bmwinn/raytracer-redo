@@ -11,7 +11,7 @@ public:
 	void print();
 	void printType();
 	float intersect(Ray *ray);
-	void blinnPhong(Ray *ray, float rayDistance, Pigment *pixelPigment, Light *light, Camera *camera, vector<Geometry *> *allGeometry);
+	void blinnPhong(Ray *ray, float rayDistance);
 	
 	void setCenter(Point *c);
 	void setRadius(float r);

@@ -64,8 +64,7 @@ float Sphere::intersect(Ray *ray) {
 	return distance;
 }
 
-void Sphere::blinnPhong(Ray *ray, float rayDistance, Pigment *pixelPigment, Light *light, Camera *camera, 
-	vector<Geometry *> *allGeometry) {
+void Sphere::blinnPhong(Ray *ray, float rayDistance) {
 	setOnGeom(ray, rayDistance);
 	Vector newNormal = Vector((onGeom.x - center.x)/radius,
 					(onGeom.y - center.y)/radius,
@@ -73,11 +72,11 @@ void Sphere::blinnPhong(Ray *ray, float rayDistance, Pigment *pixelPigment, Ligh
 	newNormal.normalize();
 	setNormal(&newNormal);
 
-	blinnPhongAmbient(pixelPigment, light);
+	blinnPhongAmbient();
 
-	bool noShadow = shadowFeeler(light, allGeometry);
+	bool noShadow = shadowFeeler();
 	if (noShadow) {
-		blinnPhongDiffuse(pixelPigment, light);
-		blinnPhongSpecular(pixelPigment, light, camera);
+		blinnPhongDiffuse();
+		blinnPhongSpecular();
 	}
 }
