@@ -136,25 +136,7 @@ void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Lig
 
 					/* Fill in sphere Pigment */
 					povray->getline(line, 99);
-					token = strtok(line, " pigment{");
-					token = strtok(NULL, " ");
-
-					/* Determine if Pigment color is rgb or rgbf */
-					rgbf = !strcmp(token, "rgbf");
-
-					token = strtok(NULL, " <,");
-					sphere->getPigment()->setR(strtof(token, NULL));
-					token = strtok(NULL, " ,");
-					sphere->getPigment()->setG(strtof(token, NULL));
-					token = strtok(NULL, " ,>}");
-					sphere->getPigment()->setB(strtof(token, NULL));
-
-					if (rgbf) {
-						token = strtok(NULL, " ,>}");
-						sphere->getPigment()->setF(strtof(token, NULL));
-					}
-					else
-						sphere->getPigment()->setF(1);
+					fillPigment(line, sphere);
 
 					/* Fill in sphere Finish */
 					povray->getline(line, 99);
@@ -193,25 +175,7 @@ void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Lig
 
 					/* Fill in plane Pigment */
 					povray->getline(line, 99);
-					token = strtok(line, "pigment {");
-					token = strtok(NULL, " ");
-
-					/* Determine if Pigment is rgb or rgbf */
-					rgbf = !strcmp(token, "rgbf");
-
-					token = strtok(NULL, " <,");
-					plane->getPigment()->setR(strtof(token, NULL));
-					token = strtok(NULL, " ,");
-					plane->getPigment()->setG(strtof(token, NULL));
-					token = strtok(NULL, " ,>}");
-					plane->getPigment()->setB(strtof(token, NULL));
-
-					if (rgbf) {
-						token = strtok(NULL, " ,>}");
-						plane->getPigment()->setF(strtof(token, NULL));
-					}
-					else
-						plane->getPigment()->setF(1);
+					fillPigment(line, plane);
 
 					/* Fill in plane Finish */
 					povray->getline(line, 99);
@@ -257,25 +221,7 @@ void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Lig
 
 					/* Fill in triangle Pigment */
 					povray->getline(line, 99);
-					token = strtok(line, "pigment {");
-					token = strtok(NULL, " ");
-
-					/* Determine if Pigment is rgb or rgbf */
-					rgbf = !strcmp(token, "rgbf");
-
-					token = strtok(NULL, " <,");
-					triangle->getPigment()->setR(strtof(token, NULL));
-					token = strtok(NULL, " ,");
-					triangle->getPigment()->setG(strtof(token, NULL));
-					token = strtok(NULL, " ,>}");
-					triangle->getPigment()->setB(strtof(token, NULL));
-
-					if (rgbf) {
-						token = strtok(NULL, " ,>}");
-						triangle->getPigment()->setF(strtof(token, NULL));
-					}
-					else
-						triangle->getPigment()->setF(1);
+					fillPigment(line, triangle);
 
 					/* Fill in triangle Finish */
 					povray->getline(line, 99);
@@ -290,4 +236,29 @@ void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Lig
 			}
 		}
 	}
+}
+
+void fillPigment(char *line, Geometry *geom) {
+	int rgbf;
+	char *token;
+
+	token = strtok(line, "pigment {");
+	token = strtok(NULL, " ");
+
+	/* Determine if Pigment is rgb or rgbf */
+	rgbf = !strcmp(token, "rgbf");
+
+	token = strtok(NULL, " <,");
+	geom->getPigment()->setR(strtof(token, NULL));
+	token = strtok(NULL, " ,");
+	geom->getPigment()->setG(strtof(token, NULL));
+	token = strtok(NULL, " ,>}");
+	geom->getPigment()->setB(strtof(token, NULL));
+
+	if (rgbf) {
+		token = strtok(NULL, " ,>}");
+		geom->getPigment()->setF(strtof(token, NULL));
+	}
+	else
+		geom->getPigment()->setF(1);
 }
