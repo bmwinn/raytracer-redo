@@ -26,4 +26,8 @@ int fileOps(int argc, char *argv[], int *width, int *height, string *test, vecto
 /* Once .pov file is open, parse through */
 void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Light *light);
 
+void fillPigment(char *line, Geometry *geom);
+
+void fillFinish(char *line, Geometry *geom);
+
 #endif

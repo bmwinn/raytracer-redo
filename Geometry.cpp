@@ -125,7 +125,6 @@ bool Geometry::shadowFeeler(Light *light, vector<Geometry *> *allGeometry) {
 	feeler = Ray(onGeom, feelVector);
 
 	for (int geom = 0; geom < allGeometry->size(); geom++) {
-		// dist = allGeometry->at(geom)->intersect(&feeler, &onGeom);
 		dist = allGeometry->at(geom)->intersect(&feeler);
 
 		// if object with positive distance is closer than light source

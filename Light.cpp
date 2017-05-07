@@ -17,9 +17,6 @@ void Light::Print() {
 
 void Light::setCenter(Point *c) {
 	center = *c;
-	// center.setX(c->getX());
-	// center.setY(c->getY());
-	// center.setZ(c->getZ());
 }
 void Light::setPigment(Pigment *p) {
 	pigment.setR(p->getR());
