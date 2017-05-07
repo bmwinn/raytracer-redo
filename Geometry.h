@@ -24,27 +24,19 @@ class Geometry {
 public:
 	Geometry();
 	Geometry(Vector *n, Pigment *p, Finish *f);
-	void SetNormal(Vector *normal);
-	void SetPigment(Pigment *pigment);
-	void SetFinish(Finish *finish);
 	virtual void print();
 	virtual void printType();
+	
 	virtual float intersect(Ray *ray);
 	
-	// virtual void blinnPhong(Ray *ray, float rayDistance, Pigment *pixelPigment, Light *light, Camera *camera, vector<Geometry *> *allGeometry);
-	virtual void blinnPhong(Ray *ray, float rayDistance);
-	// void blinnPhongAmbient(Pigment *pixelPigment, Light *light);
-	void blinnPhongAmbient();
-	// void blinnPhongDiffuse(Pigment *pixelPigment, Light *light);
-	void blinnPhongDiffuse();
-	// void blinnPhongSpecular(Pigment *pixelPigment, Light *light, Camera *camera);
-	void blinnPhongSpecular();
-	void setOnGeom(Ray *ray, float rayDistance);
 	void resetPigments();
-
-	// bool shadowFeeler(Light *light, vector<Geometry *> *allGeometry);
+	virtual void blinnPhong(Ray *ray, float rayDistance);
+	void blinnPhongAmbient();
+	void blinnPhongDiffuse();
+	void blinnPhongSpecular();
 	bool shadowFeeler();
 
+	void setOnGeom(Ray *ray, float rayDistance);
 	void setNormal(Vector *n);
 	void setPigment(Pigment *p);
 	void setFinish(Finish *f);
