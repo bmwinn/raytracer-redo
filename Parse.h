@@ -28,4 +28,6 @@ void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Lig
 
 void fillPigment(char *line, Geometry *geom);
 
+void fillFinish(char *line, Geometry *geom);
+
 #endif

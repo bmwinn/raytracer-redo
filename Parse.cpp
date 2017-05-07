@@ -140,14 +140,15 @@ void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Lig
 
 					/* Fill in sphere Finish */
 					povray->getline(line, 99);
-					token = strtok(line, "finish {ambient");
-					sphere->getFinish()->setAmbient(strtof(token, NULL));
-					token = strtok(NULL, "diffuse ");
-					sphere->getFinish()->setDiffuse(strtof(token, NULL));
-					token = strtok(NULL, "specular ");
-					sphere->getFinish()->setSpecular(strtof(token, NULL));
-					token = strtok(NULL, "roughness }");
-					sphere->getFinish()->setRoughness(strtof(token, NULL));
+					fillFinish(line, sphere);
+					// token = strtok(line, "finish {ambient");
+					// sphere->getFinish()->setAmbient(strtof(token, NULL));
+					// token = strtok(NULL, "diffuse ");
+					// sphere->getFinish()->setDiffuse(strtof(token, NULL));
+					// token = strtok(NULL, "specular ");
+					// sphere->getFinish()->setSpecular(strtof(token, NULL));
+					// token = strtok(NULL, "roughness }");
+					// sphere->getFinish()->setRoughness(strtof(token, NULL));
 					
 					/* Add sphere to vector list of geometry */
 					allGeometry->push_back(sphere);
@@ -179,10 +180,11 @@ void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Lig
 
 					/* Fill in plane Finish */
 					povray->getline(line, 99);
-					token = strtok(line, "finish {ambient");
-					plane->getFinish()->setAmbient(strtof(token, NULL));
-					token = strtok(NULL, "diffuse ");
-					plane->getFinish()->setDiffuse(strtof(token, NULL));
+					fillFinish(line, plane);
+					// token = strtok(line, "finish {ambient");
+					// plane->getFinish()->setAmbient(strtof(token, NULL));
+					// token = strtok(NULL, "diffuse ");
+					// plane->getFinish()->setDiffuse(strtof(token, NULL));
 
 					/* Add plane to vector list of Geometry */
 					allGeometry->push_back(plane);
@@ -225,10 +227,11 @@ void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Lig
 
 					/* Fill in triangle Finish */
 					povray->getline(line, 99);
-					token = strtok(line, "finish {ambient");
-					triangle->getFinish()->setAmbient(strtof(token, NULL));
-					token = strtok(NULL, "diffuse }");
-					triangle->getFinish()->setDiffuse(strtof(token, NULL));
+					fillFinish(line, triangle);
+					// token = strtok(line, "finish {ambient");
+					// triangle->getFinish()->setAmbient(strtof(token, NULL));
+					// token = strtok(NULL, "diffuse }");
+					// triangle->getFinish()->setDiffuse(strtof(token, NULL));
 
 					/* Add triangle to vector list of Geometry */
 					allGeometry->push_back(triangle);
@@ -261,4 +264,55 @@ void fillPigment(char *line, Geometry *geom) {
 	}
 	else
 		geom->getPigment()->setF(1);
+}
+
+void fillFinish(char *line, Geometry *geom) {
+	char finishLine[100], *token;
+	int length = 0;
+
+	for (int i = 0, j = 0; i < 80; i++) {
+		if (line[i] == '{')
+			;
+		else {
+			finishLine[j++] = line[i];
+			length++;
+		}
+	}
+	token = strtok(finishLine, " \t");
+
+	while ((token = strtok(NULL, " \t"))) {
+		if (!geom->getFinish()->getAmbient() && !strcmp(token, "ambient")) {
+			token = strtok(NULL, " \t}");;
+			geom->getFinish()->setAmbient(strtof(token, NULL));
+		}
+		else if (!geom->getFinish()->getDiffuse() && !strcmp(token, "diffuse")) {
+			token = strtok(NULL, " \t}");
+			geom->getFinish()->setDiffuse(strtof(token, NULL));
+		}
+		else if (!geom->getFinish()->getSpecular() && !strcmp(token, "specular")) {
+			token = strtok(NULL, " \t}");
+			geom->getFinish()->setSpecular(strtof(token, NULL));
+		}
+		else if (!strcmp(token, "roughness")) {
+			token = strtok(NULL, " \t}");
+			geom->getFinish()->setRoughness(strtof(token, NULL));
+		}
+		else if (!geom->getFinish()->getRefract() && !strcmp(token, "refraction")) {
+			token = strtok(NULL, " \t}");
+			geom->getFinish()->setRefract(strtof(token, NULL));
+		}
+		else if (!geom->getFinish()->getReflect() && !strcmp(token, "reflection")) {
+			token = strtok(NULL, " \t}");
+			geom->getFinish()->setReflect(strtof(token, NULL));
+		}
+		else if (!geom->getFinish()->getIor() && !strcmp(token, "ior")) {
+			token = strtok(NULL, " \t}");
+			geom->getFinish()->setIor(strtof(token, NULL));
+		}
+		//else {
+		//	return false;
+		//}
+	}
+
+//	return true;
 }
