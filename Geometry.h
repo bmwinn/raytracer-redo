@@ -31,14 +31,19 @@ public:
 	virtual void printType();
 	virtual float intersect(Ray *ray);
 	
-	virtual void blinnPhong(Ray *ray, float rayDistance, Pigment *pixelPigment, Light *light, Camera *camera, vector<Geometry *> *allGeometry);
-	void blinnPhongAmbient(Pigment *pixelPigment, Light *light);
-	void blinnPhongDiffuse(Pigment *pixelPigment, Light *light);
-	void blinnPhongSpecular(Pigment *pixelPigment, Light *light, Camera *camera);
+	// virtual void blinnPhong(Ray *ray, float rayDistance, Pigment *pixelPigment, Light *light, Camera *camera, vector<Geometry *> *allGeometry);
+	virtual void blinnPhong(Ray *ray, float rayDistance);
+	// void blinnPhongAmbient(Pigment *pixelPigment, Light *light);
+	void blinnPhongAmbient();
+	// void blinnPhongDiffuse(Pigment *pixelPigment, Light *light);
+	void blinnPhongDiffuse();
+	// void blinnPhongSpecular(Pigment *pixelPigment, Light *light, Camera *camera);
+	void blinnPhongSpecular();
 	void setOnGeom(Ray *ray, float rayDistance);
 	void resetPigments();
 
-	bool shadowFeeler(Light *light, vector<Geometry *> *allGeometry);
+	// bool shadowFeeler(Light *light, vector<Geometry *> *allGeometry);
+	bool shadowFeeler();
 
 	void setNormal(Vector *n);
 	void setPigment(Pigment *p);
@@ -53,6 +58,11 @@ public:
 
 	Ray feeler; // stores shadow feeler for Blinn Phong
 	Vector normal;
+
+	Light *light;
+	Camera *camera;
+	vector<Geometry *> *allGeometry;
+	Pigment *pixel;
 
 private:
 	Pigment pigment; // stores object color

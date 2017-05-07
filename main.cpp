@@ -26,7 +26,7 @@ void setColor(color_t *color, Pigment *pixelPigment) {
 }
 
 int main(int argc, char *argv[]) {
-	int width, height, curGeom;
+	int width, height, intGeom;
 	string input, outTGA;
 	float distance, closestDistance;
 	string test;
@@ -66,7 +66,7 @@ int main(int argc, char *argv[]) {
 		for (int j = 0; j < height; j++) {
 			Ray *ray = new Ray(i, j, width, height, &camera);
 			closestDistance = 10000;
-			curGeom = 0;
+			intGeom = 0;
 			Pigment *pixelPigment = new Pigment();
 
 			/* Initialize current pixel to background color */
@@ -74,15 +74,18 @@ int main(int argc, char *argv[]) {
 
 			/* Loop through geometry */
 			for (int g = 0; g < allGeometry.size(); g++) {
+				Geometry *curGeom = allGeometry.at(g);
+				/* CurGeom set to fill pixel */
+				curGeom->pixel = pixelPigment;
 				/* Find distance along ray to current geometry */
-				distance = allGeometry.at(g)->intersect(ray);
+				distance = curGeom->intersect(ray);
 
 				/* Update closest distance from camera to geometry */
 				if (distance > 0 && distance < closestDistance) {
 				    closestDistance = distance;
-				    curGeom = g;
+				    intGeom = g;
 				    pixelPigment->reset();
-				    allGeometry.at(g)->blinnPhong(ray, closestDistance, pixelPigment, &light, &camera, &allGeometry);
+				    curGeom->blinnPhong(ray, closestDistance);
 				    pixelPigment->setColorT(&color);
 				    setColor(&color, pixelPigment);
 
@@ -93,7 +96,7 @@ int main(int argc, char *argv[]) {
 
 			/* Print unit test results */ 
 			// printUnitTest(&test, i, j, closestDistance, ray, pixelPigment, &color);
-			// printUnitTest2(&test, i, j, curGeom, closestDistance, ray, allGeometry.at(curGeom), &light, &camera);
+			// printUnitTest2(&test, i, j, intGeom, closestDistance, ray, allGeometry.at(intGeom), &light, &camera);
 
 			for (int g = 0; g < allGeometry.size(); g++) {
 				allGeometry.at(g)->pigmentA.reset();

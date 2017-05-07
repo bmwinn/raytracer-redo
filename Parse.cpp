@@ -24,6 +24,12 @@ int fileOps(int argc, char *argv[], int *width, int *height, string *test, vecto
 	*height = stoi(argv[2], NULL);
 	*test = string(argv[3]);
 
+	for (int g = 0; g < allGeometry->size(); g++) {
+		allGeometry->at(g)->light = light;
+		allGeometry->at(g)->camera = camera;
+		allGeometry->at(g)->allGeometry = allGeometry;
+	}
+
 	return 0;
 }
 

@@ -42,12 +42,12 @@ float Plane::intersect(Ray *ray) {
 	return distance;
 }
 
-void Plane::blinnPhong(Ray *ray, float rayDistance, Pigment *pixelPigment, Light *light, Camera *camera, vector<Geometry *> *allGeometry) {
+void Plane::blinnPhong(Ray *ray, float rayDistance) {
 	Geometry::setOnGeom(ray, rayDistance);
-	blinnPhongAmbient(pixelPigment, light);
+	blinnPhongAmbient();
 
-	bool noShadow = shadowFeeler(light, allGeometry);
+	bool noShadow = shadowFeeler();
 	if (noShadow) {
-		blinnPhongDiffuse(pixelPigment, light);
+		blinnPhongDiffuse();
 	}
 }

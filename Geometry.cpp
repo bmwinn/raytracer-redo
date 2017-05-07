@@ -48,11 +48,11 @@ void Geometry::setOnGeom(Ray *ray, float rayDistance) {
 	onGeom.z = ray->getStart()->z + rayDistance * ray->getDirection()->z;
 }
 
-void Geometry::blinnPhong(Ray *ray, float rayDistance, Pigment *pixelPigment, Light *light, Camera *camera, vector<Geometry *> *allGeometry) {
-	cout << "Geometry object Blinn Phong." << endl;
-}
+// void Geometry::blinnPhong(Ray *ray, float rayDistance, Pigment *pixelPigment, Light *light, Camera *camera, vector<Geometry *> *allGeometry) {
+void Geometry::blinnPhong(Ray *ray, float rayDistance) { cout << "Geometry object Blinn Phong." << endl; }
 
-void Geometry::blinnPhongAmbient(Pigment *pixelPigment, Light *light) {
+// void Geometry::blinnPhongAmbient(Pigment *pixelPigment, Light *light) {
+void Geometry::blinnPhongAmbient() {
 	Pigment cappedLight = Pigment(light->getPigment()->getR(), light->getPigment()->getG(), light->getPigment()->getB());
 	if (cappedLight.getR() > 1)
 		cappedLight.setR(1);
@@ -67,15 +67,17 @@ void Geometry::blinnPhongAmbient(Pigment *pixelPigment, Light *light) {
 	pigmentA.setG(finish.getAmbient() * pigment.getG() * cappedLight.getG());
 	pigmentA.setB(finish.getAmbient() * pigment.getB() * cappedLight.getB());
 
-	*pixelPigment += &pigmentA;
+	*pixel += &pigmentA;
 }
 
-void Geometry::blinnPhongDiffuse(Pigment *pixelPigment, Light *light) {
+// void Geometry::blinnPhongDiffuse(Pigment *pixelPigment, Light *light) {
+void Geometry::blinnPhongDiffuse() {
 	float zero = 0;
 
-	Vector lightVector = Vector(light->getCenter()->x - onGeom.x,
-								light->getCenter()->y - onGeom.y,
-								light->getCenter()->z - onGeom.z);
+	// Vector lightVector = Vector(light->getCenter()->x - onGeom.x,
+	// 							light->getCenter()->y - onGeom.y,
+	// 							light->getCenter()->z - onGeom.z);
+	Vector lightVector = *light->getCenter() - onGeom;
 	lightVector.normalize();
 
 	float dp = max(normal.dot(&lightVector), zero);
@@ -83,19 +85,22 @@ void Geometry::blinnPhongDiffuse(Pigment *pixelPigment, Light *light) {
 	pigmentD.setG(finish.getDiffuse() * pigment.getG() * light->getPigment()->getG() * dp);
 	pigmentD.setB(finish.getDiffuse() * pigment.getB() * light->getPigment()->getB() * dp);
 	
-	*pixelPigment += &pigmentD;
+	// *pixelPigment += &pigmentD;
+	*pixel += &pigmentD;
 }
 
-void Geometry::blinnPhongSpecular(Pigment *pixelPigment, Light *light, Camera *camera) {
+void Geometry::blinnPhongSpecular() {
 	float zero = 0;
 
-	Vector lightVector = Vector(light->getCenter()->x - onGeom.x,
-								light->getCenter()->y - onGeom.y,
-								light->getCenter()->z - onGeom.z);
-	Vector view = Vector(camera->getCenter()->x - onGeom.x,
-						 camera->getCenter()->y - onGeom.y,
-						 camera->getCenter()->z - onGeom.z);
+	// Vector lightVector = Vector(light->getCenter()->x - onGeom.x,
+	// 							light->getCenter()->y - onGeom.y,
+	// 							light->getCenter()->z - onGeom.z);
+	// Vector view = Vector(camera->getCenter()->x - onGeom.x,
+	// 					 camera->getCenter()->y - onGeom.y,
+	// 					 camera->getCenter()->z - onGeom.z);
 
+	Vector lightVector = *light->getCenter() - onGeom;
+	Vector view = *camera->getCenter() - onGeom;
 	lightVector.normalize();
 	view.normalize();
 
@@ -109,18 +114,21 @@ void Geometry::blinnPhongSpecular(Pigment *pixelPigment, Light *light, Camera *c
 	pigmentS.setG(finish.getSpecular() * pigment.getG() * light->getPigment()->getG() * shine);
 	pigmentS.setB(finish.getSpecular() * pigment.getB() * light->getPigment()->getB() * shine);
 
-	*pixelPigment += &pigmentS;
+	// *pixelPigment += &pigmentS;
+	*pixel += &pigmentS;
 }
 
 // Send shadow feeler ray from current geometry
 // Return boolean that determines if another object blockes the light source from current object
-bool Geometry::shadowFeeler(Light *light, vector<Geometry *> *allGeometry) {
+// bool Geometry::shadowFeeler(Light *light, vector<Geometry *> *allGeometry) {
+bool Geometry::shadowFeeler() {
 	float dist = 0;
 	float lightDistance = onGeom.distance(light->getCenter());
 
-	Vector feelVector = Vector(light->getCenter()->x - onGeom.x,
-								light->getCenter()->y - onGeom.y,
-								light->getCenter()->z - onGeom.z);
+	// Vector feelVector = Vector(light->getCenter()->x - onGeom.x,
+	// 							light->getCenter()->y - onGeom.y,
+	// 							light->getCenter()->z - onGeom.z);
+	Vector feelVector = *light->getCenter() - onGeom;
 	feelVector.normalize();
 	feeler = Ray(onGeom, feelVector);
 
