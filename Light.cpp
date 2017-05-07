@@ -11,14 +11,15 @@ Light::Light(Point center, Pigment pigment) {
 }
 
 void Light::Print() {
-	cout << "light {<" << center.getX() << ", " << center.getY() << ", " << center.getZ() << "> ";
+	cout << "light {<" << center.x << ", " << center.y << ", " << center.z << "> ";
 	cout << "color <" << pigment.getR() << ", " << pigment.getG() << ", " << pigment.getB() << ", " << pigment.getF() << ">}" << endl;
 }
 
 void Light::setCenter(Point *c) {
-	center.setX(c->getX());
-	center.setY(c->getY());
-	center.setZ(c->getZ());
+	center = *c;
+	// center.setX(c->getX());
+	// center.setY(c->getY());
+	// center.setZ(c->getZ());
 }
 void Light::setPigment(Pigment *p) {
 	pigment.setR(p->getR());

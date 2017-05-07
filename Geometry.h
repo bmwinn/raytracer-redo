@@ -11,6 +11,7 @@
 #include <cmath>
 #include <iostream>
 #include <vector>
+#include <string>
 
 using namespace std;
 
@@ -27,7 +28,8 @@ public:
 	void SetPigment(Pigment *pigment);
 	void SetFinish(Finish *finish);
 	virtual void print();
-	virtual float intersect(Ray *ray, Point *point);
+	virtual void printType();
+	virtual float intersect(Ray *ray);
 	
 	virtual void blinnPhong(Ray *ray, float rayDistance, Pigment *pixelPigment, Light *light, Camera *camera, vector<Geometry *> *allGeometry);
 	void blinnPhongAmbient(Pigment *pixelPigment, Light *light);
@@ -50,9 +52,9 @@ public:
 	Pigment pigmentA, pigmentD, pigmentS; // stores Ambient, Diffuse, Specular pigments during BP
 
 	Ray feeler; // stores shadow feeler for Blinn Phong
+	Vector normal;
 
 private:
-	Vector normal;
 	Pigment pigment; // stores object color
 	Finish finish;
 };

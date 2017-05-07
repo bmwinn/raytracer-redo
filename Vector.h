@@ -16,26 +16,14 @@ public:
 	void print();
 
 	void operator*=(float scalar);
+	Vector operator-(Vector other);
+	Vector operator+(Vector other);
 
-	// add to vector:
-	// vector = point - point;
-	// vector = vector + vector
-
-	void setX(float x);
-	void setY(float y);
-	void setZ(float z);
 	void setMagnitude(float x, float y, float z);
-	void setMagnitude(float magnitude);
 	void setMagnitude(Vector *other);
 	
-	float getX();
-	float getY();
-	float getZ();
-	float getMagnitude();
-
-private:
-	// make public
-	float x, y, z, magnitude;
+	float x, y, z;
+	float magnitude;
 };
 
 #endif

@@ -32,17 +32,20 @@ Geometry::Geometry(Vector *n, Pigment *p, Finish *f) {
 void Geometry::print() {
 	cout << "This is a Geometry object." << endl;
 }
+void Geometry::printType() {
+	cout << "Geometry" << endl;
+}
 
 /* Virtual function, should not be called */
-float Geometry::intersect(Ray *ray, Point *point) {
+float Geometry::intersect(Ray *ray) {
 	cout << "Geometry object intersect." << endl;
 	return 10000;
 }
 
 void Geometry::setOnGeom(Ray *ray, float rayDistance) {
-	onGeom.setX(ray->getStart()->getX() + rayDistance * ray->getDirection()->getX());
-	onGeom.setY(ray->getStart()->getY() + rayDistance * ray->getDirection()->getY());
-	onGeom.setZ(ray->getStart()->getZ() + rayDistance * ray->getDirection()->getZ());
+	onGeom.x = ray->getStart()->x + rayDistance * ray->getDirection()->x;
+	onGeom.y = ray->getStart()->y + rayDistance * ray->getDirection()->y;
+	onGeom.z = ray->getStart()->z + rayDistance * ray->getDirection()->z;
 }
 
 void Geometry::blinnPhong(Ray *ray, float rayDistance, Pigment *pixelPigment, Light *light, Camera *camera, vector<Geometry *> *allGeometry) {
@@ -70,9 +73,9 @@ void Geometry::blinnPhongAmbient(Pigment *pixelPigment, Light *light) {
 void Geometry::blinnPhongDiffuse(Pigment *pixelPigment, Light *light) {
 	float zero = 0;
 
-	Vector lightVector = Vector(light->getCenter()->getX() - onGeom.getX(),
-								light->getCenter()->getY() - onGeom.getY(),
-								light->getCenter()->getZ() - onGeom.getZ());
+	Vector lightVector = Vector(light->getCenter()->x - onGeom.x,
+								light->getCenter()->y - onGeom.y,
+								light->getCenter()->z - onGeom.z);
 	lightVector.normalize();
 
 	float dp = max(normal.dot(&lightVector), zero);
@@ -86,17 +89,17 @@ void Geometry::blinnPhongDiffuse(Pigment *pixelPigment, Light *light) {
 void Geometry::blinnPhongSpecular(Pigment *pixelPigment, Light *light, Camera *camera) {
 	float zero = 0;
 
-	Vector lightVector = Vector(light->getCenter()->getX() - onGeom.getX(),
-								light->getCenter()->getY() - onGeom.getY(),
-								light->getCenter()->getZ() - onGeom.getZ());
-	Vector view = Vector(camera->getCenter()->getX() - onGeom.getX(),
-						 camera->getCenter()->getY() - onGeom.getY(),
-						 camera->getCenter()->getZ() - onGeom.getZ());
+	Vector lightVector = Vector(light->getCenter()->x - onGeom.x,
+								light->getCenter()->y - onGeom.y,
+								light->getCenter()->z - onGeom.z);
+	Vector view = Vector(camera->getCenter()->x - onGeom.x,
+						 camera->getCenter()->y - onGeom.y,
+						 camera->getCenter()->z - onGeom.z);
 
 	lightVector.normalize();
 	view.normalize();
 
-	Vector half = Vector(view.getX() + lightVector.getX(), view.getY() + lightVector.getY(), view.getZ() + lightVector.getZ());
+	Vector half = view + lightVector;
 	half.normalize();
 
 	float shiny = 1.0/finish.getRoughness();
@@ -115,14 +118,15 @@ bool Geometry::shadowFeeler(Light *light, vector<Geometry *> *allGeometry) {
 	float dist = 0;
 	float lightDistance = onGeom.distance(light->getCenter());
 
-	Vector feelVector = Vector(light->getCenter()->getX() - onGeom.getX(),
-								light->getCenter()->getY() - onGeom.getY(),
-								light->getCenter()->getZ() - onGeom.getZ());
+	Vector feelVector = Vector(light->getCenter()->x - onGeom.x,
+								light->getCenter()->y - onGeom.y,
+								light->getCenter()->z - onGeom.z);
 	feelVector.normalize();
 	feeler = Ray(onGeom, feelVector);
 
 	for (int geom = 0; geom < allGeometry->size(); geom++) {
-		dist = allGeometry->at(geom)->intersect(&feeler, &onGeom);
+		// dist = allGeometry->at(geom)->intersect(&feeler, &onGeom);
+		dist = allGeometry->at(geom)->intersect(&feeler);
 
 		// if object with positive distance is closer than light source
 		if (dist > 0.001 && dist < lightDistance)
@@ -133,10 +137,8 @@ bool Geometry::shadowFeeler(Light *light, vector<Geometry *> *allGeometry) {
 }
 
 void Geometry::setNormal(Vector *n) {
-	normal.setX(n->getX());
-	normal.setY(n->getY());
-	normal.setZ(n->getZ());
-	normal.setMagnitude(n->getMagnitude());
+	normal = *n;
+	normal.magnitude = n->magnitude;
 }
 void Geometry::setPigment(Pigment *p) {
 	pigment.setR(p->getR());

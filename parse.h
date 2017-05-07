@@ -1,6 +1,13 @@
 #ifndef _PARSE_H_
 #define _PARSE_H_
 
+#include <vector>
+#include <stdio.h>
+#include <iostream>
+#include <fstream>
+#include <string.h>
+#include <string>
+
 #include "Point.h"
 #include "Vector.h"
 #include "Ray.h"
@@ -9,13 +16,7 @@
 #include "Geometry.h"
 #include "Sphere.h"
 #include "Plane.h"
-
-#include <vector>
-#include <stdio.h>
-#include <iostream>
-#include <fstream>
-#include <string.h>
-#include <string>
+#include "Triangle.h"
 
 using namespace std;
 

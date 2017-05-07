@@ -31,6 +31,7 @@ int fileOps(int argc, char *argv[], int *width, int *height, string *test, vecto
 void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Light *light) {
 	Sphere *sphere;
 	Plane *plane;
+	Triangle *triangle;
 	int rgbf;
 	char line[100], *token;
 
@@ -48,38 +49,38 @@ void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Lig
 
 					/* Fill in Camera center point */
 					token = strtok(line, " \tlocation<,");
-					camera->getCenter()->setX(strtof(token, NULL));
+					camera->getCenter()->x = strtof(token, NULL);
 					token = strtok(NULL, ", ");
-					camera->getCenter()->setY(strtof(token, NULL));
+					camera->getCenter()->y = strtof(token, NULL);
 					token = strtok(NULL, ", >");
-					camera->getCenter()->setZ(strtof(token, NULL));
+					camera->getCenter()->z = strtof(token, NULL);
 
 					/* Fill in Camera up vector */
 					povray->getline(line, 99);
 					token = strtok(line, " \tup<,");
-					camera->getUp()->setX(strtof(token, NULL));
+					camera->getUp()->x = strtof(token, NULL);
 					token = strtok(NULL, ", ");
-					camera->getUp()->setY(strtof(token, NULL));
+					camera->getUp()->y = strtof(token, NULL);
 					token = strtok(NULL, ", >");
-					camera->getUp()->setZ(strtof(token, NULL));
+					camera->getUp()->z = strtof(token, NULL);
 
 					/* Fill in Camera right vector */
 					povray->getline(line, 99);
 					token = strtok(line, " \tright<,");
-					camera->getRight()->setX(strtof(token, NULL));
+					camera->getRight()->x = strtof(token, NULL);
 					token = strtok(NULL, ", ");
-					camera->getRight()->setY(strtof(token, NULL));
+					camera->getRight()->y = strtof(token, NULL);
 					token = strtok(NULL, ", >");
-					camera->getRight()->setZ(strtof(token, NULL));
+					camera->getRight()->z = strtof(token, NULL);
 
 					/* Fill in Camera lookat point */
 					povray->getline(line, 99);
 					token = strtok(line, " \tlook_at<,");
-					camera->getLookAt()->setX(strtof(token, NULL));
+					camera->getLookAt()->x = strtof(token, NULL);
 					token = strtok(NULL, ", ");
-					camera->getLookAt()->setY(strtof(token, NULL));
+					camera->getLookAt()->y = strtof(token, NULL);
 					token = strtok(NULL, ", >");
-					camera->getLookAt()->setZ(strtof(token, NULL));
+					camera->getLookAt()->z = strtof(token, NULL);
 
 					/* Initialize magnitude of up and right vectors */
 					camera->getUp()->setMagnitude(camera->getUp());
@@ -90,11 +91,11 @@ void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Lig
 
 					/* Fill in Light center point */
 					token = strtok(NULL, " {<,");
-					light->getCenter()->setX(strtof(token, NULL));
+					light->getCenter()->x = strtof(token, NULL);
 					token = strtok(NULL, " {<,");
-					light->getCenter()->setY(strtof(token, NULL));
+					light->getCenter()->y = strtof(token, NULL);
 					token = strtok(NULL, " {<,");
-					light->getCenter()->setZ(strtof(token, NULL));
+					light->getCenter()->z = strtof(token, NULL);
 
 					strtok(NULL, " ");
 					token = strtok(NULL, " ");
@@ -123,11 +124,11 @@ void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Lig
 
 					/* Fill in sphere center point */
 					token = strtok(NULL, " {<,");
-					sphere->getCenter()->setX(strtof(token, NULL));
+					sphere->getCenter()->x = strtof(token, NULL);
 					token = strtok(NULL, " ,");
-					sphere->getCenter()->setY(strtof(token, NULL));
+					sphere->getCenter()->y = strtof(token, NULL);
 					token = strtok(NULL, " >");
-					sphere->getCenter()->setZ(strtof(token, NULL));
+					sphere->getCenter()->z = strtof(token, NULL);
 
 					/* Fill in sphere radius */
 					token = strtok(NULL, " ,");
@@ -174,15 +175,21 @@ void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Lig
 
 					/* Fill in plane normal vector */
 					token = strtok(NULL, " {<,");
-					plane->getNormal()->setX(strtof(token, NULL));
+					plane->normal.x = strtof(token, NULL);
 					token = strtok(NULL, " ,");
-					plane->getNormal()->setY(strtof(token, NULL));
+					plane->normal.y = strtof(token, NULL);
 					token = strtok(NULL, " ,>");
-					plane->getNormal()->setZ(strtof(token, NULL));
+					plane->normal.z = strtof(token, NULL);
+
+					/* Set Magnitude of normal vector */
+					plane->normal.setMagnitude(plane->getNormal());
+					plane->normal.normalize();
 
 					/* Fill in distance along plane normal */
 					token = strtok(NULL, " ,");
 					plane->setDistance(strtof(token, NULL));
+
+					plane->setOnGeom();
 
 					/* Fill in plane Pigment */
 					povray->getline(line, 99);
@@ -213,12 +220,73 @@ void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Lig
 					token = strtok(NULL, "diffuse ");
 					plane->getFinish()->setDiffuse(strtof(token, NULL));
 
-					/* Set Magnitude of normal vector */
-					plane->getNormal()->setMagnitude(plane->getNormal());
-					
 					/* Add plane to vector list of Geometry */
 					allGeometry->push_back(plane);
 				}
+				else if (!strcmp(token, "triangle")) {
+					triangle = new Triangle();
+
+					/* Fill in triangle vertexA */
+					povray->getline(line, 99);
+					token = strtok(line, " \t{<,");
+					triangle->vertexA.x = strtof(token, NULL);
+					token = strtok(NULL, " ,");
+					triangle->vertexA.y = strtof(token, NULL);
+					token = strtok(NULL, " ,>");
+					triangle->vertexA.z = strtof(token, NULL);
+
+					/* Fill in triangle vertexB */
+					povray->getline(line, 99);
+					token = strtok(line, " \t{<,");
+					triangle->vertexB.x = strtof(token, NULL);
+					token = strtok(NULL, " ,");
+					triangle->vertexB.y = strtof(token, NULL);
+					token = strtok(NULL, " ,>");
+					triangle->vertexB.z = strtof(token, NULL);
+
+					/* Fill in triangle vertexC */
+					povray->getline(line, 99);
+					token = strtok(line, " \t{<,");
+					triangle->vertexC.x = strtof(token, NULL);
+					token = strtok(NULL, " ,");
+					triangle->vertexC.y = strtof(token, NULL);
+					token = strtok(NULL, " ,>");
+					triangle->vertexC.z = strtof(token, NULL);
+
+					triangle->setVectors();
+
+					/* Fill in triangle Pigment */
+					povray->getline(line, 99);
+					token = strtok(line, "pigment {");
+					token = strtok(NULL, " ");
+
+					/* Determine if Pigment is rgb or rgbf */
+					rgbf = !strcmp(token, "rgbf");
+
+					token = strtok(NULL, " <,");
+					triangle->getPigment()->setR(strtof(token, NULL));
+					token = strtok(NULL, " ,");
+					triangle->getPigment()->setG(strtof(token, NULL));
+					token = strtok(NULL, " ,>}");
+					triangle->getPigment()->setB(strtof(token, NULL));
+
+					if (rgbf) {
+						token = strtok(NULL, " ,>}");
+						triangle->getPigment()->setF(strtof(token, NULL));
+					}
+					else
+						triangle->getPigment()->setF(1);
+
+					/* Fill in triangle Finish */
+					povray->getline(line, 99);
+					token = strtok(line, "finish {ambient");
+					triangle->getFinish()->setAmbient(strtof(token, NULL));
+					token = strtok(NULL, "diffuse }");
+					triangle->getFinish()->setDiffuse(strtof(token, NULL));
+
+					/* Add triangle to vector list of Geometry */
+					allGeometry->push_back(triangle);
+				}				
 			}
 		}
 	}

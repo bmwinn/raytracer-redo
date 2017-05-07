@@ -16,34 +16,38 @@ Camera::Camera(Point center, Vector up, Vector right, Point lookat) {
 
 void Camera::print() {
 	cout << "camera {" << endl;
-	cout << "  location   <" << center.getX() << ", " << center.getY() << ", " << center.getZ() << ">" << endl;
-	cout << "  up         <" << up.getX() << ", " << up.getY() << ", " << up.getZ() << ">" << endl;
-	cout << "  right      <" << right.getX() << ", " << right.getY() << ", " << right.getZ() << ">" << endl;
-	cout << "  look_at    <" << lookat.getX() << ", " << lookat.getY() << ", " << lookat.getZ() << ">" << endl;
+	cout << "  location   <" << center.x << ", " << center.y << ", " << center.z << ">" << endl;
+	cout << "  up         <" << up.x << ", " << up.y << ", " << up.z << ">" << endl;
+	cout << "  right      <" << right.x << ", " << right.y << ", " << right.z << ">" << endl;
+	cout << "  look_at    <" << lookat.x << ", " << lookat.y << ", " << lookat.z << ">" << endl;
 	cout << "}" << endl;
 }
 
 void Camera::setCenter(Point *c) {
-	center.setX(c->getX());
-	center.setY(c->getY());
-	center.setZ(c->getZ());
+	center = *c;
+	// center.setX(c->getX());
+	// center.setY(c->getY());
+	// center.setZ(c->getZ());
 }
 void Camera::setLookAt(Point *l) {
-	lookat.setX(l->getX());
-	lookat.setY(l->getY());
-	lookat.setZ(l->getZ());
+	lookat = *l;
+	// lookat.setX(l->getX());
+	// lookat.setY(l->getY());
+	// lookat.setZ(l->getZ());
 }
 void Camera::setUp(Vector *u) {
-	up.setX(u->getX());
-	up.setY(u->getY());
-	up.setZ(u->getZ());
-	up.setMagnitude(&up);
+	up = *u;
+	// up.setX(u->getX());
+	// up.setY(u->getY());
+	// up.setZ(u->getZ());
+	up.magnitude = u->magnitude;
 }
 void Camera::setRight(Vector *r) {
-	right.setX(r->getX());
-	right.setY(r->getY());
-	right.setZ(r->getZ());
-	right.setMagnitude(&right);
+	right = *r;
+	// right.setX(r->getX());
+	// right.setY(r->getY());
+	// right.setZ(r->getZ());
+	right.magnitude = r->magnitude;
 }
 
 Point *Camera::getCenter() { return &center; }

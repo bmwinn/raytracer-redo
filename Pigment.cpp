@@ -19,6 +19,10 @@ void Pigment::reset() {
 	f = 1;
 }
 
+void Pigment::print() {
+	cout << "pigment " << r << " " << g << " " << b << endl;
+}
+
 void Pigment::operator+=(Pigment *other) {
 	r += other->getR();
 	g += other->getG();
