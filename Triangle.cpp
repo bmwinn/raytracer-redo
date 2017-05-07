@@ -50,7 +50,7 @@ void Triangle::print() {
 	getFinish()->print();
 	cout << "}" << endl << endl;
 }
-float Triangle::intersect(Ray *ray) {
+float Triangle::intersect(Ray *ray, Point *point) {
 	float distance, t, gamma, beta;
 	float M, a, b, c, d, e, f, g, h, i, j, k, l;
 

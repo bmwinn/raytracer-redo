@@ -225,7 +225,7 @@ void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Lig
 
 					/* Fill in triangle vertexA */
 					povray->getline(line, 99);
-					token = strtok(NULL, " \t{<,");
+					token = strtok(line, " \t{<,");
 					triangle->vertexA.setX(strtof(token, NULL));
 					token = strtok(NULL, " ,");
 					triangle->vertexA.setY(strtof(token, NULL));
@@ -234,7 +234,7 @@ void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Lig
 
 					/* Fill in triangle vertexB */
 					povray->getline(line, 99);
-					token = strtok(NULL, " \t{<,");
+					token = strtok(line, " \t{<,");
 					triangle->vertexB.setX(strtof(token, NULL));
 					token = strtok(NULL, " ,");
 					triangle->vertexB.setY(strtof(token, NULL));
@@ -243,7 +243,7 @@ void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Lig
 
 					/* Fill in triangle vertexC */
 					povray->getline(line, 99);
-					token = strtok(NULL, " \t{<,");
+					token = strtok(line, " \t{<,");
 					triangle->vertexC.setX(strtof(token, NULL));
 					token = strtok(NULL, " ,");
 					triangle->vertexC.setY(strtof(token, NULL));
@@ -278,7 +278,7 @@ void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Lig
 					povray->getline(line, 99);
 					token = strtok(line, "finish {ambient");
 					triangle->getFinish()->setAmbient(strtof(token, NULL));
-					token = strtok(NULL, "diffuse ");
+					token = strtok(NULL, "diffuse }");
 					triangle->getFinish()->setDiffuse(strtof(token, NULL));
 
 					/* Add triangle to vector list of Geometry */

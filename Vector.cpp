@@ -19,6 +19,7 @@ void Vector::cross(Vector *other, Vector *result) {
 	result->x = y * other->z - z * other->y;
 	result->y = -1 * (x * other->z - z * other->x);
 	result->z = x * other->y - y * other->x;
+	result->setMagnitude(result->x, result->y, result->z);
 }
 
 void Vector::normalize() {

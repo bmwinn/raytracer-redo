@@ -16,7 +16,7 @@ public:
 	Triangle();
 	Triangle(Point *vA, Point *vB, Point *vC);
 	void print();
-	float intersect(Ray *ray);
+	float intersect(Ray *ray, Point *point);
 	void blinnPhong(Ray *ray, float rayDistance, Pigment *pixelPigment, Light *light, Camera *camera, 
 	    vector<Geometry *> *allGeometry);
 	// void blinnPhong(Ray *ray, float rayDist);

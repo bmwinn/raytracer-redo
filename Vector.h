@@ -34,8 +34,8 @@ public:
 	float getMagnitude();
 
 private:
-	// make public
-	float x, y, z, magnitude;
+	float x, y, z;
+	float magnitude;
 };
 
 #endif
