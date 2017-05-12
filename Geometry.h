@@ -39,26 +39,43 @@ public:
 	void setOnGeom(Ray *ray, float rayDistance);
 	void setNormal(Vector *n);
 	void setPigment(Pigment *p);
+	void setPigmentA(Pigment *pA);
+	void setPigmentD(Pigment *pD);
+	void setPigmentS(Pigment *pS);
 	void setFinish(Finish *f);
+	void setLight(Light *l);
+	void setCamera(Camera *c);
+	void setAllGeometry(vector<Geometry *> *aG);
+	void setFeeler(Ray *f);
+	void setPixel(Pigment *p);
 
 	Vector *getNormal();
 	Pigment *getPigment();
+	Pigment *getPigmentA();
+	Pigment *getPigmentD();
+	Pigment *getPigmentS();
 	Finish *getFinish();
+	Light *getLight();
+	Camera *getCamera();
+	vector<Geometry *> *getAllGeometry();
+	Ray *getFeeler();
+	Pigment *getPixel();
 
+protected:
 	Point onGeom; // stores point on geometry surface
-	Pigment pigmentA, pigmentD, pigmentS; // stores Ambient, Diffuse, Specular pigments during BP
-
-	Ray feeler; // stores shadow feeler for Blinn Phong
 	Vector normal;
+
+	Pigment pigment; // stores object color
+	Pigment pigmentA, pigmentD, pigmentS; // stores Ambient, Diffuse, Specular pigments during BP
+	Finish finish;
 
 	Light *light;
 	Camera *camera;
 	vector<Geometry *> *allGeometry;
-	Pigment *pixel;
 
 private:
-	Pigment pigment; // stores object color
-	Finish finish;
+	Ray feeler; // stores shadow feeler for Blinn Phong
+	Pigment pixel;
 };
 
 #endif

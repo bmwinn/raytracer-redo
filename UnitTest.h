@@ -39,9 +39,9 @@ void printUnitTest2(string *test, int i, int j, int curGeom, float closestDistan
 			cout << "\tT=" << closestDistance << endl;
 		}
 
-		cout << "Ambient: (" << geometry->pigmentA.getR() * 255 << ", " << geometry->pigmentA.getG() * 255 << ", " << geometry->pigmentA.getB() * 255 << ") ";
-		cout << "Diffuse: (" << geometry->pigmentD.getR() * 255 << ", " << geometry->pigmentD.getG() * 255 << ", " << geometry->pigmentD.getB() * 255 << ") ";
-		cout << "Specular: (" << geometry->pigmentS.getR() * 255 << ", " << geometry->pigmentS.getG() * 255 << ", " << geometry->pigmentS.getB() * 255 << ")" << endl;
+		cout << "Ambient: (" << geometry->getPigmentA()->getR() * 255 << ", " << geometry->getPigmentA()->getG() * 255 << ", " << geometry->getPigmentA()->getB() * 255 << ") ";
+		cout << "Diffuse: (" << geometry->getPigmentD()->getR() * 255 << ", " << geometry->getPigmentD()->getG() * 255 << ", " << geometry->getPigmentD()->getB() * 255 << ") ";
+		cout << "Specular: (" << geometry->getPigmentS()->getR() * 255 << ", " << geometry->getPigmentS()->getG() * 255 << ", " << geometry->getPigmentS()->getB() * 255 << ")" << endl;
 		// cout << "Feeler: {" << geometry->feeler.direction.x << " " << geometry->feeler.direction.y << " " << geometry->feeler.direction.z << "}" << endl;
 		cout << endl;
 	}

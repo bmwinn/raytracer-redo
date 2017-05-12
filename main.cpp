@@ -76,7 +76,7 @@ int main(int argc, char *argv[]) {
 			for (int g = 0; g < allGeometry.size(); g++) {
 				Geometry *curGeom = allGeometry.at(g);
 				/* CurGeom set to fill pixel */
-				curGeom->pixel = pixelPigment;
+				curGeom->setPixel(pixelPigment);
 				/* Find distance along ray to current geometry */
 				distance = curGeom->intersect(ray);
 
@@ -99,9 +99,9 @@ int main(int argc, char *argv[]) {
 			// printUnitTest2(&test, i, j, intGeom, closestDistance, ray, allGeometry.at(intGeom), &light, &camera);
 
 			for (int g = 0; g < allGeometry.size(); g++) {
-				allGeometry.at(g)->pigmentA.reset();
-				allGeometry.at(g)->pigmentD.reset();
-				allGeometry.at(g)->pigmentS.reset();
+				allGeometry.at(g)->getPigmentA()->reset();
+				allGeometry.at(g)->getPigmentD()->reset();
+				allGeometry.at(g)->getPigmentS()->reset();
 			}
 		}
 	}

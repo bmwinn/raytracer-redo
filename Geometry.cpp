@@ -65,7 +65,7 @@ void Geometry::blinnPhongAmbient() {
 	pigmentA.setG(finish.getAmbient() * pigment.getG() * cappedLight.getG());
 	pigmentA.setB(finish.getAmbient() * pigment.getB() * cappedLight.getB());
 
-	*pixel += &pigmentA;
+	pixel += &pigmentA;
 }
 
 void Geometry::blinnPhongDiffuse() {
@@ -79,7 +79,7 @@ void Geometry::blinnPhongDiffuse() {
 	pigmentD.setG(finish.getDiffuse() * pigment.getG() * light->getPigment()->getG() * dp);
 	pigmentD.setB(finish.getDiffuse() * pigment.getB() * light->getPigment()->getB() * dp);
 	
-	*pixel += &pigmentD;
+	pixel += &pigmentD;
 }
 
 void Geometry::blinnPhongSpecular() {
@@ -100,7 +100,7 @@ void Geometry::blinnPhongSpecular() {
 	pigmentS.setG(finish.getSpecular() * pigment.getG() * light->getPigment()->getG() * shine);
 	pigmentS.setB(finish.getSpecular() * pigment.getB() * light->getPigment()->getB() * shine);
 
-	*pixel += &pigmentS;
+	pixel += &pigmentS;
 }
 
 // Send shadow feeler ray from current geometry
@@ -135,13 +135,45 @@ void Geometry::setPigment(Pigment *p) {
 	pigment.setB(p->getB());
 	pigment.setF(p->getF());
 }
+void Geometry::setPigmentA(Pigment *pA) {
+	pigmentA.setR(pA->getR());
+	pigmentA.setG(pA->getG());
+	pigmentA.setB(pA->getB());
+	pigmentA.setF(pA->getF());
+}
+void Geometry::setPigmentD(Pigment *pD) {
+	pigmentD.setR(pD->getR());
+	pigmentD.setG(pD->getG());
+	pigmentD.setB(pD->getB());
+	pigmentD.setF(pD->getF());
+}
+void Geometry::setPigmentS(Pigment *pS) {
+	pigmentS.setR(pS->getR());
+	pigmentS.setG(pS->getG());
+	pigmentS.setB(pS->getB());
+	pigmentS.setF(pS->getF());
+}
+
 void Geometry::setFinish(Finish *f) {
 	finish.setAmbient(f->getAmbient());
 	finish.setDiffuse(f->getDiffuse());
 	finish.setSpecular(f->getSpecular());
 	finish.setRoughness(f->getRoughness());
 }
+void Geometry::setLight(Light *l) { light = l; }
+void Geometry::setCamera(Camera *c) { camera = c; }
+void Geometry::setAllGeometry(vector<Geometry *> *aG) { allGeometry = aG; }
+void Geometry::setFeeler(Ray *f) { feeler = *f; }
+void Geometry::setPixel(Pigment *p) { pixel = *p; }
 
 Vector *Geometry::getNormal() { return &normal; }
 Pigment *Geometry::getPigment() { return &pigment; }
+Pigment *Geometry::getPigmentA() { return &pigmentA; }
+Pigment *Geometry::getPigmentD() { return &pigmentD; }
+Pigment *Geometry::getPigmentS() { return &pigmentS; }
 Finish *Geometry::getFinish() { return &finish; }
+Light *Geometry::getLight() { return light; }
+Camera *Geometry::getCamera() { return camera; }
+vector<Geometry *> *Geometry::getAllGeometry() { return allGeometry; }
+Ray *Geometry::getFeeler() { return &feeler; }
+Pigment *Geometry::getPixel() { return &pixel; }
