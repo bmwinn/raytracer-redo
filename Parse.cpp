@@ -189,29 +189,29 @@ void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Lig
 					/* Fill in triangle vertexA */
 					povray->getline(line, 99);
 					token = strtok(line, " \t{<,");
-					triangle->vertexA.x = strtof(token, NULL);
+					triangle->getVertexA()->x = strtof(token, NULL);
 					token = strtok(NULL, " ,");
-					triangle->vertexA.y = strtof(token, NULL);
+					triangle->getVertexA()->y = strtof(token, NULL);
 					token = strtok(NULL, " ,>");
-					triangle->vertexA.z = strtof(token, NULL);
+					triangle->getVertexA()->z = strtof(token, NULL);
 
 					/* Fill in triangle vertexB */
 					povray->getline(line, 99);
 					token = strtok(line, " \t{<,");
-					triangle->vertexB.x = strtof(token, NULL);
+					triangle->getVertexB()->x = strtof(token, NULL);
 					token = strtok(NULL, " ,");
-					triangle->vertexB.y = strtof(token, NULL);
+					triangle->getVertexB()->y = strtof(token, NULL);
 					token = strtok(NULL, " ,>");
-					triangle->vertexB.z = strtof(token, NULL);
+					triangle->getVertexB()->z = strtof(token, NULL);
 
 					/* Fill in triangle vertexC */
 					povray->getline(line, 99);
 					token = strtok(line, " \t{<,");
-					triangle->vertexC.x = strtof(token, NULL);
+					triangle->getVertexC()->x = strtof(token, NULL);
 					token = strtok(NULL, " ,");
-					triangle->vertexC.y = strtof(token, NULL);
+					triangle->getVertexC()->y = strtof(token, NULL);
 					token = strtok(NULL, " ,>");
-					triangle->vertexC.z = strtof(token, NULL);
+					triangle->getVertexC()->z = strtof(token, NULL);
 
 					triangle->setVectors();
 

@@ -32,6 +32,18 @@ void Triangle::setNormal(Ray *ray) {
 	if (ray->getDirection()->dot(&normal) > 0)
 		normal *= -1;
 }
+void Triangle::setVertexA(Point vA) { vertexA = vA; }
+void Triangle::setVertexB(Point vB) { vertexB = vB; }
+void Triangle::setVertexC(Point vC) { vertexC = vC; }
+void Triangle::setAB(Vector ab) { AB = ab; }
+void Triangle::setAC(Vector ac) { AC = ac; }
+
+
+Point *Triangle::getVertexA() { return &vertexA; }
+Point *Triangle::getVertexB() { return &vertexB; }
+Point *Triangle::getVertexC() { return &vertexC; }
+Vector *Triangle::getAB() { return &AB; }
+Vector *Triangle::getAC() { return &AC; }
 
 void Triangle::print() {
 	cout << "triangle {" << endl << "   ";
