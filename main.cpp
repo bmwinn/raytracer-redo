@@ -69,34 +69,31 @@ int main(int argc, char *argv[]) {
 			intGeom = 0;
 			Pigment *pixelPigment = new Pigment();
 
-			/* Initialize current pixel to background color */
 			img.pixel(i, j, black);
 
 			/* Loop through geometry */
 			for (int g = 0; g < allGeometry.size(); g++) {
 				Geometry *curGeom = allGeometry.at(g);
-				/* CurGeom set to fill pixel */
-				curGeom->setPixel(pixelPigment);
-				/* Find distance along ray to current geometry */
 				distance = curGeom->intersect(ray);
 
 				/* Update closest distance from camera to geometry */
 				if (distance > 0 && distance < closestDistance) {
 				    closestDistance = distance;
 				    intGeom = g;
-				    pixelPigment->reset();
-				    curGeom->blinnPhong(ray, closestDistance);
-				    pixelPigment->setColorT(&color);
-				    setColor(&color, pixelPigment);
 
-					/* Update current pixel color to geometry color */
+				    pixelPigment->reset();
+				    curGeom->setPixel(pixelPigment);
+				    curGeom->blinnPhong(ray, closestDistance);
+				    pixelPigment = curGeom->getPixel();
+
+				    setColor(&color, pixelPigment);
 				    img.pixel(i, j, color);
 				}
 			}
 
 			/* Print unit test results */ 
-			// printUnitTest(&test, i, j, closestDistance, ray, pixelPigment, &color);
-			// printUnitTest2(&test, i, j, intGeom, closestDistance, ray, allGeometry.at(intGeom), &light, &camera);
+			printUnitTest(&test, i, j, closestDistance, ray, pixelPigment, &color);
+			printUnitTest2(&test, i, j, intGeom, closestDistance, ray, allGeometry.at(intGeom), &light, &camera);
 
 			for (int g = 0; g < allGeometry.size(); g++) {
 				allGeometry.at(g)->getPigmentA()->reset();
