@@ -34,7 +34,6 @@ void resetBlinnPhongPigments(vector<Geometry *> *allGeometry) {
 
 void colorPixel(int pixelWidth, int pixelHeight, Pigment *pixelPigment, Image *img, Geometry *curGeom) {
 	color_t color;
-    // pixelPigment->reset();
     pixelPigment = curGeom->getPixel();
     setColor(&color, pixelPigment);
     img->pixel(pixelWidth, pixelHeight, color);
@@ -53,14 +52,14 @@ float geometryLoop(int pixelWidth, int pixelHeight, Image *img, Ray *ray, vector
 			closestDistance = distance;
 			geomIndex = i;
 			curGeom->blinnPhong(ray, closestDistance);
-			colorPixel(i, j, pixelPigment, img, curGeom);
+			colorPixel(pixelWidth, pixelHeight, pixelPigment, img, curGeom);
 		}
 	}
 
 	return geomIndex;
 }
 
-void rayTrace(int width, int height, Camera *camera, Light *light, Image *img, string test) {
+void rayTrace(int width, int height, Camera *camera, Light *light, Image *img, vector<Geometry *> *allGeometry, string test) {
 	float closestDistance;
 	int intGeom;
 	color_t black = {0, 0, 0, 0};
@@ -69,10 +68,10 @@ void rayTrace(int width, int height, Camera *camera, Light *light, Image *img, s
 		for (int j = 0; j < height; j++) {
 			Ray *ray = new Ray(i, j, width, height, camera);
 
-			intGeom = geometryLoop();
+			intGeom = geometryLoop(i, j, img, ray, allGeometry);
 
 			printUnitTest(&test, i, j, closestDistance, ray, pixelPigment, &color);
-			printUnitTest2(&test, i, j, intGeom, closestDistance, ray, allGeometry->at(intGeom), &light, &camera);
+			printUnitTest2(&test, i, j, intGeom, closestDistance, ray, allGeometry->at(intGeom), light, camera);
 
 			resetBlinnPhongPigments(allGeometry);
 		}
