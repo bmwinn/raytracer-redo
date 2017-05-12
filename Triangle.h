@@ -23,6 +23,19 @@ public:
 	void setVectors();
 	void setNormal(Ray *ray);
 
+	void setVertexA(Point vA);
+	void setVertexB(Point vB);
+	void setVertexC(Point vC);
+	void setAB(Vector ab);
+	void setAC(Vector ac);
+
+	Point *getVertexA();
+	Point *getVertexB();
+	Point *getVertexC();
+	Vector *getAB();
+	Vector *getAC();
+
+private:
 	Point vertexA, vertexB, vertexC;
 	Vector AB, AC;
 };

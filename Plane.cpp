@@ -20,9 +20,9 @@ float Plane::getDistance() { return distance; }
 
 void Plane::print() {
 	cout << "plane {";
-	cout << "<" << getNormal()->x << ", " << getNormal()->y << ", " << getNormal()->z<< ">, " << distance << endl;
-	cout << "  pigment {color <" << getPigment()->getR() << ", " << getPigment()->getG() << ", " << getPigment()->getB() << ", " << getPigment()->getF() << ">}" << endl;
-	cout << "  finish {ambient " << getFinish()->getAmbient() << " diffuse " << getFinish()->getDiffuse() << "}" << endl;
+	cout << "<" << normal.x << ", " << normal.y << ", " << normal.z<< ">, " << distance << endl;
+	cout << "  pigment {color <" << pigment.getR() << ", " << pigment.getG() << ", " << pigment.getB() << ", " << pigment.getF() << ">}" << endl;
+	cout << "  finish {ambient " << finish.getAmbient() << " diffuse " << finish.getDiffuse() << "}" << endl;
 	cout << "}" << endl;
 }
 void Plane::printType() { cout << "plane" << endl; }
@@ -34,10 +34,10 @@ float Plane::intersect(Ray *ray) {
 	// Vector difPointPlane = Vector(onGeom.x - ray->getStart()->x, onGeom.y - ray->getStart()->y, onGeom.z - ray->getStart()->z);
 
 	/* If dot product is 0, return no hit */
-	if (ray->getDirection()->dot(getNormal()) == 0)
+	if (ray->getDirection()->dot(&normal) == 0)
 		distance = -1;
 	else
-		distance = difPointPlane.dot(getNormal()) / ray->getDirection()->dot(getNormal());
+		distance = difPointPlane.dot(&normal) / ray->getDirection()->dot(&normal);
 	
 	return distance;
 }

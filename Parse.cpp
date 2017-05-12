@@ -25,9 +25,9 @@ int fileOps(int argc, char *argv[], int *width, int *height, string *test, vecto
 	*test = string(argv[3]);
 
 	for (int g = 0; g < allGeometry->size(); g++) {
-		allGeometry->at(g)->light = light;
-		allGeometry->at(g)->camera = camera;
-		allGeometry->at(g)->allGeometry = allGeometry;
+		allGeometry->at(g)->setLight(light);
+		allGeometry->at(g)->setCamera(camera);
+		allGeometry->at(g)->setAllGeometry(allGeometry);
 	}
 
 	return 0;
@@ -156,15 +156,15 @@ void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Lig
 
 					/* Fill in plane normal vector */
 					token = strtok(NULL, " {<,");
-					plane->normal.x = strtof(token, NULL);
+					plane->getNormal()->x = strtof(token, NULL);
 					token = strtok(NULL, " ,");
-					plane->normal.y = strtof(token, NULL);
+					plane->getNormal()->y = strtof(token, NULL);
 					token = strtok(NULL, " ,>");
-					plane->normal.z = strtof(token, NULL);
+					plane->getNormal()->z = strtof(token, NULL);
 
 					/* Set Magnitude of normal vector */
-					plane->normal.setMagnitude(plane->getNormal());
-					plane->normal.normalize();
+					plane->getNormal()->setMagnitude(plane->getNormal());
+					plane->getNormal()->normalize();
 
 					/* Fill in distance along plane normal */
 					token = strtok(NULL, " ,");
@@ -189,29 +189,29 @@ void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Lig
 					/* Fill in triangle vertexA */
 					povray->getline(line, 99);
 					token = strtok(line, " \t{<,");
-					triangle->vertexA.x = strtof(token, NULL);
+					triangle->getVertexA()->x = strtof(token, NULL);
 					token = strtok(NULL, " ,");
-					triangle->vertexA.y = strtof(token, NULL);
+					triangle->getVertexA()->y = strtof(token, NULL);
 					token = strtok(NULL, " ,>");
-					triangle->vertexA.z = strtof(token, NULL);
+					triangle->getVertexA()->z = strtof(token, NULL);
 
 					/* Fill in triangle vertexB */
 					povray->getline(line, 99);
 					token = strtok(line, " \t{<,");
-					triangle->vertexB.x = strtof(token, NULL);
+					triangle->getVertexB()->x = strtof(token, NULL);
 					token = strtok(NULL, " ,");
-					triangle->vertexB.y = strtof(token, NULL);
+					triangle->getVertexB()->y = strtof(token, NULL);
 					token = strtok(NULL, " ,>");
-					triangle->vertexB.z = strtof(token, NULL);
+					triangle->getVertexB()->z = strtof(token, NULL);
 
 					/* Fill in triangle vertexC */
 					povray->getline(line, 99);
 					token = strtok(line, " \t{<,");
-					triangle->vertexC.x = strtof(token, NULL);
+					triangle->getVertexC()->x = strtof(token, NULL);
 					token = strtok(NULL, " ,");
-					triangle->vertexC.y = strtof(token, NULL);
+					triangle->getVertexC()->y = strtof(token, NULL);
 					token = strtok(NULL, " ,>");
-					triangle->vertexC.z = strtof(token, NULL);
+					triangle->getVertexC()->z = strtof(token, NULL);
 
 					triangle->setVectors();
 
