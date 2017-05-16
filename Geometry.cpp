@@ -9,6 +9,7 @@ Geometry::Geometry() {
 	pigmentA = Pigment();
 	pigmentD = Pigment();
 	pigmentS = Pigment();
+	pixel = Pigment();
 	onGeom = Point();
 }
 
@@ -25,6 +26,7 @@ Geometry::Geometry(Vector *n, Pigment *p, Finish *f) {
 	pigmentA = Pigment();
 	pigmentD = Pigment();
 	pigmentS = Pigment();
+	pixel = Pigment();
 	onGeom = Point();	
 }
 

@@ -38,7 +38,9 @@ int main(int argc, char *argv[]) {
 	}
 
 	Image img(width, height);
-	rayTrace(width, height, &camera, &light, &allGeometry, &img, test);
+	// void rayTrace(int width, int height, Camera *camera, Light *light, Image *img, vector<Geometry *> *allGeometry, string test) {
+	rayTrace(width, height, &camera, &light, &img, &allGeometry, test);
+	// rayTrace(1, 1, &camera, &light, &img, &allGeometry, test);
 // void rayTrace(int width, int height, Camera *camera, Light *light, Image *img, vector<Geometry *> *allGeometry, string test) {
 
 	img.WriteTga((char *)outTGA.c_str(), true);
