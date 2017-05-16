@@ -70,8 +70,8 @@ void rayTrace(int width, int height, Camera *camera, Light *light, Image *img, v
 
 			intGeom = geometryLoop(i, j, img, ray, allGeometry);
 
-			printUnitTest(&test, i, j, closestDistance, ray, pixelPigment, &color);
-			printUnitTest2(&test, i, j, intGeom, closestDistance, ray, allGeometry->at(intGeom), light, camera);
+			//printUnitTest(&test, i, j, closestDistance, ray, pixelPigment, &color);
+			//printUnitTest2(&test, i, j, intGeom, closestDistance, ray, allGeometry->at(intGeom), light, camera);
 
 			resetBlinnPhongPigments(allGeometry);
 		}
