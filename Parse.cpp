@@ -111,19 +111,20 @@ void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Lig
 
 					/* Fill in Light Pigment */
 					token = strtok(NULL, "< ,");
-					light->getPigment()->setR(strtof(token, NULL));
+
+					light->getPigment()->r = strtof(token, NULL);
 					token = strtok(NULL, " ,");
-					light->getPigment()->setG(strtof(token, NULL));
+					light->getPigment()->g = strtof(token, NULL);
 					token = strtok(NULL, " ,");
-					light->getPigment()->setB(strtof(token, NULL));
+					light->getPigment()->b = strtof(token, NULL);
 					
 					/* Fill in Light Pigment f value */
 					if (rgbf) {
 						token = strtok(NULL, " >}");
-						light->getPigment()->setF(strtof(token, NULL));
+						light->getPigment()->f = strtof(token, NULL);
 					}
 					else
-						light->getPigment()->setF(1);
+						light->getPigment()->f = 1;
 				}
 				else if (!strcmp(token, "sphere")) {
 					sphere = new Sphere();
@@ -242,18 +243,18 @@ void fillPigment(char *line, Geometry *geom) {
 	rgbf = !strcmp(token, "rgbf");
 
 	token = strtok(NULL, " <,");
-	geom->getPigment()->setR(strtof(token, NULL));
+	geom->getPigment()->r = strtof(token, NULL);
 	token = strtok(NULL, " ,");
-	geom->getPigment()->setG(strtof(token, NULL));
+	geom->getPigment()->g = strtof(token, NULL);
 	token = strtok(NULL, " ,>}");
-	geom->getPigment()->setB(strtof(token, NULL));
+	geom->getPigment()->b = strtof(token, NULL);
 
 	if (rgbf) {
 		token = strtok(NULL, " ,>}");
-		geom->getPigment()->setF(strtof(token, NULL));
+		geom->getPigment()->f = strtof(token, NULL);
 	}
 	else
-		geom->getPigment()->setF(1);
+		geom->getPigment()->f = 1;
 }
 
 void fillFinish(char *line, Geometry *geom) {
@@ -271,33 +272,33 @@ void fillFinish(char *line, Geometry *geom) {
 	token = strtok(finishLine, " \t");
 
 	while ((token = strtok(NULL, " \t"))) {
-		if (!geom->getFinish()->getAmbient() && !strcmp(token, "ambient")) {
+		if (!geom->getFinish()->ambient && !strcmp(token, "ambient")) {
 			token = strtok(NULL, " \t}");;
-			geom->getFinish()->setAmbient(strtof(token, NULL));
+			geom->getFinish()->ambient = strtof(token, NULL);
 		}
-		else if (!geom->getFinish()->getDiffuse() && !strcmp(token, "diffuse")) {
+		else if (!geom->getFinish()->diffuse && !strcmp(token, "diffuse")) {
 			token = strtok(NULL, " \t}");
-			geom->getFinish()->setDiffuse(strtof(token, NULL));
+			geom->getFinish()->diffuse = strtof(token, NULL);
 		}
-		else if (!geom->getFinish()->getSpecular() && !strcmp(token, "specular")) {
+		else if (!geom->getFinish()->specular && !strcmp(token, "specular")) {
 			token = strtok(NULL, " \t}");
-			geom->getFinish()->setSpecular(strtof(token, NULL));
+			geom->getFinish()->specular = strtof(token, NULL);
 		}
 		else if (!strcmp(token, "roughness")) {
 			token = strtok(NULL, " \t}");
-			geom->getFinish()->setRoughness(strtof(token, NULL));
+			geom->getFinish()->roughness = strtof(token, NULL);
 		}
-		else if (!geom->getFinish()->getRefract() && !strcmp(token, "refraction")) {
+		else if (!geom->getFinish()->refract && !strcmp(token, "refraction")) {
 			token = strtok(NULL, " \t}");
-			geom->getFinish()->setRefract(strtof(token, NULL));
+			geom->getFinish()->refract = strtof(token, NULL);
 		}
-		else if (!geom->getFinish()->getReflect() && !strcmp(token, "reflection")) {
+		else if (!geom->getFinish()->reflect && !strcmp(token, "reflection")) {
 			token = strtok(NULL, " \t}");
-			geom->getFinish()->setReflect(strtof(token, NULL));
+			geom->getFinish()->reflect = strtof(token, NULL);
 		}
-		else if (!geom->getFinish()->getIor() && !strcmp(token, "ior")) {
+		else if (!geom->getFinish()->ior && !strcmp(token, "ior")) {
 			token = strtok(NULL, " \t}");
-			geom->getFinish()->setIor(strtof(token, NULL));
+			geom->getFinish()->ior = strtof(token, NULL);
 		}
 		//else {
 		//	return false;

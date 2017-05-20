@@ -18,10 +18,10 @@ using namespace std;
 
 /* Fill color_t variable (with Image.cpp compatibility) from my own Pigment class */
 void setColor(color_t *color, Pigment *pixelPigment) {
-	color->r = pixelPigment->getR() * 255;
-	color->g = pixelPigment->getG() * 255;
-	color->b = pixelPigment->getB() * 255;
-	color->f = pixelPigment->getF();
+	color->r = pixelPigment->r * 255;
+	color->g = pixelPigment->g * 255;
+	color->b = pixelPigment->b * 255;
+	color->f = pixelPigment->f;
 }
 
 void resetBlinnPhongPigments(vector<Geometry *> *allGeometry) {

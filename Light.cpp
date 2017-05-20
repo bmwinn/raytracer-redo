@@ -12,17 +12,17 @@ Light::Light(Point center, Pigment pigment) {
 
 void Light::Print() {
 	cout << "light {<" << center.x << ", " << center.y << ", " << center.z << "> ";
-	cout << "color <" << pigment.getR() << ", " << pigment.getG() << ", " << pigment.getB() << ", " << pigment.getF() << ">}" << endl;
+	cout << "color <" << pigment.r << ", " << pigment.g << ", " << pigment.b << ", " << pigment.f << ">}" << endl;
 }
 
 void Light::setCenter(Point *c) {
 	center = *c;
 }
 void Light::setPigment(Pigment *p) {
-	pigment.setR(p->getR());
-	pigment.setG(p->getG());
-	pigment.setB(p->getB());
-	pigment.setF(p->getF());
+	pigment.r = p->r;
+	pigment.g = p->g;
+	pigment.b = p->b;
+	pigment.f = p->f;
 }
 
 Point *Light::getCenter() { return &center; }

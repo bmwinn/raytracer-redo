@@ -23,8 +23,8 @@ float Sphere::getRadius() { return radius; }
 void Sphere::print() {
 	cout << "sphere { ";
 	cout << "<" << center.x << ", " << center.y << ", " << center.z << ">, " << radius << endl;
-	cout << "  pigment { color <" << pigment.getR() << ", " << pigment.getG() << ", " << pigment.getB() << ", " << pigment.getF() << ">}" << endl;
-	cout << "  finish {ambient " << finish.getAmbient() << " diffuse " << finish.getDiffuse() << "}" << endl;
+	cout << "  pigment { color <" << pigment.r << ", " << pigment.g << ", " << pigment.b << ", " << pigment.f << ">}" << endl;
+	cout << "  finish {ambient " << finish.ambient << " diffuse " << finish.diffuse << "}" << endl;
 	cout << "}" << endl;
 }
 void Sphere::printType() {

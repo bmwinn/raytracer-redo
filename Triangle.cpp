@@ -52,9 +52,9 @@ void Triangle::print() {
 	cout << "   ";
 	vertexC.print();
 	cout << "   ";
-	getPigment()->print();
+	pigment.print();
 	cout << "   ";
-	getFinish()->print();
+	finish.print();
 	cout << "}" << endl << endl;
 }
 void Triangle::printType() {
