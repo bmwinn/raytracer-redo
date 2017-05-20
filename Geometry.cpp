@@ -53,19 +53,19 @@ void Geometry::setOnGeom(Ray *ray, float rayDistance) {
 void Geometry::blinnPhong(Ray *ray, float rayDistance) { cout << "Geometry object Blinn Phong." << endl; }
 
 void Geometry::blinnPhongAmbient() {
-	Pigment cappedLight = Pigment(light->getPigment()->getR(), light->getPigment()->getG(), light->getPigment()->getB());
-	if (cappedLight.getR() > 1)
-		cappedLight.setR(1);
+	Pigment cappedLight = Pigment(light->getPigment()->r, light->getPigment()->g, light->getPigment()->b);
+	if (cappedLight.g > 1)
+		cappedLight.r = 1;
 
-	if (cappedLight.getG() > 1)
-		cappedLight.setG(1);
+	if (cappedLight.g > 1)
+		cappedLight.g = 1;
 
-	if (cappedLight.getB() > 1)
-		cappedLight.setB(1);
+	if (cappedLight.b > 1)
+		cappedLight.b = 1;
 
-	pigmentA.setR(finish.getAmbient() * pigment.getR() * cappedLight.getR());
-	pigmentA.setG(finish.getAmbient() * pigment.getG() * cappedLight.getG());
-	pigmentA.setB(finish.getAmbient() * pigment.getB() * cappedLight.getB());
+	pigmentA.r = finish.getAmbient() * pigment.r * cappedLight.r;
+	pigmentA.g = finish.getAmbient() * pigment.g * cappedLight.g;
+	pigmentA.b = finish.getAmbient() * pigment.b * cappedLight.b;
 
 	pixel += &pigmentA;
 }
@@ -77,9 +77,9 @@ void Geometry::blinnPhongDiffuse() {
 	lightVector.normalize();
 
 	float dp = max(normal.dot(&lightVector), zero);
-	pigmentD.setR(finish.getDiffuse() * pigment.getR() * light->getPigment()->getR() * dp);
-	pigmentD.setG(finish.getDiffuse() * pigment.getG() * light->getPigment()->getG() * dp);
-	pigmentD.setB(finish.getDiffuse() * pigment.getB() * light->getPigment()->getB() * dp);
+	pigmentD.r = finish.getDiffuse() * pigment.r * light->getPigment()->r * dp;
+	pigmentD.g = finish.getDiffuse() * pigment.g * light->getPigment()->g * dp;
+	pigmentD.b = finish.getDiffuse() * pigment.b * light->getPigment()->b * dp;
 	
 	pixel += &pigmentD;
 }
@@ -95,12 +95,12 @@ void Geometry::blinnPhongSpecular() {
 	Vector half = view + lightVector;
 	half.normalize();
 
-	float shiny = 1.0/finish.getRoughness();
+	float shiny = 1.0 / finish.getRoughness();
 	float shine = pow(max(half.dot(&normal), zero), shiny);
 
-	pigmentS.setR(finish.getSpecular() * pigment.getR() * light->getPigment()->getR() * shine);
-	pigmentS.setG(finish.getSpecular() * pigment.getG() * light->getPigment()->getG() * shine);
-	pigmentS.setB(finish.getSpecular() * pigment.getB() * light->getPigment()->getB() * shine);
+	pigmentS.r = finish.getSpecular() * pigment.r * light->getPigment()->r * shine;
+	pigmentS.g = finish.getSpecular() * pigment.g * light->getPigment()->g * shine;
+	pigmentS.b = finish.getSpecular() * pigment.b * light->getPigment()->b * shine;
 
 	pixel += &pigmentS;
 }
@@ -132,28 +132,28 @@ void Geometry::setNormal(Vector *n) {
 	normal.magnitude = n->magnitude;
 }
 void Geometry::setPigment(Pigment *p) {
-	pigment.setR(p->getR());
-	pigment.setG(p->getG());
-	pigment.setB(p->getB());
-	pigment.setF(p->getF());
+	pigment.r = p->r;
+	pigment.g = p->g;
+	pigment.b = p->b;
+	pigment.f = p->f;
 }
 void Geometry::setPigmentA(Pigment *pA) {
-	pigmentA.setR(pA->getR());
-	pigmentA.setG(pA->getG());
-	pigmentA.setB(pA->getB());
-	pigmentA.setF(pA->getF());
+	pigmentA.r = pA->r;
+	pigmentA.g = pA->g;
+	pigmentA.b = pA->b;
+	pigmentA.f = pA->f;
 }
 void Geometry::setPigmentD(Pigment *pD) {
-	pigmentD.setR(pD->getR());
-	pigmentD.setG(pD->getG());
-	pigmentD.setB(pD->getB());
-	pigmentD.setF(pD->getF());
+	pigmentD.r = pD->r;
+	pigmentD.g = pD->g;
+	pigmentD.b = pD->b;
+	pigmentD.f = pD->f;
 }
 void Geometry::setPigmentS(Pigment *pS) {
-	pigmentS.setR(pS->getR());
-	pigmentS.setG(pS->getG());
-	pigmentS.setB(pS->getB());
-	pigmentS.setF(pS->getF());
+	pigmentS.r = pS->r;
+	pigmentS.g = pS->g;
+	pigmentS.b = pS->b;
+	pigmentS.f = pS->f;
 }
 
 void Geometry::setFinish(Finish *f) {

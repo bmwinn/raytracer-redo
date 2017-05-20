@@ -24,10 +24,10 @@ void Pigment::print() {
 }
 
 void Pigment::operator+=(Pigment *other) {
-	r += other->getR();
-	g += other->getG();
-	b += other->getB();
-	f += other->getF();
+	r += other->r;
+	g += other->g;
+	b += other->b;
+	f += other->f;
 	cap();
 }
 
@@ -55,10 +55,10 @@ void Pigment::bigCap(color_t *color) {
 	if (color->f < 0) color->f = 0;
 }
 
-void Pigment::setR(float r) { this->r = r; }
-void Pigment::setG(float g) { this->g = g; }
-void Pigment::setB(float b) { this->b = b; }
-void Pigment::setF(float f) { this->f = f; }
+// void Pigment::setR(float r) { this->r = r; }
+// void Pigment::setG(float g) { this->g = g; }
+// void Pigment::setB(float b) { this->b = b; }
+// void Pigment::setF(float f) { this->f = f; }
 
 /* Fill color_t variable (with Image.cpp compatibility) from my own Pigment class */
 void Pigment::setColorT(color_t *color) {
@@ -70,7 +70,7 @@ void Pigment::setColorT(color_t *color) {
 	bigCap(color);
 }
 
-float Pigment::getR() { return r; }
-float Pigment::getG() { return g; }
-float Pigment::getB() { return b; }
-float Pigment::getF() { return f; }
+// float Pigment::getR() { return r; }
+// float Pigment::getG() { return g; }
+// float Pigment::getB() { return b; }
+// float Pigment::getF() { return f; }

@@ -111,19 +111,20 @@ void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Lig
 
 					/* Fill in Light Pigment */
 					token = strtok(NULL, "< ,");
-					light->getPigment()->setR(strtof(token, NULL));
+
+					light->getPigment()->r = strtof(token, NULL);
 					token = strtok(NULL, " ,");
-					light->getPigment()->setG(strtof(token, NULL));
+					light->getPigment()->g = strtof(token, NULL);
 					token = strtok(NULL, " ,");
-					light->getPigment()->setB(strtof(token, NULL));
+					light->getPigment()->b = strtof(token, NULL);
 					
 					/* Fill in Light Pigment f value */
 					if (rgbf) {
 						token = strtok(NULL, " >}");
-						light->getPigment()->setF(strtof(token, NULL));
+						light->getPigment()->f = strtof(token, NULL);
 					}
 					else
-						light->getPigment()->setF(1);
+						light->getPigment()->f = 1;
 				}
 				else if (!strcmp(token, "sphere")) {
 					sphere = new Sphere();
@@ -242,18 +243,18 @@ void fillPigment(char *line, Geometry *geom) {
 	rgbf = !strcmp(token, "rgbf");
 
 	token = strtok(NULL, " <,");
-	geom->getPigment()->setR(strtof(token, NULL));
+	geom->getPigment()->r = strtof(token, NULL);
 	token = strtok(NULL, " ,");
-	geom->getPigment()->setG(strtof(token, NULL));
+	geom->getPigment()->g = strtof(token, NULL);
 	token = strtok(NULL, " ,>}");
-	geom->getPigment()->setB(strtof(token, NULL));
+	geom->getPigment()->b = strtof(token, NULL);
 
 	if (rgbf) {
 		token = strtok(NULL, " ,>}");
-		geom->getPigment()->setF(strtof(token, NULL));
+		geom->getPigment()->f = strtof(token, NULL);
 	}
 	else
-		geom->getPigment()->setF(1);
+		geom->getPigment()->f = 1;
 }
 
 void fillFinish(char *line, Geometry *geom) {

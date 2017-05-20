@@ -19,19 +19,18 @@ public:
 	void cap(); // added during blinn phong part 2, may be unnecessary to autoinclude within pigment functions
 	void bigCap(color_t *color);
 
-	void setR(float r);
-	void setG(float g);
-	void setB(float b);
-	void setF(float f);
+	// void setR(float r);
+	// void setG(float g);
+	// void setB(float b);
+	// void setF(float f);
 	void setColorT(color_t *color);
 
-	float getR();
-	float getG();
-	float getB();
-	float getF();
+	// float getR();
+	// float getG();
+	// float getB();
+	// float getF();
 
-private:
-	// make public
+public:
 	float r, g, b, f;
 };
 

@@ -21,7 +21,7 @@ float Plane::getDistance() { return distance; }
 void Plane::print() {
 	cout << "plane {";
 	cout << "<" << normal.x << ", " << normal.y << ", " << normal.z<< ">, " << distance << endl;
-	cout << "  pigment {color <" << pigment.getR() << ", " << pigment.getG() << ", " << pigment.getB() << ", " << pigment.getF() << ">}" << endl;
+	cout << "  pigment {color <" << pigment.r << ", " << pigment.g << ", " << pigment.b << ", " << pigment.f << ">}" << endl;
 	cout << "  finish {ambient " << finish.getAmbient() << " diffuse " << finish.getDiffuse() << "}" << endl;
 	cout << "}" << endl;
 }

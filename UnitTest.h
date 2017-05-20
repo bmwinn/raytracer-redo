@@ -16,7 +16,7 @@ void printUnitTest(string *test, int i, int j, float closestDistance, Ray *ray, 
 			if (!test->compare("spheres.pov"))
 				cout << "  Color: (" << (int) color->r << " " << (int) color->g << " " << (int) color->b << ")" << endl;
 			else
-				cout << "  Color: (" << pixelPigment->getR() << " " << pixelPigment->getG() << " " << pixelPigment->getB() << ")" << endl;
+				cout << "  Color: (" << pixelPigment->r << " " << pixelPigment->g << " " << pixelPigment->b << ")" << endl;
 		}
 	}
 }
@@ -39,9 +39,9 @@ void printUnitTest2(string *test, int i, int j, int curGeom, float closestDistan
 			cout << "\tT=" << closestDistance << endl;
 		}
 
-		cout << "Ambient: (" << geometry->getPigmentA()->getR() * 255 << ", " << geometry->getPigmentA()->getG() * 255 << ", " << geometry->getPigmentA()->getB() * 255 << ") ";
-		cout << "Diffuse: (" << geometry->getPigmentD()->getR() * 255 << ", " << geometry->getPigmentD()->getG() * 255 << ", " << geometry->getPigmentD()->getB() * 255 << ") ";
-		cout << "Specular: (" << geometry->getPigmentS()->getR() * 255 << ", " << geometry->getPigmentS()->getG() * 255 << ", " << geometry->getPigmentS()->getB() * 255 << ")" << endl;
+		cout << "Ambient: (" << geometry->getPigmentA()->r * 255 << ", " << geometry->getPigmentA()->g * 255 << ", " << geometry->getPigmentA()->b * 255 << ") ";
+		cout << "Diffuse: (" << geometry->getPigmentD()->r * 255 << ", " << geometry->getPigmentD()->g * 255 << ", " << geometry->getPigmentD()->b * 255 << ") ";
+		cout << "Specular: (" << geometry->getPigmentS()->r * 255 << ", " << geometry->getPigmentS()->g * 255 << ", " << geometry->getPigmentS()->b * 255 << ")" << endl;
 		// cout << "Feeler: {" << geometry->feeler.direction.x << " " << geometry->feeler.direction.y << " " << geometry->feeler.direction.z << "}" << endl;
 		cout << endl;
 	}
