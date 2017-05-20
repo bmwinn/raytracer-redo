@@ -63,9 +63,9 @@ void Geometry::blinnPhongAmbient() {
 	if (cappedLight.b > 1)
 		cappedLight.b = 1;
 
-	pigmentA.r = finish.getAmbient() * pigment.r * cappedLight.r;
-	pigmentA.g = finish.getAmbient() * pigment.g * cappedLight.g;
-	pigmentA.b = finish.getAmbient() * pigment.b * cappedLight.b;
+	pigmentA.r = finish.ambient * pigment.r * cappedLight.r;
+	pigmentA.g = finish.ambient * pigment.g * cappedLight.g;
+	pigmentA.b = finish.ambient * pigment.b * cappedLight.b;
 
 	pixel += &pigmentA;
 }
@@ -77,9 +77,9 @@ void Geometry::blinnPhongDiffuse() {
 	lightVector.normalize();
 
 	float dp = max(normal.dot(&lightVector), zero);
-	pigmentD.r = finish.getDiffuse() * pigment.r * light->getPigment()->r * dp;
-	pigmentD.g = finish.getDiffuse() * pigment.g * light->getPigment()->g * dp;
-	pigmentD.b = finish.getDiffuse() * pigment.b * light->getPigment()->b * dp;
+	pigmentD.r = finish.diffuse * pigment.r * light->getPigment()->r * dp;
+	pigmentD.g = finish.diffuse * pigment.g * light->getPigment()->g * dp;
+	pigmentD.b = finish.diffuse * pigment.b * light->getPigment()->b * dp;
 	
 	pixel += &pigmentD;
 }
@@ -95,12 +95,12 @@ void Geometry::blinnPhongSpecular() {
 	Vector half = view + lightVector;
 	half.normalize();
 
-	float shiny = 1.0 / finish.getRoughness();
+	float shiny = 1.0 / finish.roughness;
 	float shine = pow(max(half.dot(&normal), zero), shiny);
 
-	pigmentS.r = finish.getSpecular() * pigment.r * light->getPigment()->r * shine;
-	pigmentS.g = finish.getSpecular() * pigment.g * light->getPigment()->g * shine;
-	pigmentS.b = finish.getSpecular() * pigment.b * light->getPigment()->b * shine;
+	pigmentS.r = finish.specular * pigment.r * light->getPigment()->r * shine;
+	pigmentS.g = finish.specular * pigment.g * light->getPigment()->g * shine;
+	pigmentS.b = finish.specular * pigment.b * light->getPigment()->b * shine;
 
 	pixel += &pigmentS;
 }
@@ -157,10 +157,10 @@ void Geometry::setPigmentS(Pigment *pS) {
 }
 
 void Geometry::setFinish(Finish *f) {
-	finish.setAmbient(f->getAmbient());
-	finish.setDiffuse(f->getDiffuse());
-	finish.setSpecular(f->getSpecular());
-	finish.setRoughness(f->getRoughness());
+	finish.ambient = f->ambient;
+	finish.diffuse = f->diffuse;
+	finish.specular = f->specular;
+	finish.roughness = f->roughness;
 }
 void Geometry::setLight(Light *l) { light = l; }
 void Geometry::setCamera(Camera *c) { camera = c; }
