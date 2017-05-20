@@ -28,7 +28,7 @@ void Pigment::operator+=(Pigment *other) {
 	g += other->getG();
 	b += other->getB();
 	f += other->getF();
-	// cap();
+	cap();
 }
 
 void Pigment::cap() {

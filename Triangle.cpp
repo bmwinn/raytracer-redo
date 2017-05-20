@@ -38,7 +38,6 @@ void Triangle::setVertexC(Point vC) { vertexC = vC; }
 void Triangle::setAB(Vector ab) { AB = ab; }
 void Triangle::setAC(Vector ac) { AC = ac; }
 
-
 Point *Triangle::getVertexA() { return &vertexA; }
 Point *Triangle::getVertexB() { return &vertexB; }
 Point *Triangle::getVertexC() { return &vertexC; }
