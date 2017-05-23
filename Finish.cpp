@@ -1,7 +1,9 @@
 #include "Finish.h"
 
 Finish::Finish() {
-	ambient = diffuse = specular = roughness = 0;
+	ambient = diffuse = specular = 0;
+	roughness = reflect = refract = 0;
+	ior = 0;
 }
 
 Finish::Finish(float ambient, float diffuse, float specular, float roughness) {
@@ -13,5 +15,6 @@ Finish::Finish(float ambient, float diffuse, float specular, float roughness) {
 
 void Finish::print() {
 	std::cout << "finish a " << ambient << " d " << diffuse << " s " << specular;
-	cout << " rou " << roughness << endl;
+	cout << " rou " << roughness << " refr " << refract << " refl " << reflect;
+	cout << " ior " << ior << endl;
 }

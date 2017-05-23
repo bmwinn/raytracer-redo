@@ -30,7 +30,16 @@ void Pigment::operator+=(Pigment *other) {
 	f += other->f;
 	cap();
 }
-
+Pigment Pigment::operator*(float scalar) {
+	Pigment result = Pigment(r * scalar, g * scalar, b * scalar, f);
+	result.cap();
+	return result;
+}
+Pigment Pigment::operator+(Pigment other) {
+	Pigment result = Pigment(r + other.r, g + other.g, b + other.b, f);
+	result.cap();
+	return result;
+}
 void Pigment::cap() {
 	if (r > 1) r = 1;
 	if (g > 1) g = 1;

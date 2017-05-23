@@ -50,6 +50,7 @@ public:
 	void setPixel(Pigment *p);
 
 	Vector *getNormal();
+	Point *getOnGeom();
 	Pigment *getPigment();
 	Pigment *getPigmentA();
 	Pigment *getPigmentD();
@@ -72,7 +73,8 @@ protected:
 	Light *light;
 	Camera *camera;
 	vector<Geometry *> *allGeometry;
-
+	//Vector *view; add later
+ 
 private:
 	Ray feeler; // stores shadow feeler for Blinn Phong
 	Pigment pixel;

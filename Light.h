@@ -13,7 +13,7 @@ class Light {
 public:
 	Light();
 	Light(Point center, Pigment pigment);
-	void Print();
+	void print();
 
 	void setCenter(Point *c);
 	void setPigment(Pigment *p);

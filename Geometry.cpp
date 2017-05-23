@@ -169,6 +169,7 @@ void Geometry::setFeeler(Ray *f) { feeler = *f; }
 void Geometry::setPixel(Pigment *p) { pixel = *p; }
 
 Vector *Geometry::getNormal() { return &normal; }
+Point *Geometry::getOnGeom() { return &onGeom; }
 Pigment *Geometry::getPigment() { return &pigment; }
 Pigment *Geometry::getPigmentA() { return &pigmentA; }
 Pigment *Geometry::getPigmentD() { return &pigmentD; }

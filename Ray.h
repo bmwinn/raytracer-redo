@@ -10,7 +10,8 @@ public:
 	Ray();
 	Ray(Point start, Vector direction);
 	Ray(int i, int j, int width, int height, Camera *camera);
-
+	Ray(Ray *initial, Point *surface, Vector *normal);
+	Ray(Point *onGeom, Vector initialDirection, Vector normal, Vector *view, float ior1, float ior2);
 	void print();
 
 	void setStart(Point *s);

@@ -16,6 +16,8 @@ public:
 	void print();
 
 	void operator+=(Pigment *other);
+	Pigment operator*(float scalar);
+	Pigment operator+(Pigment other);
 	void cap(); // added during blinn phong part 2, may be unnecessary to autoinclude within pigment functions
 	void bigCap(color_t *color);
 

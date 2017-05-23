@@ -17,6 +17,7 @@ public:
 
 	Vector operator-(Point other);
 	Vector operator+(Point other);
+	void operator+=(Vector other);
 
 	float x, y, z;
 };

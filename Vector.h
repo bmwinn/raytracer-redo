@@ -16,8 +16,10 @@ public:
 	void print();
 
 	void operator*=(float scalar);
+	void operator-=(Vector other);
 	Vector operator-(Vector other);
 	Vector operator+(Vector other);
+	Vector operator*(float scalar);
 
 	void setMagnitude(float x, float y, float z);
 	void setMagnitude(Vector *other);
