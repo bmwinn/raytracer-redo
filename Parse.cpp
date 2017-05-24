@@ -260,7 +260,7 @@ void fillPigment(char *line, Geometry *geom) {
 		geom->getPigment()->f = strtof(token, NULL);
 	}
 	else
-		geom->getPigment()->f = 1;
+		geom->getPigment()->f = 0;
 }
 
 void fillFinish(char *line, Geometry *geom) {

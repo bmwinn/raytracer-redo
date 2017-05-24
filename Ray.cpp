@@ -43,17 +43,17 @@ Ray::Ray(int i, int j, int width, int height, Camera *camera) {
 	direction.normalize();
 }
 
-Ray::Ray(Ray *initial, Point *surface, Vector *normal) {
-	start = Point(surface->x, surface->y, surface->z);
+Ray::Ray(Ray *initial, Point surface, Vector *normal) {
+	start = surface;
 
 	// d - 2 * ( d dot n) * n
 	direction = *initial->getDirection() - *normal * ((float)2.0 * normal->dot(initial->getDirection()));
 	direction.normalize();
 }
 
-// watch out for ongeom as your starting point
-Ray::Ray(Point *onGeom, Vector initialDirection, Vector normal, Vector *view, float ior1, float ior2) {
-	start = *onGeom;
+// watch out for surface as your starting point
+Ray::Ray(Point surface, Vector initialDirection, Vector normal, Vector *view, float ior1, float ior2) {
+	start = surface;
 
 	// check if exiting
 	if (view->dot(&normal) <= 0) {
@@ -61,6 +61,7 @@ Ray::Ray(Point *onGeom, Vector initialDirection, Vector normal, Vector *view, fl
 		normal *= -1;
 
 		// swap iors
+		// std::swap
 		float temp = ior1;
 		ior1 = ior2;
 		ior2 = temp;

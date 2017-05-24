@@ -121,24 +121,24 @@ Pigment rayTrace(int pw, int ph, int bounces, vector<Geometry *> *allGeometry, R
 		}
 
 		Geometry *curGeom = allGeometry->at(geomIndex);
+		Point surface = *ray->getStart();
+		surface += *ray->getDirection() * closestDistance;
 
 		Finish *finish = curGeom->getFinish();
 		Pigment *pigment = curGeom->getPigment();
-		Vector view = *curGeom->getCamera()->getCenter() - *curGeom->getOnGeom();
+		Vector view = *curGeom->getCamera()->getCenter() - surface;
 
-		float fresnelReflectance;
-		if (finish->reflect > 0)
-			fresnelReflectance = schlicksApproximation(finish->ior, curGeom->getNormal(), &view);
-		else
-			fresnelReflectance = 0;
+		float fresnelReflectance = schlicksApproximation(finish->ior, curGeom->getNormal(), &view);
+
 		float reflectionContribution = (1 - pigment->f) * finish->reflect + pigment->f * fresnelReflectance;
 		float transmissionContribution = pigment->f * (1 - fresnelReflectance);
-		// float localContribution = (1 - pigment->f) * (1 - finish->reflect); // typo?
-		float localContribution = pigment->f * (1 - finish->reflect);
+		float localContribution = (1 - pigment->f) * (1 - finish->reflect);
+
+		curGeom->blinnPhong(ray, closestDistance);
 
 		Pigment reflectionColor, transmissionColor;
 		if (reflectionContribution > 0) {
-			Ray *reflectRay = new Ray(ray, curGeom->getOnGeom(), curGeom->getNormal());
+			Ray *reflectRay = new Ray(ray, surface, curGeom->getNormal());
 			reflectionColor = rayTrace(pw, ph, bounces, allGeometry, reflectRay);
 		}
 		else {
@@ -151,7 +151,7 @@ Pigment rayTrace(int pw, int ph, int bounces, vector<Geometry *> *allGeometry, R
 			if (pw == 120 and ph == 120) {
 				finish->print();
 			}
-			Ray *refractRay = new Ray(curGeom->getOnGeom(), *ray->getDirection(), *curGeom->getNormal(), &view, 0, finish->ior);
+			Ray *refractRay = new Ray(surface, *ray->getDirection(), *curGeom->getNormal(), &view, 1, finish->ior);			
 			transmissionColor = rayTrace(pw, ph, bounces, allGeometry, refractRay);
 		}
 		else {
@@ -160,8 +160,8 @@ Pigment rayTrace(int pw, int ph, int bounces, vector<Geometry *> *allGeometry, R
 			transmissionColor = black;
 		}
 
-		curGeom->blinnPhong(ray, closestDistance);
 		Pigment localColor = *curGeom->getPixel();
+		resetBlinnPhongPigments(allGeometry);
 		if (pw == 120 and ph == 120) {
 			cout << "pigment A: "; curGeom->getPigmentA()->print();
 			cout << "pigment D: "; curGeom->getPigmentD()->print();
@@ -197,7 +197,6 @@ void renderLoop(int width, int height, Image *img, vector<Geometry *> *allGeomet
 				fill.print();
 			}
 			colorPixel(i, j, img, &fill);
-			resetBlinnPhongPigments(allGeometry);
 		}
 	}
 }

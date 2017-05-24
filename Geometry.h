@@ -73,7 +73,7 @@ protected:
 	Light *light;
 	Camera *camera;
 	vector<Geometry *> *allGeometry;
-	//Vector *view; add later
+	// Vector *view; add later
  
 private:
 	Ray feeler; // stores shadow feeler for Blinn Phong
