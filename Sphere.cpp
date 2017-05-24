@@ -64,7 +64,7 @@ float Sphere::intersect(Ray *ray) {
 	return distance;
 }
 
-Pigment Sphere::blinnPhong(Ray *ray, float rayDistance, Point surface) {
+Pigment Sphere::blinnPhong(int pw, int ph, Ray *ray, float rayDistance, Point surface) {
 	//setOnGeom(ray, rayDistance);
 	// Vector newNormal = Vector((onGeom.x - center.x)/radius,
 	// 				(onGeom.y - center.y)/radius,

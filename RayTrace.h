@@ -24,70 +24,11 @@ void setColor(color_t *color, Pigment *pixelPigment) {
 	color->f = pixelPigment->f;
 }
 
-// void resetBlinnPhongPigments(vector<Geometry *> *allGeometry) {
-// 	for (int g = 0; g < allGeometry->size(); g++) {
-// 		allGeometry->at(g)->getPigmentA()->reset();
-// 		allGeometry->at(g)->getPigmentD()->reset();
-// 		allGeometry->at(g)->getPigmentS()->reset();
-// 		allGeometry->at(g)->getPixel()->reset();
-// 	}
-// }
-
-void colorPixel(int pixelWidth, int pixelHeight, Image *img, Geometry *curGeom) {
-	color_t color;
-    setColor(&color, curGeom->getPixel());
-    img->pixel(pixelWidth, pixelHeight, color);
-}
-
 void colorPixel(int pixelWidth, int pixelHeight, Image *img, Pigment *pixel) {
 	color_t color;
     setColor(&color, pixel);
     img->pixel(pixelWidth, pixelHeight, color);
 }
-/*
-float geometryLoop(int pixelWidth, int pixelHeight, Image *img, Ray *ray, vector<Geometry *> *allGeometry) {
-	float distance, closestDistance = 10000;
-	color_t black = {0, 0, 0, 1};
-	int geomIndex = 0;
-
-	for (int i = 0; i < allGeometry->size(); i++) {
-		Geometry *curGeom = allGeometry->at(i);
-		distance = curGeom->intersect(ray);
-
-		if (distance > 0.0001 && distance < closestDistance) {
-			closestDistance = distance;
-			geomIndex = i;
-		}
-	}
-
-	if (closestDistance < 10000 && closestDistance > 0.0001) {
-		Geometry *curGeom = allGeometry->at(geomIndex);
-		curGeom->blinnPhong(ray, closestDistance);
-		colorPixel(pixelWidth, pixelHeight, img, curGeom);
-	}
-	else {
-		img->pixel(pixelWidth, pixelHeight, black);
-	}
-
-	return geomIndex;
-}*/
-
-/*void rayTrace(int width, int height, Camera *camera, Light *light, Image *img, vector<Geometry *> *allGeometry, string test) {
-	int intGeom;
-
-	for (int i = 0; i < width; i++) {
-		for (int j = 0; j < height; j++) {
-			Ray *ray = new Ray(i, j, width, height, camera);
-
-			intGeom = geometryLoop(i, j, img, ray, allGeometry);
-
-			//printUnitTest(&test, i, j, closestDistance, ray, pixelPigment, &color);
-			//printUnitTest2(&test, i, j, intGeom, closestDistance, ray, allGeometry->at(intGeom), light, camera);
-
-			resetBlinnPhongPigments(allGeometry);
-		}
-	}
-}*/
 
 float schlicksApproximation(float ior, Vector *normal, Vector *view) {
 	float F0 = pow(ior - 1, 2) / pow(ior + 1, 2);
@@ -104,19 +45,28 @@ Pigment rayTrace(int pw, int ph, int bounces, vector<Geometry *> *allGeometry, R
 	if (bounces > 0) {
 		bounces--;
 		closestDistance = 10000;
+
 		for (int i = 0; i < allGeometry->size(); i++) {
 			Geometry *curGeom = allGeometry->at(i);
 			distance = curGeom->intersect(ray);
+			if (pw == 120 and ph == 120) {
+				cout << "distance " << distance << endl;
+			}			
 			if (distance > 0.0001 && distance < closestDistance) {
 				closestDistance = distance;
 				geomIndex = i;
 			}
 		}
 
-		if (pw == 120 and ph == 120) cout << "on bounce " << bounces << ", closest item is object " << geomIndex << endl; 
+		if (pw == 120 and ph == 120) {
+			cout << "plane unit test!" << endl;
+		}
+
 		if (closestDistance == 10000) {
-			if (pw == 120 and ph == 120)
-				cout << "finished recursing" << endl;
+			if (pw == 120 and ph == 120) {
+				cout << "t " << closestDistance << endl;
+				cout << "miss" << endl;
+			}
 			return black;
 		}
 
@@ -134,7 +84,7 @@ Pigment rayTrace(int pw, int ph, int bounces, vector<Geometry *> *allGeometry, R
 		float transmissionContribution = pigment->f * (1 - fresnelReflectance);
 		float localContribution = (1 - pigment->f) * (1 - finish->reflect);
 
-		Pigment localColor = curGeom->blinnPhong(ray, closestDistance, surface);
+		Pigment localColor = curGeom->blinnPhong(pw, ph, ray, closestDistance, surface);
 
 		Pigment reflectionColor, transmissionColor;
 		if (reflectionContribution > 0) {
@@ -142,49 +92,26 @@ Pigment rayTrace(int pw, int ph, int bounces, vector<Geometry *> *allGeometry, R
 			reflectionColor = rayTrace(pw, ph, bounces, allGeometry, reflectRay);
 		}
 		else {
-			if (pw == 120 and ph == 120)
-				cout << "no reflection" << endl;
 			reflectionColor = black;
 		}
 
 		if (transmissionContribution > 0) {
-			if (pw == 120 and ph == 120) {
-				finish->print();
-			}
 			Ray *refractRay = new Ray(surface, *ray->getDirection(), *curGeom->getNormal(), &view, 1, finish->ior);			
 			transmissionColor = rayTrace(pw, ph, bounces, allGeometry, refractRay);
 		}
 		else {
-			if (pw == 120 and ph == 120)
-				cout << "no refraction" << endl;
 			transmissionColor = black;
-		}
-
-		 // = *curGeom->getPixel();
-		// resetBlinnPhongPigments(allGeometry);
-		if (pw == 120 and ph == 120) {
-			cout << "pigment A: "; curGeom->getPigmentA()->print();
-			cout << "pigment D: "; curGeom->getPigmentD()->print();
-			cout << "pigment S: "; curGeom->getPigmentS()->print();
-			cout << "local color "; localColor.print();
-			cout << "local cont " << localContribution << endl;
-			cout << "refl color "; reflectionColor.print();
-			cout << "refl cont " << reflectionContribution << endl;
-			cout << "refr color "; transmissionColor.print();
-			cout << "refr cont " << transmissionContribution << endl;
 		}
 
 		Pigment totalColor = localColor * localContribution +
 								reflectionColor * reflectionContribution +
 								transmissionColor * transmissionContribution;
 
-		if (pw == 120 and ph == 120) {
-			totalColor.print();
-		}
-
 		return totalColor;
 	}
-	else { return black; }
+	else {
+		return black;
+	}
 }
 
 void renderLoop(int width, int height, Image *img, vector<Geometry *> *allGeometry, Camera *camera) {

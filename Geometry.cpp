@@ -6,10 +6,10 @@ Geometry::Geometry() {
 	finish = Finish();
 	feeler = Ray();
 
-	pigmentA = Pigment();
-	pigmentD = Pigment();
-	pigmentS = Pigment();
-	pixel = Pigment();
+	// pigmentA = Pigment();
+	// pigmentD = Pigment();
+	// pigmentS = Pigment();
+	// pixel = Pigment();
 	// onGeom = Point();
 }
 
@@ -23,10 +23,10 @@ Geometry::Geometry(Vector *n, Pigment *p, Finish *f) {
 	setPigment(p);
 	setFinish(f);
 
-	pigmentA = Pigment();
-	pigmentD = Pigment();
-	pigmentS = Pigment();
-	pixel = Pigment();
+	// pigmentA = Pigment();
+	// pigmentD = Pigment();
+	// pigmentS = Pigment();
+	// pixel = Pigment();
 	// onGeom = Point();	
 }
 
@@ -50,7 +50,7 @@ float Geometry::intersect(Ray *ray) {
 // 	onGeom.z = ray->getStart()->z + rayDistance * ray->getDirection()->z;
 // }
 
-Pigment Geometry::blinnPhong(Ray *ray, float rayDistance, Point surface) {
+Pigment Geometry::blinnPhong(int pw, int ph, Ray *ray, float rayDistance, Point surface) {
 	cout << "Geometry object Blinn Phong." << endl;
 	return Pigment(0, 0, 0);
 }
@@ -144,24 +144,24 @@ void Geometry::setPigment(Pigment *p) {
 	pigment.b = p->b;
 	pigment.f = p->f;
 }
-void Geometry::setPigmentA(Pigment *pA) {
-	pigmentA.r = pA->r;
-	pigmentA.g = pA->g;
-	pigmentA.b = pA->b;
-	pigmentA.f = pA->f;
-}
-void Geometry::setPigmentD(Pigment *pD) {
-	pigmentD.r = pD->r;
-	pigmentD.g = pD->g;
-	pigmentD.b = pD->b;
-	pigmentD.f = pD->f;
-}
-void Geometry::setPigmentS(Pigment *pS) {
-	pigmentS.r = pS->r;
-	pigmentS.g = pS->g;
-	pigmentS.b = pS->b;
-	pigmentS.f = pS->f;
-}
+// void Geometry::setPigmentA(Pigment *pA) {
+// 	pigmentA.r = pA->r;
+// 	pigmentA.g = pA->g;
+// 	pigmentA.b = pA->b;
+// 	pigmentA.f = pA->f;
+// }
+// void Geometry::setPigmentD(Pigment *pD) {
+// 	pigmentD.r = pD->r;
+// 	pigmentD.g = pD->g;
+// 	pigmentD.b = pD->b;
+// 	pigmentD.f = pD->f;
+// }
+// void Geometry::setPigmentS(Pigment *pS) {
+// 	pigmentS.r = pS->r;
+// 	pigmentS.g = pS->g;
+// 	pigmentS.b = pS->b;
+// 	pigmentS.f = pS->f;
+// }
 
 void Geometry::setFinish(Finish *f) {
 	finish.ambient = f->ambient;
@@ -173,17 +173,17 @@ void Geometry::setLight(Light *l) { light = l; }
 void Geometry::setCamera(Camera *c) { camera = c; }
 void Geometry::setAllGeometry(vector<Geometry *> *aG) { allGeometry = aG; }
 void Geometry::setFeeler(Ray *f) { feeler = *f; }
-void Geometry::setPixel(Pigment *p) { pixel = *p; }
+// void Geometry::setPixel(Pigment *p) { pixel = *p; }
 
 Vector *Geometry::getNormal() { return &normal; }
 // Point *Geometry::getOnGeom() { return &onGeom; }
 Pigment *Geometry::getPigment() { return &pigment; }
-Pigment *Geometry::getPigmentA() { return &pigmentA; }
-Pigment *Geometry::getPigmentD() { return &pigmentD; }
-Pigment *Geometry::getPigmentS() { return &pigmentS; }
+// Pigment *Geometry::getPigmentA() { return &pigmentA; }
+// Pigment *Geometry::getPigmentD() { return &pigmentD; }
+// Pigment *Geometry::getPigmentS() { return &pigmentS; }
 Finish *Geometry::getFinish() { return &finish; }
 Light *Geometry::getLight() { return light; }
 Camera *Geometry::getCamera() { return camera; }
 vector<Geometry *> *Geometry::getAllGeometry() { return allGeometry; }
 Ray *Geometry::getFeeler() { return &feeler; }
-Pigment *Geometry::getPixel() { return &pixel; }
+// Pigment *Geometry::getPixel() { return &pixel; }

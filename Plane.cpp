@@ -44,8 +44,13 @@ float Plane::intersect(Ray *ray) {
 	return distance;
 }
 
-Pigment Plane::blinnPhong(Ray *ray, float rayDistance, Point surface) {
+Pigment Plane::blinnPhong(int pw, int ph, Ray *ray, float rayDistance, Point surface) {
 	// Geometry::setOnGeom(ray, rayDistance);
+	if (pw == 120 and ph == 120)
+		surface.print();
+	surface = Point(normal.x * distance, normal.y * distance, normal.z * distance);
+	if (pw == 120 and ph == 120)
+		surface.print();
 	Pigment black = Pigment(0, 0, 0);
 	Pigment ambient, diffuse, pixel;
 
@@ -54,11 +59,12 @@ Pigment Plane::blinnPhong(Ray *ray, float rayDistance, Point surface) {
 	bool noShadow = shadowFeeler(surface);
 	if (noShadow) {
 		diffuse = blinnPhongDiffuse(surface);
+		return ambient + diffuse;
 	}
 	else {
-		diffuse = black;
+		return ambient;
 	}
 
-	pixel = ambient + diffuse;
-	return pixel;
+	// pixel = ambient + diffuse;
+	// return pixel;
 }

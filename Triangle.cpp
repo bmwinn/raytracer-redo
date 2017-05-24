@@ -100,7 +100,7 @@ float Triangle::intersect(Ray *ray) {
 		return -1;
 }
 // void Triangle::blinnPhong(Ray *ray, float rayDist) {
-Pigment Triangle::blinnPhong(Ray *ray, float rayDistance, Point surface) {
+Pigment Triangle::blinnPhong(int pw, int ph, Ray *ray, float rayDistance, Point surface) {
 	// setOnGeom(ray, rayDistance);
 	setNormal(ray);
 
