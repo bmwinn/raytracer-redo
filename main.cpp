@@ -1,5 +1,8 @@
 // TODO
-// rethink fileops?
+// remove ongeom from geometry
+// remove ambient, diffuse, specular from geometry
+// blinn phong returns pigment
+
 #include "RayTrace.h"
 
 int main(int argc, char *argv[]) {

@@ -18,7 +18,7 @@ public:
 	void print();
 	void printType();
 	float intersect(Ray *ray);
-	void blinnPhong(Ray *ray, float rayDistance);
+	Pigment blinnPhong(Ray *ray, float rayDistance, Point surface);
 
 	void setVectors();
 	void setNormal(Ray *ray);

@@ -16,6 +16,7 @@ public:
 	void print();
 
 	void operator*=(float scalar);
+	void operator/=(float scalar);
 	void operator-=(Vector other);
 	Vector operator-(Vector other);
 	Vector operator+(Vector other);

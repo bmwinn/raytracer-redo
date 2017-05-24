@@ -10,11 +10,11 @@ Plane::Plane(float distance, Vector *normal, Pigment *pigment, Finish *finish) :
 }
 
 void Plane::setDistance(float d) { distance = d; }
-void Plane::setOnGeom() {
-	onGeom.x = distance * normal.x;
-	onGeom.y = distance * normal.y;
-	onGeom.z = distance * normal.z;	
-}
+// void Plane::setOnGeom() {
+// 	onGeom.x = distance * normal.x;
+// 	onGeom.y = distance * normal.y;
+// 	onGeom.z = distance * normal.z;	
+// }
 float Plane::getDistance() { return distance; }
 
 
@@ -30,7 +30,9 @@ void Plane::printType() { cout << "plane" << endl; }
  /* Return distance along ray to plane */
 float Plane::intersect(Ray *ray) {
 	float distance;
-	Vector difPointPlane = onGeom - *ray->getStart();
+	// Vector difPointPlane = onGeom - *ray->getStart();
+	Point surface = Point(normal.x * distance, normal.y * distance, normal.z * distance);
+	Vector difPointPlane = surface - *ray->getStart();
 	// Vector difPointPlane = Vector(onGeom.x - ray->getStart()->x, onGeom.y - ray->getStart()->y, onGeom.z - ray->getStart()->z);
 
 	/* If dot product is 0, return no hit */
@@ -42,12 +44,21 @@ float Plane::intersect(Ray *ray) {
 	return distance;
 }
 
-void Plane::blinnPhong(Ray *ray, float rayDistance) {
-	Geometry::setOnGeom(ray, rayDistance);
-	blinnPhongAmbient();
+Pigment Plane::blinnPhong(Ray *ray, float rayDistance, Point surface) {
+	// Geometry::setOnGeom(ray, rayDistance);
+	Pigment black = Pigment(0, 0, 0);
+	Pigment ambient, diffuse, pixel;
 
-	bool noShadow = shadowFeeler();
+	ambient = blinnPhongAmbient();
+
+	bool noShadow = shadowFeeler(surface);
 	if (noShadow) {
-		blinnPhongDiffuse();
+		diffuse = blinnPhongDiffuse(surface);
 	}
+	else {
+		diffuse = black;
+	}
+
+	pixel = ambient + diffuse;
+	return pixel;
 }

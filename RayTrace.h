@@ -24,14 +24,14 @@ void setColor(color_t *color, Pigment *pixelPigment) {
 	color->f = pixelPigment->f;
 }
 
-void resetBlinnPhongPigments(vector<Geometry *> *allGeometry) {
-	for (int g = 0; g < allGeometry->size(); g++) {
-		allGeometry->at(g)->getPigmentA()->reset();
-		allGeometry->at(g)->getPigmentD()->reset();
-		allGeometry->at(g)->getPigmentS()->reset();
-		allGeometry->at(g)->getPixel()->reset();
-	}
-}
+// void resetBlinnPhongPigments(vector<Geometry *> *allGeometry) {
+// 	for (int g = 0; g < allGeometry->size(); g++) {
+// 		allGeometry->at(g)->getPigmentA()->reset();
+// 		allGeometry->at(g)->getPigmentD()->reset();
+// 		allGeometry->at(g)->getPigmentS()->reset();
+// 		allGeometry->at(g)->getPixel()->reset();
+// 	}
+// }
 
 void colorPixel(int pixelWidth, int pixelHeight, Image *img, Geometry *curGeom) {
 	color_t color;
@@ -134,7 +134,7 @@ Pigment rayTrace(int pw, int ph, int bounces, vector<Geometry *> *allGeometry, R
 		float transmissionContribution = pigment->f * (1 - fresnelReflectance);
 		float localContribution = (1 - pigment->f) * (1 - finish->reflect);
 
-		curGeom->blinnPhong(ray, closestDistance);
+		Pigment localColor = curGeom->blinnPhong(ray, closestDistance, surface);
 
 		Pigment reflectionColor, transmissionColor;
 		if (reflectionContribution > 0) {
@@ -160,8 +160,8 @@ Pigment rayTrace(int pw, int ph, int bounces, vector<Geometry *> *allGeometry, R
 			transmissionColor = black;
 		}
 
-		Pigment localColor = *curGeom->getPixel();
-		resetBlinnPhongPigments(allGeometry);
+		 // = *curGeom->getPixel();
+		// resetBlinnPhongPigments(allGeometry);
 		if (pw == 120 and ph == 120) {
 			cout << "pigment A: "; curGeom->getPigmentA()->print();
 			cout << "pigment D: "; curGeom->getPigmentD()->print();

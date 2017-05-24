@@ -10,7 +10,7 @@ Geometry::Geometry() {
 	pigmentD = Pigment();
 	pigmentS = Pigment();
 	pixel = Pigment();
-	onGeom = Point();
+	// onGeom = Point();
 }
 
 Geometry::Geometry(Vector *n, Pigment *p, Finish *f) {
@@ -27,7 +27,7 @@ Geometry::Geometry(Vector *n, Pigment *p, Finish *f) {
 	pigmentD = Pigment();
 	pigmentS = Pigment();
 	pixel = Pigment();
-	onGeom = Point();	
+	// onGeom = Point();	
 }
 
 /* Virtual function, should not be called */
@@ -44,15 +44,18 @@ float Geometry::intersect(Ray *ray) {
 	return 10000;
 }
 
-void Geometry::setOnGeom(Ray *ray, float rayDistance) {
-	onGeom.x = ray->getStart()->x + rayDistance * ray->getDirection()->x;
-	onGeom.y = ray->getStart()->y + rayDistance * ray->getDirection()->y;
-	onGeom.z = ray->getStart()->z + rayDistance * ray->getDirection()->z;
+// void Geometry::setOnGeom(Ray *ray, float rayDistance) {
+// 	onGeom.x = ray->getStart()->x + rayDistance * ray->getDirection()->x;
+// 	onGeom.y = ray->getStart()->y + rayDistance * ray->getDirection()->y;
+// 	onGeom.z = ray->getStart()->z + rayDistance * ray->getDirection()->z;
+// }
+
+Pigment Geometry::blinnPhong(Ray *ray, float rayDistance, Point surface) {
+	cout << "Geometry object Blinn Phong." << endl;
+	return Pigment(0, 0, 0);
 }
 
-void Geometry::blinnPhong(Ray *ray, float rayDistance) { cout << "Geometry object Blinn Phong." << endl; }
-
-void Geometry::blinnPhongAmbient() {
+Pigment Geometry::blinnPhongAmbient() {
 	Pigment cappedLight = Pigment(light->getPigment()->r, light->getPigment()->g, light->getPigment()->b);
 	if (cappedLight.g > 1)
 		cappedLight.r = 1;
@@ -63,32 +66,35 @@ void Geometry::blinnPhongAmbient() {
 	if (cappedLight.b > 1)
 		cappedLight.b = 1;
 
-	pigmentA.r = finish.ambient * pigment.r * cappedLight.r;
-	pigmentA.g = finish.ambient * pigment.g * cappedLight.g;
-	pigmentA.b = finish.ambient * pigment.b * cappedLight.b;
+	Pigment ambient = Pigment(0, 0, 0);
+	ambient.r = finish.ambient * pigment.r * cappedLight.r;
+	ambient.g = finish.ambient * pigment.g * cappedLight.g;
+	ambient.b = finish.ambient * pigment.b * cappedLight.b;
 
-	pixel += &pigmentA;
+	return ambient;
 }
 
-void Geometry::blinnPhongDiffuse() {
+Pigment Geometry::blinnPhongDiffuse(Point surface) {
 	float zero = 0;
 
-	Vector lightVector = *light->getCenter() - onGeom;
+	Vector lightVector = *light->getCenter() - surface;
 	lightVector.normalize();
 
 	float dp = max(normal.dot(&lightVector), zero);
-	pigmentD.r = finish.diffuse * pigment.r * light->getPigment()->r * dp;
-	pigmentD.g = finish.diffuse * pigment.g * light->getPigment()->g * dp;
-	pigmentD.b = finish.diffuse * pigment.b * light->getPigment()->b * dp;
+
+	Pigment diffuse = Pigment(0, 0, 0);
+	diffuse.r = finish.diffuse * pigment.r * light->getPigment()->r * dp;
+	diffuse.g = finish.diffuse * pigment.g * light->getPigment()->g * dp;
+	diffuse.b = finish.diffuse * pigment.b * light->getPigment()->b * dp;
 	
-	pixel += &pigmentD;
+	return diffuse;
 }
 
-void Geometry::blinnPhongSpecular() {
+Pigment Geometry::blinnPhongSpecular(Point surface) {
 	float zero = 0;
 
-	Vector lightVector = *light->getCenter() - onGeom;
-	Vector view = *camera->getCenter() - onGeom;
+	Vector lightVector = *light->getCenter() - surface;
+	Vector view = *camera->getCenter() - surface;
 	lightVector.normalize();
 	view.normalize();
 
@@ -98,23 +104,24 @@ void Geometry::blinnPhongSpecular() {
 	float shiny = 1.0 / finish.roughness;
 	float shine = pow(max(half.dot(&normal), zero), shiny);
 
-	pigmentS.r = finish.specular * pigment.r * light->getPigment()->r * shine;
-	pigmentS.g = finish.specular * pigment.g * light->getPigment()->g * shine;
-	pigmentS.b = finish.specular * pigment.b * light->getPigment()->b * shine;
+	Pigment specular = Pigment(0, 0, 0);
+	specular.r = finish.specular * pigment.r * light->getPigment()->r * shine;
+	specular.g = finish.specular * pigment.g * light->getPigment()->g * shine;
+	specular.b = finish.specular * pigment.b * light->getPigment()->b * shine;
 
-	pixel += &pigmentS;
+	return specular;
 }
 
 // Send shadow feeler ray from current geometry
 // Return boolean that determines if another object blockes the light source from current object
 // bool Geometry::shadowFeeler(Light *light, vector<Geometry *> *allGeometry) {
-bool Geometry::shadowFeeler() {
+bool Geometry::shadowFeeler(Point surface) {
 	float dist = 0;
-	float lightDistance = onGeom.distance(light->getCenter());
+	float lightDistance = surface.distance(light->getCenter());
 
-	Vector feelVector = *light->getCenter() - onGeom;
+	Vector feelVector = *light->getCenter() - surface;
 	feelVector.normalize();
-	feeler = Ray(onGeom, feelVector);
+	feeler = Ray(surface, feelVector);
 
 	for (int geom = 0; geom < allGeometry->size(); geom++) {
 		dist = allGeometry->at(geom)->intersect(&feeler);
@@ -169,7 +176,7 @@ void Geometry::setFeeler(Ray *f) { feeler = *f; }
 void Geometry::setPixel(Pigment *p) { pixel = *p; }
 
 Vector *Geometry::getNormal() { return &normal; }
-Point *Geometry::getOnGeom() { return &onGeom; }
+// Point *Geometry::getOnGeom() { return &onGeom; }
 Pigment *Geometry::getPigment() { return &pigment; }
 Pigment *Geometry::getPigmentA() { return &pigmentA; }
 Pigment *Geometry::getPigmentD() { return &pigmentD; }

@@ -30,13 +30,13 @@ public:
 	virtual float intersect(Ray *ray);
 	
 	void resetPigments();
-	virtual void blinnPhong(Ray *ray, float rayDistance);
-	void blinnPhongAmbient();
-	void blinnPhongDiffuse();
-	void blinnPhongSpecular();
-	bool shadowFeeler();
+	virtual Pigment blinnPhong(Ray *ray, float rayDistance, Point surface);
+	Pigment blinnPhongAmbient();
+	Pigment blinnPhongDiffuse(Point surface);
+	Pigment blinnPhongSpecular(Point surface);
+	bool shadowFeeler(Point surface);
 
-	void setOnGeom(Ray *ray, float rayDistance);
+	// void setOnGeom(Ray *ray, float rayDistance);
 	void setNormal(Vector *n);
 	void setPigment(Pigment *p);
 	void setPigmentA(Pigment *pA);
@@ -50,7 +50,7 @@ public:
 	void setPixel(Pigment *p);
 
 	Vector *getNormal();
-	Point *getOnGeom();
+	// Point *getOnGeom();
 	Pigment *getPigment();
 	Pigment *getPigmentA();
 	Pigment *getPigmentD();
@@ -63,7 +63,7 @@ public:
 	Pigment *getPixel();
 
 protected:
-	Point onGeom; // stores point on geometry surface
+	// Point onGeom; // stores point on geometry surface
 	Vector normal;
 
 	Pigment pigment; // stores object color

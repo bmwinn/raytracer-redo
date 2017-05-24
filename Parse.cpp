@@ -177,7 +177,7 @@ void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Lig
 					token = strtok(NULL, " ,");
 					plane->setDistance(strtof(token, NULL));
 
-					plane->setOnGeom();
+					// plane->setOnGeom();
 
 					/* Fill in plane Pigment */
 					povray->getline(line, 99);

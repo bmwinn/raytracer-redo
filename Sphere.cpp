@@ -64,19 +64,33 @@ float Sphere::intersect(Ray *ray) {
 	return distance;
 }
 
-void Sphere::blinnPhong(Ray *ray, float rayDistance) {
-	setOnGeom(ray, rayDistance);
-	Vector newNormal = Vector((onGeom.x - center.x)/radius,
-					(onGeom.y - center.y)/radius,
-					(onGeom.z - center.z)/radius);
-	newNormal.normalize();
-	setNormal(&newNormal);
+Pigment Sphere::blinnPhong(Ray *ray, float rayDistance, Point surface) {
+	//setOnGeom(ray, rayDistance);
+	// Vector newNormal = Vector((onGeom.x - center.x)/radius,
+	// 				(onGeom.y - center.y)/radius,
+	// 				(onGeom.z - center.z)/radius);
+	normal = surface - center;
+	normal /= radius;
+	normal.normalize();
 
-	blinnPhongAmbient();
+	// newNormal.normalize();
+	// setNormal(&newNormal);
 
-	bool noShadow = shadowFeeler();
+	Pigment pixel, ambient, diffuse, specular;
+	Pigment black = Pigment(0, 0, 0);
+
+	ambient = blinnPhongAmbient();
+
+	bool noShadow = shadowFeeler(surface);
 	if (noShadow) {
-		blinnPhongDiffuse();
-		blinnPhongSpecular();
+		diffuse = blinnPhongDiffuse(surface);
+		specular = blinnPhongSpecular(surface);
 	}
+	else {
+		diffuse = black;
+		specular = black;
+	}
+
+	pixel = ambient + diffuse + specular;
+	return pixel;
 }

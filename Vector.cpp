@@ -46,6 +46,12 @@ void Vector::operator*=(float scalar) {
 	z *= scalar;
 	setMagnitude(x, y, z);
 }
+void Vector::operator/=(float scalar) {
+	x /= scalar;
+	y /= scalar;
+	z /= scalar;
+	setMagnitude(x, y, z);
+}
 void Vector::operator-=(Vector other) {
 	x -= other.x;
 	y -= other.y;
