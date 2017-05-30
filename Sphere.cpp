@@ -65,19 +65,12 @@ float Sphere::intersect(int pw, int ph, Ray *ray) {
 }
 
 Pigment Sphere::blinnPhong(int pw, int ph, Ray *ray, float rayDistance, Point surface) {
-	//setOnGeom(ray, rayDistance);
-	// Vector newNormal = Vector((onGeom.x - center.x)/radius,
-	// 				(onGeom.y - center.y)/radius,
-	// 				(onGeom.z - center.z)/radius);
+	Pigment pixel, ambient, diffuse, specular;
+	Pigment black = Pigment(0, 0, 0);
+
 	normal = surface - center;
 	normal /= radius;
 	normal.normalize();
-
-	// newNormal.normalize();
-	// setNormal(&newNormal);
-
-	Pigment pixel, ambient, diffuse, specular;
-	Pigment black = Pigment(0, 0, 0);
 
 	ambient = blinnPhongAmbient();
 

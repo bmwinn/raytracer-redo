@@ -13,7 +13,6 @@ public:
 	float intersect(int pw, int ph, Ray *ray);
 	Pigment blinnPhong(int pw, int ph, Ray *ray, float rayDistance, Point surface);
 
-	// void setOnGeom();
 	void setDistance(float d);
 
 	float getDistance();

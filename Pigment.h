@@ -11,7 +11,7 @@ using namespace std;
 class Pigment {
 public:
 	Pigment();
-	Pigment(float r, float g, float b, float f = 1);
+	Pigment(float r, float g, float b, float f = 0);
 	void reset();
 	void print();
 

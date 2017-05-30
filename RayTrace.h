@@ -36,6 +36,9 @@ float schlicksApproximation(float ior, Vector *normal, Vector *view) {
 	return schlicks;
 }
 
+
+
+
 Pigment rayTrace(int pw, int ph, int bounces, vector<Geometry *> *allGeometry, Ray *ray) {
 	float distance, closestDistance;
 	int geomIndex = -1;
@@ -55,14 +58,7 @@ Pigment rayTrace(int pw, int ph, int bounces, vector<Geometry *> *allGeometry, R
 			}
 		}
 
-		if (pw == 120 and ph == 120) {
-			cout << "plane distance " << closestDistance << endl;
-		}
-
-		if (closestDistance == 10000) {
-			if (pw == 120 and ph == 120) {
-				cout << "miss" << endl;
-			}
+		if (geomIndex == -1) {
 			return black;
 		}
 
@@ -115,10 +111,6 @@ void renderLoop(int width, int height, Image *img, vector<Geometry *> *allGeomet
 		for (int j = 0; j < height; j++) {
 			Ray *ray = new Ray(i, j, width, height, camera);
 			Pigment fill = rayTrace(i, j, 5, allGeometry, ray);
-			if (i == 120 and j == 120) {
-				cout << endl << "render loop: pigment ";
-				fill.print();
-			}
 			colorPixel(i, j, img, &fill);
 		}
 	}
