@@ -101,6 +101,7 @@ bool Geometry::shadowFeeler(int pw, int ph, Point surface) {
 
 	Vector feelVector = *light->getCenter() - surface;
 	feelVector.normalize();
+	surface += feelVector * 0.001;
 	Ray feeler = Ray(surface, feelVector);
 
 	for (int geom = 0; geom < allGeometry->size(); geom++) {

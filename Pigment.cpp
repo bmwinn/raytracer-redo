@@ -3,7 +3,7 @@
 /* Initialize Pigment to black */
 Pigment::Pigment() {
 	r = g = b = 0;
-	f = 1;
+	f = 0;
 }
 
 Pigment::Pigment(float r, float g, float b, float f) {
@@ -16,7 +16,7 @@ Pigment::Pigment(float r, float g, float b, float f) {
 
 void Pigment::reset() {
 	r = g = b = 0;
-	f = 1;
+	f = 0;
 }
 
 void Pigment::print() {

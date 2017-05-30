@@ -3,7 +3,7 @@
 
 #include "Parse.h"
 #include "Image.h"
-#include "UnitTest.h"
+// #include "UnitTest.h"
 
 #include <vector>
 #include <iostream>
@@ -17,103 +17,29 @@
 using namespace std;
 
 /* Fill color_t variable (with Image.cpp compatibility) from my own Pigment class */
-void setColor(color_t *color, Pigment *pixelPigment) {
-	color->r = pixelPigment->r * 255;
-	color->g = pixelPigment->g * 255;
-	color->b = pixelPigment->b * 255;
-	color->f = pixelPigment->f;
-}
+void setColor(color_t *color, Pigment *pixelPigment);
 
-void colorPixel(int pixelWidth, int pixelHeight, Image *img, Pigment *pixel) {
-	color_t color;
-    setColor(&color, pixel);
-    img->pixel(pixelWidth, pixelHeight, color);
-}
+void colorPixel(int pixelWidth, int pixelHeight, Image *img, Pigment *pixel);
 
-float schlicksApproximation(float ior, Vector *normal, Vector *view) {
-	float F0 = pow(ior - 1, 2) / pow(ior + 1, 2);
-	float schlicks = F0 + (1 - F0) * (1 - pow(normal->dot(view), 5));
-	return schlicks;
-}
+float schlicksApproximation(float ior, Vector *normal, Vector *view);
 
+float geometryLoop(int pw, int ph, vector<Geometry *> *allGeometry, float *closestDistance, Ray *ray);
 
+void setContributions(float *fresnel, float *reflCont, float *transCont, float *localCont, Geometry *curGeom, Vector *view);
 
+Point findSurfacePoint(Geometry *curGeom, Ray *ray, float closestDistance);
 
-Pigment rayTrace(int pw, int ph, int bounces, vector<Geometry *> *allGeometry, Ray *ray) {
-	float distance, closestDistance;
-	int geomIndex = -1;
-	Pigment black = Pigment(0, 0, 0);
-	// watch out for when you decrement bounces
+Geometry *initialize(int index, vector<Geometry *> *aG, Ray *ray, float distance, Point *surface, Vector *view);
 
-	if (bounces > 0) {
-		bounces--;
-		closestDistance = 10000;
+Pigment addReflectionColor(float reflCont, Ray *ray, int pw, int ph, int bounces, vector<Geometry *> *aG, Point surface, Vector *normal);
 
-		for (int i = 0; i < allGeometry->size(); i++) {
-			Geometry *curGeom = allGeometry->at(i);
-			distance = curGeom->intersect(pw, ph, ray);
-			if (distance > 0.0001 && distance < closestDistance) {
-				closestDistance = distance;
-				geomIndex = i;
-			}
-		}
+Pigment addTransmissionColor(float transCont, Vector initDir, Point surface, Vector normal, Vector *view, float ior,
+	int pw, int ph, int bounces, vector<Geometry *> *aG);
 
-		if (geomIndex == -1) {
-			return black;
-		}
+Pigment rayTrace(int pw, int ph, int bounces, vector<Geometry *> *allGeometry, Ray *ray);
 
-		Geometry *curGeom = allGeometry->at(geomIndex);
-		Point surface = *ray->getStart();
-		surface += *ray->getDirection() * closestDistance;
+void renderLoop(int width, int height, Image *img, vector<Geometry *> *allGeometry, Camera *camera, int bounces);
 
-		Finish *finish = curGeom->getFinish();
-		Pigment *pigment = curGeom->getPigment();
-		Vector view = *curGeom->getCamera()->getCenter() - surface;
-
-		float fresnelReflectance = schlicksApproximation(finish->ior, curGeom->getNormal(), &view);
-
-		float reflectionContribution = (1 - pigment->f) * finish->reflect + pigment->f * fresnelReflectance;
-		float transmissionContribution = pigment->f * (1 - fresnelReflectance);
-		float localContribution = (1 - pigment->f) * (1 - finish->reflect);
-
-		Pigment localColor = curGeom->blinnPhong(pw, ph, ray, closestDistance, surface);
-
-		Pigment reflectionColor, transmissionColor;
-		if (reflectionContribution > 0) {
-			Ray *reflectRay = new Ray(ray, surface, curGeom->getNormal());
-			reflectionColor = rayTrace(pw, ph, bounces, allGeometry, reflectRay);
-		}
-		else {
-			reflectionColor = black;
-		}
-
-		if (transmissionContribution > 0) {
-			Ray *refractRay = new Ray(surface, *ray->getDirection(), *curGeom->getNormal(), &view, 1, finish->ior);			
-			transmissionColor = rayTrace(pw, ph, bounces, allGeometry, refractRay);
-		}
-		else {
-			transmissionColor = black;
-		}
-
-		Pigment totalColor = localColor * localContribution +
-								reflectionColor * reflectionContribution +
-								transmissionColor * transmissionContribution;
-
-		return totalColor;
-	}
-	else {
-		return black;
-	}
-}
-
-void renderLoop(int width, int height, Image *img, vector<Geometry *> *allGeometry, Camera *camera) {
-	for (int i = 0; i < width; i++) {
-		for (int j = 0; j < height; j++) {
-			Ray *ray = new Ray(i, j, width, height, camera);
-			Pigment fill = rayTrace(i, j, 5, allGeometry, ray);
-			colorPixel(i, j, img, &fill);
-		}
-	}
-}
+Pigment findPigment(vector<Geometry *> *aG, Geometry *hitGeom, Ray *ray, int pw, int ph, Vector view, float distance, Point surface, int bounces);
 
 #endif

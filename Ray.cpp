@@ -49,6 +49,8 @@ Ray::Ray(Ray *initial, Point surface, Vector *normal) {
 	// d - 2 * ( d dot n) * n
 	direction = *initial->getDirection() - *normal * ((float)2.0 * normal->dot(initial->getDirection()));
 	direction.normalize();
+
+	start += direction * 0.001;
 }
 
 // watch out for surface as your starting point
