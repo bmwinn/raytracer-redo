@@ -17,7 +17,7 @@ public:
 	Triangle(Point *vA, Point *vB, Point *vC);
 	void print();
 	void printType();
-	float intersect(Ray *ray);
+	float intersect(int pw, int ph, Ray *ray);
 	Pigment blinnPhong(int pw, int ph, Ray *ray, float rayDistance, Point surface);
 
 	void setVectors();

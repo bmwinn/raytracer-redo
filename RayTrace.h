@@ -48,10 +48,7 @@ Pigment rayTrace(int pw, int ph, int bounces, vector<Geometry *> *allGeometry, R
 
 		for (int i = 0; i < allGeometry->size(); i++) {
 			Geometry *curGeom = allGeometry->at(i);
-			distance = curGeom->intersect(ray);
-			if (pw == 120 and ph == 120) {
-				cout << "distance " << distance << endl;
-			}			
+			distance = curGeom->intersect(pw, ph, ray);
 			if (distance > 0.0001 && distance < closestDistance) {
 				closestDistance = distance;
 				geomIndex = i;
@@ -59,12 +56,11 @@ Pigment rayTrace(int pw, int ph, int bounces, vector<Geometry *> *allGeometry, R
 		}
 
 		if (pw == 120 and ph == 120) {
-			cout << "plane unit test!" << endl;
+			cout << "plane distance " << closestDistance << endl;
 		}
 
 		if (closestDistance == 10000) {
 			if (pw == 120 and ph == 120) {
-				cout << "t " << closestDistance << endl;
 				cout << "miss" << endl;
 			}
 			return black;

@@ -4,7 +4,7 @@ Geometry::Geometry() {
 	normal = Vector();
 	pigment = Pigment();
 	finish = Finish();
-	feeler = Ray();
+	// feeler = Ray();
 
 	// pigmentA = Pigment();
 	// pigmentD = Pigment();
@@ -17,7 +17,7 @@ Geometry::Geometry(Vector *n, Pigment *p, Finish *f) {
 	normal = Vector();
 	pigment = Pigment();
 	finish = Finish();
-	feeler = Ray();
+	// feeler = Ray();
 
 	setNormal(n);
 	setPigment(p);
@@ -39,7 +39,7 @@ void Geometry::printType() {
 }
 
 /* Virtual function, should not be called */
-float Geometry::intersect(Ray *ray) {
+float Geometry::intersect(int pw, int ph, Ray *ray) {
 	cout << "Geometry object intersect." << endl;
 	return 10000;
 }
@@ -115,16 +115,20 @@ Pigment Geometry::blinnPhongSpecular(Point surface) {
 // Send shadow feeler ray from current geometry
 // Return boolean that determines if another object blockes the light source from current object
 // bool Geometry::shadowFeeler(Light *light, vector<Geometry *> *allGeometry) {
-bool Geometry::shadowFeeler(Point surface) {
+bool Geometry::shadowFeeler(int pw, int ph, Point surface) {
 	float dist = 0;
 	float lightDistance = surface.distance(light->getCenter());
 
 	Vector feelVector = *light->getCenter() - surface;
 	feelVector.normalize();
-	feeler = Ray(surface, feelVector);
+	Ray feeler = Ray(surface, feelVector);
+	if (pw == 120 and ph == 120) {
+		cout << "feeler ";
+		feeler.print();
+	}
 
 	for (int geom = 0; geom < allGeometry->size(); geom++) {
-		dist = allGeometry->at(geom)->intersect(&feeler);
+		dist = allGeometry->at(geom)->intersect(0, 0, &feeler);
 
 		// if object with positive distance is closer than light source
 		if (dist > 0.001 && dist < lightDistance)
@@ -172,7 +176,7 @@ void Geometry::setFinish(Finish *f) {
 void Geometry::setLight(Light *l) { light = l; }
 void Geometry::setCamera(Camera *c) { camera = c; }
 void Geometry::setAllGeometry(vector<Geometry *> *aG) { allGeometry = aG; }
-void Geometry::setFeeler(Ray *f) { feeler = *f; }
+// void Geometry::setFeeler(Ray *f) { feeler = *f; }
 // void Geometry::setPixel(Pigment *p) { pixel = *p; }
 
 Vector *Geometry::getNormal() { return &normal; }
@@ -185,5 +189,5 @@ Finish *Geometry::getFinish() { return &finish; }
 Light *Geometry::getLight() { return light; }
 Camera *Geometry::getCamera() { return camera; }
 vector<Geometry *> *Geometry::getAllGeometry() { return allGeometry; }
-Ray *Geometry::getFeeler() { return &feeler; }
+// Ray *Geometry::getFeeler() { return &feeler; }
 // Pigment *Geometry::getPixel() { return &pixel; }

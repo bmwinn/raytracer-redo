@@ -32,7 +32,7 @@ void Sphere::printType() {
 }
 
 /* Return distance along ray to sphere */
-float Sphere::intersect(Ray *ray) {
+float Sphere::intersect(int pw, int ph, Ray *ray) {
 	float distance, t1, t2, rad;
 	Vector difPC = *ray->getStart() - center;
 	Vector rayD = *ray->getDirection();
@@ -81,7 +81,7 @@ Pigment Sphere::blinnPhong(int pw, int ph, Ray *ray, float rayDistance, Point su
 
 	ambient = blinnPhongAmbient();
 
-	bool noShadow = shadowFeeler(surface);
+	bool noShadow = shadowFeeler(pw, ph, surface);
 	if (noShadow) {
 		diffuse = blinnPhongDiffuse(surface);
 		specular = blinnPhongSpecular(surface);
