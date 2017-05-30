@@ -2,8 +2,9 @@
 
 Finish::Finish() {
 	ambient = diffuse = specular = 0;
-	roughness = reflect = refract = 0;
-	ior = 0;
+	reflect = refract = 0;
+	ior = 1;
+	roughness = 0.5;
 }
 
 Finish::Finish(float ambient, float diffuse, float specular, float roughness) {

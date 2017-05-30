@@ -1,6 +1,9 @@
 #ifndef _RAY_TRACE_H_
 #define _RAY_TRACE_H_
 
+#define PW 220
+#define PH 240
+
 #include "Parse.h"
 #include "Image.h"
 // #include "UnitTest.h"

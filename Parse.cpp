@@ -300,7 +300,7 @@ void fillFinish(char *line, Geometry *geom) {
 			token = strtok(NULL, " \t}");
 			geom->getFinish()->reflect = strtof(token, NULL);
 		}
-		else if (!geom->getFinish()->ior && !strcmp(token, "ior")) {
+		else if (!strcmp(token, "ior")) {
 			token = strtok(NULL, " \t}");
 			geom->getFinish()->ior = strtof(token, NULL);
 		}

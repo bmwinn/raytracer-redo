@@ -63,15 +63,14 @@ Ray::Ray(Point surface, Vector initialDirection, Vector normal, Vector *view, fl
 		normal *= -1;
 
 		// swap iors
-		// std::swap
+		// swap(ior1, ior2);
 		float temp = ior1;
 		ior1 = ior2;
 		ior2 = temp;
 	}
 
-	direction = initialDirection - normal * initialDirection.dot(&normal);
-	direction *= ior1 / ior2;
-	direction -= normal * sqrt(1 - pow(ior1 / ior2, 2) * (1 - pow(initialDirection.dot(&normal), 2)));
+	float rad = 1 - (pow(ior1 / ior2, 2) * (1 - pow(initialDirection.dot(&normal), 2)));
+	direction = (initialDirection - normal * initialDirection.dot(&normal)) * (ior1 / ior2) - normal * sqrt(rad);
 	direction.normalize();
 
 	start += direction * 0.001;

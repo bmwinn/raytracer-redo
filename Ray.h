@@ -5,6 +5,8 @@
 #include "Vector.h"
 #include "Camera.h"
 
+using namespace std;
+
 class Ray {
 public:
 	Ray();
