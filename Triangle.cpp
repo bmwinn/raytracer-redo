@@ -60,7 +60,7 @@ void Triangle::print() {
 void Triangle::printType() {
 	cout << "Triangle" << endl;
 }
-float Triangle::intersect(Ray *ray) {
+float Triangle::intersect(int pw, int ph, Ray *ray) {
 	float distance, t, gamma, beta;
 	float M, a, b, c, d, e, f, g, h, i, j, k, l;
 
@@ -100,14 +100,23 @@ float Triangle::intersect(Ray *ray) {
 		return -1;
 }
 // void Triangle::blinnPhong(Ray *ray, float rayDist) {
-void Triangle::blinnPhong(Ray *ray, float rayDistance) {
-	setOnGeom(ray, rayDistance);
+Pigment Triangle::blinnPhong(int pw, int ph, Ray *ray, float rayDistance, Point surface) {
+	// setOnGeom(ray, rayDistance);
 	setNormal(ray);
-	blinnPhongAmbient();
 
-	bool noShadow = shadowFeeler();
+	Pigment black = Pigment(0, 0, 0);
+	Pigment pixel, ambient, diffuse;
+	ambient = blinnPhongAmbient();
+
+	bool noShadow = shadowFeeler(pw, ph, surface);
 
 	if (noShadow) {
-		blinnPhongDiffuse();
+		diffuse = blinnPhongDiffuse(surface);
 	}
+	else {
+		diffuse = black;
+	}
+
+	pixel = ambient + diffuse;
+	return pixel;
 }

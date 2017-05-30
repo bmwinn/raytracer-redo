@@ -50,11 +50,17 @@ void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Lig
 
 			if (token) {
 				if (!strcmp(token, "camera")) {
-					povray->getline(line, 99);
 					*camera = Camera();
 
+					// token = strtok(NULL, " \t");
+					if (strcmp(token, "l")) {
+						povray->getline(line, 99);
+						token = strtok(line, " \tlocation<,");
+					}
+					else {
+						token = strtok(NULL, " \tlocation<,");
+					}
 					/* Fill in Camera center point */
-					token = strtok(line, " \tlocation<,");
 					camera->getCenter()->x = strtof(token, NULL);
 					token = strtok(NULL, ", ");
 					camera->getCenter()->y = strtof(token, NULL);
@@ -85,7 +91,7 @@ void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Lig
 					camera->getLookAt()->x = strtof(token, NULL);
 					token = strtok(NULL, ", ");
 					camera->getLookAt()->y = strtof(token, NULL);
-					token = strtok(NULL, ", >");
+					token = strtok(NULL, ", >}");
 					camera->getLookAt()->z = strtof(token, NULL);
 
 					/* Initialize magnitude of up and right vectors */
@@ -171,8 +177,6 @@ void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Lig
 					token = strtok(NULL, " ,");
 					plane->setDistance(strtof(token, NULL));
 
-					plane->setOnGeom();
-
 					/* Fill in plane Pigment */
 					povray->getline(line, 99);
 					fillPigment(line, plane);
@@ -254,7 +258,7 @@ void fillPigment(char *line, Geometry *geom) {
 		geom->getPigment()->f = strtof(token, NULL);
 	}
 	else
-		geom->getPigment()->f = 1;
+		geom->getPigment()->f = 0;
 }
 
 void fillFinish(char *line, Geometry *geom) {

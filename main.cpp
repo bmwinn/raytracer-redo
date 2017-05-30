@@ -1,5 +1,3 @@
-// TODO
-// rethink fileops?
 #include "RayTrace.h"
 
 int main(int argc, char *argv[]) {
@@ -34,7 +32,7 @@ int main(int argc, char *argv[]) {
 
 	Image img(width, height);
 	
-	rayTrace(width, height, &camera, &light, &img, &allGeometry, test);
+	renderLoop(width, height, &img, &allGeometry, &camera, 5);
 	
 	img.WriteTga((char *)outTGA.c_str(), true);
 

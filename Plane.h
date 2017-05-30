@@ -10,10 +10,9 @@ public:
 	Plane(float distance, Vector *normal, Pigment *pigment, Finish *finish);
 	void print();
 	void printType();
-	float intersect(Ray *ray);
-	void blinnPhong(Ray *ray, float rayDistance);
+	float intersect(int pw, int ph, Ray *ray);
+	Pigment blinnPhong(int pw, int ph, Ray *ray, float rayDistance, Point surface);
 
-	void setOnGeom();
 	void setDistance(float d);
 
 	float getDistance();

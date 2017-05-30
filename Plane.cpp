@@ -3,20 +3,14 @@
 Plane::Plane() : Geometry() {
 	distance = 0;
 }
-
 Plane::Plane(float distance, Vector *normal, Pigment *pigment, Finish *finish) :
 	Geometry(normal, pigment, finish) {
 	this->distance = distance;
 }
 
 void Plane::setDistance(float d) { distance = d; }
-void Plane::setOnGeom() {
-	onGeom.x = distance * normal.x;
-	onGeom.y = distance * normal.y;
-	onGeom.z = distance * normal.z;	
-}
-float Plane::getDistance() { return distance; }
 
+float Plane::getDistance() { return distance; }
 
 void Plane::print() {
 	cout << "plane {";
@@ -28,26 +22,33 @@ void Plane::print() {
 void Plane::printType() { cout << "plane" << endl; }
 
  /* Return distance along ray to plane */
-float Plane::intersect(Ray *ray) {
-	float distance;
-	Vector difPointPlane = onGeom - *ray->getStart();
-	// Vector difPointPlane = Vector(onGeom.x - ray->getStart()->x, onGeom.y - ray->getStart()->y, onGeom.z - ray->getStart()->z);
+// recompute point for shadows?
+float Plane::intersect(int pw, int ph, Ray *ray) {
+	float intersectDistance;
+	Point surface = Point(normal.x * distance, normal.y * distance, normal.z * distance);
+	Vector difPointPlane = surface - *ray->getStart();
 
 	/* If dot product is 0, return no hit */
 	if (ray->getDirection()->dot(&normal) == 0)
-		distance = -1;
+		intersectDistance = -1;
 	else
-		distance = difPointPlane.dot(&normal) / ray->getDirection()->dot(&normal);
+		intersectDistance = difPointPlane.dot(&normal) / ray->getDirection()->dot(&normal);
 	
-	return distance;
+	return intersectDistance;
 }
 
-void Plane::blinnPhong(Ray *ray, float rayDistance) {
-	Geometry::setOnGeom(ray, rayDistance);
-	blinnPhongAmbient();
+Pigment Plane::blinnPhong(int pw, int ph, Ray *ray, float rayDistance, Point surface) {
+	Pigment black = Pigment(0, 0, 0);
+	Pigment ambient, diffuse, pixel;
 
-	bool noShadow = shadowFeeler();
+	ambient = blinnPhongAmbient();
+
+	bool noShadow = shadowFeeler(pw, ph, surface);
 	if (noShadow) {
-		blinnPhongDiffuse();
+		diffuse = blinnPhongDiffuse(surface);
+		return ambient + diffuse;
+	}
+	else {
+		return ambient;
 	}
 }
