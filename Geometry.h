@@ -23,40 +23,37 @@ using namespace std;
 class Geometry {
 public:
 	Geometry();
-	Geometry(Vector *n, Pigment *p, Finish *f);
+	Geometry(Pigment p, Finish f);
 
 	virtual void print();
 	virtual void printType();
 	virtual float intersect(int pw, int ph, Ray ray);
 
-	virtual Pigment blinnPhong(int pw, int ph, Ray *ray, float rayDistance, Point surface, Vector normal);
+	virtual Pigment blinnPhong(int pw, int ph, Ray ray, float rayDistance, Point surface, Vector normal);
 	Pigment blinnPhongAmbient();
 	Pigment blinnPhongDiffuse(Point surface, Vector normal);
 	Pigment blinnPhongSpecular(Point surface, Vector normal);
 	bool shadowFeeler(int pw, int ph, Point surface);
 
-	// void setNormal(Vector *n);
-	void setPigment(Pigment *p);
-	void setFinish(Finish *f);
-	void setLight(Light *l);
-	void setCamera(Camera *c);
+	void setPigment(Pigment p);
+	void setFinish(Finish f);
+	void setLight(Light l);
+	void setCamera(Camera c);
 	void setAllGeometry(vector<Geometry *> *aG);
 
-	// Vector *getNormal();
-	Pigment *getPigment();
-	Finish *getFinish();
-	Light *getLight();
-	Camera *getCamera();
+	Pigment getPigment();
+	Finish getFinish();
+	Light getLight();
+	Camera getCamera();
 	vector<Geometry *> *getAllGeometry();
-	virtual Vector *getNormal(Point surface, Ray ray);
+	virtual Vector getNormal(Point surface, Ray ray);
 
 protected:
-	// Vector normal;
 	Pigment pigment; // stores object color
 	Finish finish;
 
-	Light *light;
-	Camera *camera;
+	Light light;
+	Camera camera;
 	vector<Geometry *> *allGeometry;
 };
 

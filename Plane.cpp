@@ -1,16 +1,21 @@
 #include "Plane.h"
 
 Plane::Plane() : Geometry() {
+	norm = Vector(0, 1, 0);
 	distance = 0;
 }
 Plane::Plane(float distance, Vector normal, Pigment pigment, Finish finish) :
-	Geometry(normal, pigment, finish) {
+	Geometry(pigment, finish) {
 	norm = normal;
 	this->distance = distance;
 }
 
 void Plane::setDistance(float d) { distance = d; }
-void Plane::setNorm(Vector n) { norm = n; }
+void Plane::setNorm(Vector n) {
+	norm = n;
+	norm.setMagnitude(n);
+	norm.normalize();
+}
 
 float Plane::getDistance() { return distance; }
 Vector Plane::getNormal(Point surface, Ray ray) { return norm; }

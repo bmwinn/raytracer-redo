@@ -36,7 +36,7 @@ int main(int argc, char *argv[]) {
 
 	Image img(width, height);
 	
-	renderLoop(width, height, &img, &allGeometry, &camera, 5);
+	renderLoop(width, height, &img, &allGeometry, camera, 5);
 	
 	img.WriteTga((char *)outTGA.c_str(), true);
 

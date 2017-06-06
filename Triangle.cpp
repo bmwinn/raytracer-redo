@@ -10,7 +10,7 @@ Triangle::Triangle() : Geometry() {
 	AB = Vector();
 	AC = Vector();
 }
-Triangle::Triangle(Point vA, Point vB, Point vC) : Geometry() {
+Triangle::Triangle(Point vA, Point vB, Point vC, Pigment pigment, Finish finish) : Geometry(pigment, finish) {
 	vertexA = vA;
 	vertexB = vB;
 	vertexC = vC;

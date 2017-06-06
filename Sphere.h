@@ -7,7 +7,7 @@
 class Sphere : public Geometry {
 public:
 	Sphere();
-	Sphere(Point center, float radius, Vector *normal, Pigment *pigment, Finish *finish);
+	Sphere(Point center, float radius, Pigment pigment, Finish finish);
 	void print();
 	void printType();
 	float intersect(int pw, int ph, Ray ray);

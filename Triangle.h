@@ -14,7 +14,7 @@ using namespace std;
 class Triangle : public Geometry {
 public:
 	Triangle();
-	Triangle(Point vA, Point vB, Point vC);
+	Triangle(Point vA, Point vB, Point vC, Pigment pigment, Finish finish);
 	void print();
 	void printType();
 	float intersect(int pw, int ph, Ray ray);
