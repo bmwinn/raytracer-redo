@@ -163,15 +163,15 @@ void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Lig
 
 					/* Fill in plane normal vector */
 					token = strtok(NULL, " {<,");
-					plane->getNormal()->x = strtof(token, NULL);
+					plane->getNorm()->x = strtof(token, NULL);
 					token = strtok(NULL, " ,");
-					plane->getNormal()->y = strtof(token, NULL);
+					plane->getNorm()->y = strtof(token, NULL);
 					token = strtok(NULL, " ,>");
-					plane->getNormal()->z = strtof(token, NULL);
+					plane->getNorm()->z = strtof(token, NULL);
 
 					/* Set Magnitude of normal vector */
-					plane->getNormal()->setMagnitude(plane->getNormal());
-					plane->getNormal()->normalize();
+					plane->getNorm()->setMagnitude(plane->getNorm());
+					plane->getNorm()->normalize();
 
 					/* Fill in distance along plane normal */
 					token = strtok(NULL, " ,");

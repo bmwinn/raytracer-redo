@@ -3,50 +3,41 @@
 void renderLoop(int width, int height, Image *img, vector<Geometry *> *allGeometry, Camera *camera, int bounces) {
 	for (int i = 0; i < width; i++) {
 		for (int j = 0; j < height; j++) {
-			Ray *ray = new Ray(i, j, width, height, camera);
-			if (i == PW and j == PH)
-				cout << "Iteration type: Primary" << endl;
+			Ray ray = Ray(i, j, width, height, camera);
+			// if (i == PW and j == PH)
+			// 	cout << "Iteration type: Primary" << endl;
 
 			Pigment fill = rayTrace(i, j, bounces, allGeometry, ray);
 
-			if (i == PW and j == PH)
-				cout << "Pixel [" << i << ", " << j << "] Color: (" << fill.r << " " << fill.g << " " << fill.b << ")" << endl;
+			// if (i == PW and j == PH)
+			// 	cout << "Pixel [" << i << ", " << j << "] Color: (" << fill.r << " " << fill.g << " " << fill.b << ")" << endl;
 			
 			colorPixel(i, j, img, &fill);
 		}
 	}
 }
 
-Pigment rayTrace(int pw, int ph, int bounces, vector<Geometry *> *allGeometry, Ray *ray) {
+Pigment rayTrace(int pw, int ph, int bounces, vector<Geometry *> *allGeometry, Ray ray) {
 	int geomIndex;
 	float closestDistance;
 	Pigment black = Pigment(0, 0, 0);
 	Point surface;
 	Vector view;
+	Vector normal;
 	Geometry *hitGeom;
 
 	if (bounces-- > 0) {
-		if (pw == PW and ph == PH) {
-			cout << "Ray: {";
-			Point *s = ray->getStart();
-			Vector *d = ray->getDirection();
-			cout << s->x << " " << s->y << " " << s->z << "} -> {";
-			cout << d->x << " " << d->y << " " << d->z << "} ";
-		}
-
 		geomIndex = geometryLoop(pw, ph, allGeometry, &closestDistance, ray);
 
 		if (geomIndex == -1)
 			return black;
-		
-		if (pw == PW and ph == PH) {
-			cout << "T = " << closestDistance << endl;
-			cout << "-----" << endl;
-		}
 
-		hitGeom = initialize(geomIndex, allGeometry, ray, closestDistance, &surface, &view);
+		hitGeom = initialize(geomIndex, allGeometry, ray, closestDistance, &surface, &view, &normal);
 
-		Pigment totalColor = findPigment(allGeometry, hitGeom, ray, pw, ph, view, closestDistance, surface, bounces);
+		if (pw == PW and ph == PH)
+			normal->print();
+
+		Pigment totalColor = findPigment(allGeometry, hitGeom, ray, pw, ph, view, closestDistance, surface, normal, bounces);
 
 		return totalColor;
 	}
@@ -72,41 +63,51 @@ float geometryLoop(int pw, int ph, vector<Geometry *> *allGeometry, float *close
 	return geomIndex;
 }
 
-Geometry *initialize(int index, vector<Geometry *> *aG, Ray *ray, float distance, Point *surface, Vector *view) {
-	Geometry *curGeom = aG->at(index);
-	*surface = findSurfacePoint(curGeom, ray, distance);
-	*view = *curGeom->getCamera()->getCenter() - *surface;
-	return curGeom;
+Geometry *initialize(int index, vector<Geometry *> *aG, Ray *ray, float distance, Point *surface, Vector *view, Vector *normal) {
+	Geometry *hitGeom = aG->at(index);
+
+	*surface = findSurfacePoint(ray, distance);
+
+	normal = hitGeom->getNormal(*surface, *ray);
+	normal->print();
+	normal->normalize();
+	
+	view = *hitGeom->getCamera()->getCenter() - *surface;
+	view->normalize();
+	
+	return hitGeom;
 }
 
-Point findSurfacePoint(Geometry *curGeom, Ray *ray, float closestDistance) {
+Point findSurfacePoint(Ray *ray, float closestDistance) {
 	Point surface = *ray->getStart();
 	surface += *ray->getDirection() * closestDistance;
 	return surface;
 }
 
-Pigment findPigment(vector<Geometry *> *aG, Geometry *hitGeom, Ray *ray, int pw, int ph, Vector view, float distance, Point surface, int bounces) {
-	float fresnel, reflectionContribution, transmissionContribution, localContribution;
-	Pigment localColor, reflectionColor, transmissionColor;
+Pigment findPigment(vector<Geometry *> *aG, Geometry *hitGeom, Ray *ray, int pw, int ph, Vector *view, float distance, Point surface, Vector *normal, 
+	int bounces) {
+	float fresnel, reflCont, transCont, localCont;
+	Pigment localP, reflP, transP;
+	// Vector *normal = hitGeom->getNormal();
+	float ior = hitGeom->getFinish()->ior;
 
-	setContributions(&fresnel, &reflectionContribution, &transmissionContribution, &localContribution, hitGeom, &view);
-	localColor = hitGeom->blinnPhong(pw, ph, ray, distance, surface);
+	setContributions(&fresnel, &reflCont, &transCont, &localCont, hitGeom, normal, view);
+	localP = hitGeom->blinnPhong(pw, ph, ray, distance, surface, *normal);
 
-	reflectionColor = addReflectionColor(reflectionContribution, ray, pw, ph, bounces, aG, surface, hitGeom->getNormal());
-	transmissionColor = addTransmissionColor(transmissionContribution, *ray->getDirection(), surface, *hitGeom->getNormal(), &view,
-		hitGeom->getFinish()->ior, pw, ph, bounces, aG);
+	reflP = addReflectionColor(reflCont, ray, pw, ph, bounces, aG, surface, normal);
+	transP = addTransmissionColor(transCont, *ray->getDirection(), surface, normal, view, ior, pw, ph, bounces, aG);
 
-	Pigment totalColor = localColor * localContribution + reflectionColor * reflectionContribution + transmissionColor * transmissionContribution;
+	Pigment totalColor = localP * localCont + reflP * reflCont + transP * transCont;
 
 	return totalColor;
 }
 
-void setContributions(float *fresnel, float *reflCont, float *transCont, float *localCont, Geometry *curGeom, Vector *view) {
-	Finish *finish = curGeom->getFinish();
-	float filter = curGeom->getPigment()->f;
+void setContributions(float *fresnel, float *reflCont, float *transCont, float *localCont, Geometry *hitGeom, Vector *normal, Vector *view) {
+	Finish *finish = hitGeom->getFinish();
+	float filter = hitGeom->getPigment()->f;
 
-	// *fresnel = schlicksApproximation(finish->ior, curGeom->getNormal(), view);
-	*fresnel = 0;
+	// *fresnel = schlicksApproximation(finish->ior, normal, view);
+	// *fresnel = 0;
 
 	*reflCont = (1 - filter) * finish->reflect + filter * *fresnel;
 	*transCont = filter * (1 - *fresnel);
@@ -115,7 +116,16 @@ void setContributions(float *fresnel, float *reflCont, float *transCont, float *
 
 float schlicksApproximation(float ior, Vector *normal, Vector *view) {
 	float F0 = pow(ior - 1, 2) / pow(ior + 1, 2);
-	float schlicks = F0 + (1 - F0) * (1 - pow(normal->dot(view), 5));
+	float dot = normal->dot(view);
+	float schlicks = F0 + (1 - F0) * pow(1 - dot, 5);
+	
+	if (schlicks > 1 || schlicks < 0) {
+		// cout << "  ior: " << ior << endl;
+		cout << "  F0: " << F0 << endl;
+		cout << "  dot: " << dot << endl;
+		cout << "  schlicks: " << schlicks << endl;
+	}
+
 	return schlicks;
 }
 
@@ -124,8 +134,8 @@ Pigment addReflectionColor(float reflCont, Ray *ray, int pw, int ph, int bounces
 
 	if (reflCont > 0) {
 		Ray *reflRay = new Ray(ray, surface, normal);
-		if (pw == PW and ph == PH)
-			cout << "Iteration type: Reflection" << endl;
+		// if (pw == PW and ph == PH)
+		// 	cout << "Iteration type: Reflection" << endl;
 		reflColor = rayTrace(pw, ph, bounces, aG, reflRay);
 	}
 	else {
@@ -135,13 +145,13 @@ Pigment addReflectionColor(float reflCont, Ray *ray, int pw, int ph, int bounces
 	return reflColor;
 }
 
-Pigment addTransmissionColor(float transCont, Vector initDir, Point surface, Vector normal, Vector *view, float ior,
+Pigment addTransmissionColor(float transCont, Vector initDir, Point surface, Vector *normal, Vector *view, float ior,
 	int pw, int ph, int bounces, vector<Geometry *> *aG) {
 	Pigment transColor;
 
 	if (transCont > 0) {
-		if (pw == PW and ph == PH)
-			cout << "Iteration type: Refraction" << endl;
+		// if (pw == PW and ph == PH)
+		// 	cout << "Iteration type: Refraction" << endl;
 		Ray *refrRay = new Ray(surface, initDir, normal, view, 1, ior);
 		transColor = rayTrace(pw, ph, bounces, aG, refrRay);
 	}

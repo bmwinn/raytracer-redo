@@ -17,15 +17,8 @@ void Light::print() {
 	pigment.print();
 }
 
-void Light::setCenter(Point *c) {
-	center = *c;
-}
-void Light::setPigment(Pigment *p) {
-	pigment.r = p->r;
-	pigment.g = p->g;
-	pigment.b = p->b;
-	pigment.f = p->f;
-}
+void Light::setCenter(Point c) { center = c; }
+void Light::setPigment(Pigment p) { pigment = p; }
 
-Point *Light::getCenter() { return &center; }
-Pigment *Light::getPigment() { return &pigment; }
+Point Light::getCenter() { return center; }
+Pigment Light::getPigment() { return pigment; }

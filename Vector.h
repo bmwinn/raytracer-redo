@@ -10,8 +10,8 @@ class Vector {
 public:
 	Vector();
 	Vector(float x, float y, float z);
-	float dot(Vector *other);
-	void cross(Vector *other, Vector *result);
+	float dot(Vector other);
+	Vector cross(Vector other);
 	void normalize();
 	void print();
 
@@ -23,7 +23,7 @@ public:
 	Vector operator*(float scalar);
 
 	void setMagnitude(float x, float y, float z);
-	void setMagnitude(Vector *other);
+	void setMagnitude(Vector other);
 	
 	float x, y, z;
 	float magnitude;

@@ -10,39 +10,50 @@ Triangle::Triangle() : Geometry() {
 	AB = Vector();
 	AC = Vector();
 }
-Triangle::Triangle(Point *vA, Point *vB, Point *vC) : Geometry() {
-	vertexA = *vA;
-	vertexB = *vB;
-	vertexC = *vC;
+Triangle::Triangle(Point vA, Point vB, Point vC) : Geometry() {
+	vertexA = vA;
+	vertexB = vB;
+	vertexC = vC;
 	setVectors();
 
-	normal = Vector();
-	AB.cross(&AC, &normal);
-	normal.normalize();
+	// normal = Vector();
+	// AB.cross(&AC, &normal);
+	// normal.normalize();
 }
 
 void Triangle::setVectors() {
 	AB = vertexA - vertexB;
 	AC = vertexA - vertexC;
 }
-void Triangle::setNormal(Ray *ray) {
-	AB.cross(&AC, &normal);
-	normal.normalize();
+// void Triangle::setNormal(Ray *ray) {
+// 	AB.cross(&AC, &normal);
+// 	normal.normalize();
 
-	if (ray->getDirection()->dot(&normal) > 0)
-		normal *= -1;
-}
+// 	if (ray->getDirection()->dot(&normal) > 0)
+// 		normal *= -1;
+// }
+// void Triangle::setNormal(Point surface) {}
 void Triangle::setVertexA(Point vA) { vertexA = vA; }
 void Triangle::setVertexB(Point vB) { vertexB = vB; }
 void Triangle::setVertexC(Point vC) { vertexC = vC; }
 void Triangle::setAB(Vector ab) { AB = ab; }
 void Triangle::setAC(Vector ac) { AC = ac; }
 
-Point *Triangle::getVertexA() { return &vertexA; }
-Point *Triangle::getVertexB() { return &vertexB; }
-Point *Triangle::getVertexC() { return &vertexC; }
-Vector *Triangle::getAB() { return &AB; }
-Vector *Triangle::getAC() { return &AC; }
+Point Triangle::getVertexA() { return vertexA; }
+Point Triangle::getVertexB() { return vertexB; }
+Point Triangle::getVertexC() { return vertexC; }
+Vector Triangle::getAB() { return AB; }
+Vector Triangle::getAC() { return AC; }
+Vector Triangle::getNormal(Point surface, Ray ray) {
+	Vector normal = AB.cross(AC);
+	// AB.cross(&AC, normal);
+	normal.normalize();
+
+	if (ray.getDirection().dot(normal) > 0)
+		normal *= -1;
+
+	return normal;
+}
 
 void Triangle::print() {
 	cout << "triangle {" << endl << "   ";
@@ -60,7 +71,7 @@ void Triangle::print() {
 void Triangle::printType() {
 	cout << "Triangle" << endl;
 }
-float Triangle::intersect(int pw, int ph, Ray *ray) {
+float Triangle::intersect(int pw, int ph, Ray ray) {
 	float distance, t, gamma, beta;
 	float M, a, b, c, d, e, f, g, h, i, j, k, l;
 
@@ -72,13 +83,13 @@ float Triangle::intersect(int pw, int ph, Ray *ray) {
 	e = vertexA.y - vertexC.y;
 	f = vertexA.z - vertexC.z;
 
-	g = ray->getDirection()->x;
-	h = ray->getDirection()->y;
-	i = ray->getDirection()->z;
+	g = ray.getDirection().x;
+	h = ray.getDirection().y;
+	i = ray.getDirection().z;
 
-	j = vertexA.x - ray->getStart()->x;
-	k = vertexA.y - ray->getStart()->y;
-	l = vertexA.z - ray->getStart()->z;
+	j = vertexA.x - ray.getStart().x;
+	k = vertexA.y - ray.getStart().y;
+	l = vertexA.z - ray.getStart().z;
 
 	M = a*(e*i - h*f) + b*(g*f - d*i) + c*(d*h - e*g);
 	t = -1 * (f*(a*k - j*b) + e*(j*c - a*l) + d*(b*l - k*c))/M;
@@ -100,9 +111,9 @@ float Triangle::intersect(int pw, int ph, Ray *ray) {
 		return -1;
 }
 // void Triangle::blinnPhong(Ray *ray, float rayDist) {
-Pigment Triangle::blinnPhong(int pw, int ph, Ray *ray, float rayDistance, Point surface) {
+Pigment Triangle::blinnPhong(int pw, int ph, Ray ray, float rayDistance, Point surface, Vector normal) {
 	// setOnGeom(ray, rayDistance);
-	setNormal(ray);
+	// setNormal(ray);
 
 	Pigment black = Pigment(0, 0, 0);
 	Pigment pixel, ambient, diffuse;
@@ -111,7 +122,7 @@ Pigment Triangle::blinnPhong(int pw, int ph, Ray *ray, float rayDistance, Point 
 	bool noShadow = shadowFeeler(pw, ph, surface);
 
 	if (noShadow) {
-		diffuse = blinnPhongDiffuse(surface);
+		diffuse = blinnPhongDiffuse(surface, normal);
 	}
 	else {
 		diffuse = black;

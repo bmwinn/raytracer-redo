@@ -1,17 +1,17 @@
 #include "Geometry.h"
 
 Geometry::Geometry() {
-	normal = Vector();
+	// normal = Vector();
 	pigment = Pigment();
 	finish = Finish();
 }
 
 Geometry::Geometry(Vector *n, Pigment *p, Finish *f) {
-	normal = Vector();
+	// normal = Vector();
 	pigment = Pigment();
 	finish = Finish();
 
-	setNormal(n);
+	// setNormal(n);
 	setPigment(p);
 	setFinish(f);
 }
@@ -25,12 +25,12 @@ void Geometry::printType() {
 }
 
 /* Virtual function, should not be called */
-float Geometry::intersect(int pw, int ph, Ray *ray) {
+float Geometry::intersect(int pw, int ph, Ray ray) {
 	cout << "Geometry object intersect." << endl;
 	return 10000;
 }
 
-Pigment Geometry::blinnPhong(int pw, int ph, Ray *ray, float rayDistance, Point surface) {
+Pigment Geometry::blinnPhong(int pw, int ph, Ray *ray, float rayDistance, Point surface, Vector normal) {
 	cout << "Geometry object Blinn Phong." << endl;
 	return Pigment(0, 0, 0);
 }
@@ -54,7 +54,7 @@ Pigment Geometry::blinnPhongAmbient() {
 	return ambient;
 }
 
-Pigment Geometry::blinnPhongDiffuse(Point surface) {
+Pigment Geometry::blinnPhongDiffuse(Point surface, Vector normal) {
 	float zero = 0;
 
 	Vector lightVector = *light->getCenter() - surface;
@@ -70,7 +70,7 @@ Pigment Geometry::blinnPhongDiffuse(Point surface) {
 	return diffuse;
 }
 
-Pigment Geometry::blinnPhongSpecular(Point surface) {
+Pigment Geometry::blinnPhongSpecular(Point surface, Vector normal) {
 	float zero = 0;
 
 	Vector lightVector = *light->getCenter() - surface;
@@ -115,19 +115,20 @@ bool Geometry::shadowFeeler(int pw, int ph, Point surface) {
 	return true;
 }
 
-void Geometry::setNormal(Vector *n) {
-	normal = *n;
-	normal.magnitude = n->magnitude;
-}
+// void Geometry::getNormal(Vector *n) {
+// 	normal = *n;
+// 	normal.magnitude = n->magnitude;
+// }
 void Geometry::setPigment(Pigment *p) { pigment = *p; }
 void Geometry::setFinish(Finish *f) { finish = *f; }
 void Geometry::setLight(Light *l) { light = l; }
 void Geometry::setCamera(Camera *c) { camera = c; }
 void Geometry::setAllGeometry(vector<Geometry *> *aG) { allGeometry = aG; }
 
-Vector *Geometry::getNormal() { return &normal; }
+// Vector *Geometry::getNormal() { return &normal; }
 Pigment *Geometry::getPigment() { return &pigment; }
 Finish *Geometry::getFinish() { return &finish; }
 Light *Geometry::getLight() { return light; }
 Camera *Geometry::getCamera() { return camera; }
 vector<Geometry *> *Geometry::getAllGeometry() { return allGeometry; }
+Vector *Geometry::getNormal(Point surface, Ray ray) { return new Vector(); }

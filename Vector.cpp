@@ -11,15 +11,15 @@ Vector::Vector(float x, float y, float z) {
 	magnitude = sqrt(pow(x, 2) + pow(y, 2) + pow(z, 2));
 }
 
-float Vector::dot(Vector *other) {
-	return x * other->x + y * other->y + z * other->z;
+float Vector::dot(Vector other) {
+	return x * other.x + y * other.y + z * other.z;
 }
 
-void Vector::cross(Vector *other, Vector *result) {
-	result->x = y * other->z - z * other->y;
-	result->y = -1 * (x * other->z - z * other->x);
-	result->z = x * other->y - y * other->x;
-	result->setMagnitude(result->x, result->y, result->z);
+Vector Vector::cross(Vector other) {
+	Vector result = Vector( y * other.z - z * other.y,
+						   -1 * (x * other.z - z * other.x),
+						    x * other.y - y * other.x);
+	return result;
 }
 
 void Vector::normalize() {
@@ -71,6 +71,6 @@ Vector Vector::operator*(float scalar) {
 void Vector::setMagnitude(float x, float y, float z) {
 	magnitude = sqrt(pow(x, 2) + pow(y, 2) + pow(z, 2));
 }
-void Vector::setMagnitude(Vector *other) {
-	magnitude = sqrt(pow(other->x, 2) + pow(other->y, 2) + pow(other->z, 2));
+void Vector::setMagnitude(Vector other) {
+	magnitude = sqrt(pow(other.x, 2) + pow(other.y, 2) + pow(other.z, 2));
 }
