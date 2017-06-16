@@ -23,18 +23,18 @@ void Camera::print() {
 	cout << "}" << endl;
 }
 
-void Camera::setCenter(Point *c) { center = *c; }
-void Camera::setLookAt(Point *l) { lookat = *l; }
-void Camera::setUp(Vector *u) {
-	up = *u;
-	up.magnitude = u->magnitude;
+void Camera::setCenter(Point c) { center = c; }
+void Camera::setLookAt(Point l) { lookat = l; }
+void Camera::setUp(Vector u) {
+	up = u;
+	up.magnitude = u.magnitude;
 }
-void Camera::setRight(Vector *r) {
-	right = *r;
-	right.magnitude = r->magnitude;
+void Camera::setRight(Vector r) {
+	right = r;
+	right.magnitude = r.magnitude;
 }
 
-Point *Camera::getCenter() { return &center; }
-Point *Camera::getLookAt() { return &lookat; }
-Vector *Camera::getUp() { return &up; }
-Vector *Camera::getRight() { return &right; }
+Point Camera::getCenter() { return center; }
+Point Camera::getLookAt() { return lookat; }
+Vector Camera::getUp() { return up; }
+Vector Camera::getRight() { return right; }

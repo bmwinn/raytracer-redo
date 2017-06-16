@@ -25,8 +25,8 @@ void Point::operator+=(Vector other) {
 	z += other.z;
 }
 
-float Point::distance(Point *other) {
-	return sqrt(pow(x - other->x, 2) + pow(y - other->y, 2) + pow(z - other->z, 2));
+float Point::distance(Point other) {
+	return sqrt(pow(x - other.x, 2) + pow(y - other.y, 2) + pow(z - other.z, 2));
 }
 
 void Point::print() {

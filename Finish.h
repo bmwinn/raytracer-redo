@@ -9,7 +9,7 @@ using namespace std;
 class Finish {
 public:
 	Finish();
-	Finish(float ambient, float diffuse, float specular, float roughness);
+	Finish(float amb, float diff, float spec, float refl, float refr, float rou, float io);
 	void print();
 
 public:

@@ -15,15 +15,15 @@ public:
 	Camera(Point center, Vector up, Vector right, Point lookat);
 	void print();
 
-	void setCenter(Point *c);
-	void setLookAt(Point *l);
-	void setUp(Vector *u);
-	void setRight(Vector *r);
+	void setCenter(Point c);
+	void setLookAt(Point l);
+	void setUp(Vector u);
+	void setRight(Vector r);
 
-	Point *getCenter();
-	Point *getLookAt();
-	Vector *getUp();
-	Vector *getRight();
+	Point getCenter();
+	Point getLookAt();
+	Vector getUp();
+	Vector getRight();
 
 private:
 	Point center, lookat;

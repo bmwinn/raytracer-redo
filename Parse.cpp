@@ -25,8 +25,8 @@ int fileOps(int argc, char *argv[], int *width, int *height, string *test, vecto
 	*test = string(argv[3]);
 
 	for (int g = 0; g < allGeometry->size(); g++) {
-		allGeometry->at(g)->setLight(light);
-		allGeometry->at(g)->setCamera(camera);
+		allGeometry->at(g)->setLight(*light);
+		allGeometry->at(g)->setCamera(*camera);
 		allGeometry->at(g)->setAllGeometry(allGeometry);
 	}
 
@@ -60,88 +60,97 @@ void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Lig
 					else {
 						token = strtok(NULL, " \tlocation<,");
 					}
+
+					float x, y, z;
+
 					/* Fill in Camera center point */
-					camera->getCenter()->x = strtof(token, NULL);
+					x = strtof(token, NULL);
 					token = strtok(NULL, ", ");
-					camera->getCenter()->y = strtof(token, NULL);
+					y = strtof(token, NULL);
 					token = strtok(NULL, ", >");
-					camera->getCenter()->z = strtof(token, NULL);
+					z = strtof(token, NULL);
+					camera->setCenter(Point(x, y, z));
 
 					/* Fill in Camera up vector */
 					povray->getline(line, 99);
 					token = strtok(line, " \tup<,");
-					camera->getUp()->x = strtof(token, NULL);
+					x = strtof(token, NULL);
 					token = strtok(NULL, ", ");
-					camera->getUp()->y = strtof(token, NULL);
+					y = strtof(token, NULL);
 					token = strtok(NULL, ", >");
-					camera->getUp()->z = strtof(token, NULL);
+					z = strtof(token, NULL);
+					camera->setUp(Vector(x, y, z));
 
 					/* Fill in Camera right vector */
 					povray->getline(line, 99);
 					token = strtok(line, " \tright<,");
-					camera->getRight()->x = strtof(token, NULL);
+					x = strtof(token, NULL);
 					token = strtok(NULL, ", ");
-					camera->getRight()->y = strtof(token, NULL);
+					y = strtof(token, NULL);
 					token = strtok(NULL, ", >");
-					camera->getRight()->z = strtof(token, NULL);
+					z = strtof(token, NULL);
+					camera->setRight(Vector(x, y, z));
 
 					/* Fill in Camera lookat point */
 					povray->getline(line, 99);
 					token = strtok(line, " \tlook_at<,");
-					camera->getLookAt()->x = strtof(token, NULL);
+					x = strtof(token, NULL);
 					token = strtok(NULL, ", ");
-					camera->getLookAt()->y = strtof(token, NULL);
+					y = strtof(token, NULL);
 					token = strtok(NULL, ", >}");
-					camera->getLookAt()->z = strtof(token, NULL);
-
-					/* Initialize magnitude of up and right vectors */
-					camera->getUp()->setMagnitude(camera->getUp());
-					camera->getRight()->setMagnitude(camera->getRight());
+					z = strtof(token, NULL);
+					camera->setLookAt(Point(x, y, z));
 				}
 				else if (!strcmp(token, "light_source")) {
 					*light = Light();
 
+					float x, y, z;
+
 					/* Fill in Light center point */
 					token = strtok(NULL, " {<,");
-					light->getCenter()->x = strtof(token, NULL);
+					x = strtof(token, NULL);
 					token = strtok(NULL, " {<,");
-					light->getCenter()->y = strtof(token, NULL);
+					y = strtof(token, NULL);
 					token = strtok(NULL, " {<,");
-					light->getCenter()->z = strtof(token, NULL);
+					z = strtof(token, NULL);
+					light->setCenter(Point(x, y, z));
 
 					strtok(NULL, " ");
 					token = strtok(NULL, " ");
 
+					float r, g, b, f;
 					/* Determine if Pigment color is rgb or rgbf */
 					rgbf = !strcmp(token, "rgbf");
 
 					/* Fill in Light Pigment */
 					token = strtok(NULL, "< ,");
+					r = strtof(token, NULL);
+					token = strtok(NULL, " ,");
+					g = strtof(token, NULL);
+					token = strtok(NULL, " ,");
+					b = strtof(token, NULL);
 
-					light->getPigment()->r = strtof(token, NULL);
-					token = strtok(NULL, " ,");
-					light->getPigment()->g = strtof(token, NULL);
-					token = strtok(NULL, " ,");
-					light->getPigment()->b = strtof(token, NULL);
-					
 					/* Fill in Light Pigment f value */
 					if (rgbf) {
 						token = strtok(NULL, " >}");
-						light->getPigment()->f = strtof(token, NULL);
+						f = strtof(token, NULL);
 					}
 					else
-						light->getPigment()->f = 1;
+						f = 1;
+
+					light->setPigment(Pigment(r, g, b, f));
 				}
 				else if (!strcmp(token, "sphere")) {
 					sphere = new Sphere();
 
 					/* Fill in sphere center point */
 					token = strtok(NULL, " {<,");
-					sphere->getCenter()->x = strtof(token, NULL);
+					float x = strtof(token, NULL);
 					token = strtok(NULL, " ,");
-					sphere->getCenter()->y = strtof(token, NULL);
+					float y = strtof(token, NULL);
 					token = strtok(NULL, " >");
-					sphere->getCenter()->z = strtof(token, NULL);
+					float z = strtof(token, NULL);
+					sphere->setCenter(Point(x, y, z));
 
 					/* Fill in sphere radius */
 					token = strtok(NULL, " ,");
@@ -163,15 +172,12 @@ void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Lig
 
 					/* Fill in plane normal vector */
 					token = strtok(NULL, " {<,");
-					plane->getNormal()->x = strtof(token, NULL);
+					float x = strtof(token, NULL);
 					token = strtok(NULL, " ,");
-					plane->getNormal()->y = strtof(token, NULL);
+					float y = strtof(token, NULL);
 					token = strtok(NULL, " ,>");
-					plane->getNormal()->z = strtof(token, NULL);
-
-					/* Set Magnitude of normal vector */
-					plane->getNormal()->setMagnitude(plane->getNormal());
-					plane->getNormal()->normalize();
+					float z = strtof(token, NULL);
+					plane->setNorm(Vector(x, y, z));
 
 					/* Fill in distance along plane normal */
 					token = strtok(NULL, " ,");
@@ -191,32 +197,36 @@ void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Lig
 				else if (!strcmp(token, "triangle")) {
 					triangle = new Triangle();
 
+					float x, y, z;
 					/* Fill in triangle vertexA */
 					povray->getline(line, 99);
 					token = strtok(line, " \t{<,");
-					triangle->getVertexA()->x = strtof(token, NULL);
+					x = strtof(token, NULL);
 					token = strtok(NULL, " ,");
-					triangle->getVertexA()->y = strtof(token, NULL);
+					y = strtof(token, NULL);
 					token = strtok(NULL, " ,>");
-					triangle->getVertexA()->z = strtof(token, NULL);
+					z = strtof(token, NULL);
+					triangle->setVertexA(Point(x, y, z));
 
 					/* Fill in triangle vertexB */
 					povray->getline(line, 99);
 					token = strtok(line, " \t{<,");
-					triangle->getVertexB()->x = strtof(token, NULL);
+					x = strtof(token, NULL);
 					token = strtok(NULL, " ,");
-					triangle->getVertexB()->y = strtof(token, NULL);
+					y = strtof(token, NULL);
 					token = strtok(NULL, " ,>");
-					triangle->getVertexB()->z = strtof(token, NULL);
+					z = strtof(token, NULL);
+					triangle->setVertexB(Point(x, y, z));
 
 					/* Fill in triangle vertexC */
 					povray->getline(line, 99);
 					token = strtok(line, " \t{<,");
-					triangle->getVertexC()->x = strtof(token, NULL);
+					x = strtof(token, NULL);
 					token = strtok(NULL, " ,");
-					triangle->getVertexC()->y = strtof(token, NULL);
+					y = strtof(token, NULL);
 					token = strtok(NULL, " ,>");
-					triangle->getVertexC()->z = strtof(token, NULL);
+					z = strtof(token, NULL);
+					triangle->setVertexC(Point(x, y, z));
 
 					triangle->setVectors();
 
@@ -247,23 +257,34 @@ void fillPigment(char *line, Geometry *geom) {
 	rgbf = !strcmp(token, "rgbf");
 
 	token = strtok(NULL, " <,");
-	geom->getPigment()->r = strtof(token, NULL);
+	float r = strtof(token, NULL);
 	token = strtok(NULL, " ,");
-	geom->getPigment()->g = strtof(token, NULL);
+	float g = strtof(token, NULL);
 	token = strtok(NULL, " ,>}");
-	geom->getPigment()->b = strtof(token, NULL);
+	float b = strtof(token, NULL);
+	float f;
 
 	if (rgbf) {
 		token = strtok(NULL, " ,>}");
-		geom->getPigment()->f = strtof(token, NULL);
+		f = strtof(token, NULL);
 	}
 	else
-		geom->getPigment()->f = 0;
+		f = 0;
+
+	geom->setPigment(Pigment(r, g, b, f));
 }
 
 void fillFinish(char *line, Geometry *geom) {
+	float amb, dif, spec, rou, refr, refl, ior;
 	char finishLine[100], *token;
 	int length = 0;
+
+	bool iorFill = false;
+	bool roughFill = false;
+
+	amb = dif = spec = refr = refl = 0;
+	rou = 0.5;
+	ior = 1;
 
 	for (int i = 0, j = 0; i < 80; i++) {
 		if (line[i] == '{')
@@ -276,38 +297,41 @@ void fillFinish(char *line, Geometry *geom) {
 	token = strtok(finishLine, " \t");
 
 	while ((token = strtok(NULL, " \t"))) {
-		if (!geom->getFinish()->ambient && !strcmp(token, "ambient")) {
-			token = strtok(NULL, " \t}");;
-			geom->getFinish()->ambient = strtof(token, NULL);
-		}
-		else if (!geom->getFinish()->diffuse && !strcmp(token, "diffuse")) {
+		cout << "token: " << token << endl;
+		if (!amb && !strcmp(token, "ambient")) {
 			token = strtok(NULL, " \t}");
-			geom->getFinish()->diffuse = strtof(token, NULL);
+			amb = strtof(token, NULL);
 		}
-		else if (!geom->getFinish()->specular && !strcmp(token, "specular")) {
+		else if (!dif && !strcmp(token, "diffuse")) {
 			token = strtok(NULL, " \t}");
-			geom->getFinish()->specular = strtof(token, NULL);
+			dif = strtof(token, NULL);
 		}
-		else if (!strcmp(token, "roughness")) {
+		else if (!spec && !strcmp(token, "specular")) {
 			token = strtok(NULL, " \t}");
-			geom->getFinish()->roughness = strtof(token, NULL);
+			spec = strtof(token, NULL);
 		}
-		else if (!geom->getFinish()->refract && !strcmp(token, "refraction")) {
+		else if (!roughFill && !strcmp(token, "roughness")) {
 			token = strtok(NULL, " \t}");
-			geom->getFinish()->refract = strtof(token, NULL);
+			rou = strtof(token, NULL);
+			roughFill = true;
 		}
-		else if (!geom->getFinish()->reflect && !strcmp(token, "reflection")) {
+		else if (!refr && !strcmp(token, "refraction")) {
 			token = strtok(NULL, " \t}");
-			geom->getFinish()->reflect = strtof(token, NULL);
+			refr = strtof(token, NULL);
 		}
-		else if (!geom->getFinish()->ior && !strcmp(token, "ior")) {
+		else if (!refl && !strcmp(token, "reflection")) {
 			token = strtok(NULL, " \t}");
-			geom->getFinish()->ior = strtof(token, NULL);
+			cout << "token: " << token << endl;
+			refl = strtof(token, NULL);
 		}
-		//else {
-		//	return false;
-		//}
+		else if (!iorFill && !strcmp(token, "ior")) {
+			token = strtok(NULL, " \t}");
+			ior = strtof(token, NULL);
+			iorFill = true;
+		}
 	}
 
-//	return true;
+	cout << "refl: " << refl << endl;
+
+	geom->setFinish(Finish(amb, dif, spec, refl, refr, rou, ior));
 }

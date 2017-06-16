@@ -12,7 +12,7 @@ public:
 	Point();
 	Point(float x, float y, float z);
 	~Point();
-	float distance(Point *other);
+	float distance(Point other);
 	void print();
 
 	Vector operator-(Point other);

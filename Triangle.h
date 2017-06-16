@@ -14,14 +14,13 @@ using namespace std;
 class Triangle : public Geometry {
 public:
 	Triangle();
-	Triangle(Point *vA, Point *vB, Point *vC);
+	Triangle(Point vA, Point vB, Point vC, Pigment pigment, Finish finish);
 	void print();
 	void printType();
-	float intersect(int pw, int ph, Ray *ray);
-	Pigment blinnPhong(int pw, int ph, Ray *ray, float rayDistance, Point surface);
+	float intersect(int pw, int ph, Ray ray);
+	Pigment blinnPhong(int pw, int ph, Ray ray, float rayDistance, Point surface, Vector normal);
 
 	void setVectors();
-	void setNormal(Ray *ray);
 
 	void setVertexA(Point vA);
 	void setVertexB(Point vB);
@@ -29,11 +28,12 @@ public:
 	void setAB(Vector ab);
 	void setAC(Vector ac);
 
-	Point *getVertexA();
-	Point *getVertexB();
-	Point *getVertexC();
-	Vector *getAB();
-	Vector *getAC();
+	Point getVertexA();
+	Point getVertexB();
+	Point getVertexC();
+	Vector getAB();
+	Vector getAC();
+	Vector getNormal(Point surface, Ray ray);
 
 private:
 	Point vertexA, vertexB, vertexC;

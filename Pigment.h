@@ -14,14 +14,11 @@ public:
 	Pigment(float r, float g, float b, float f = 0);
 	void reset();
 	void print();
+	void cap();
 
-	void operator+=(Pigment *other);
+	void operator+=(Pigment other);
 	Pigment operator*(float scalar);
 	Pigment operator+(Pigment other);
-	void cap(); // added during blinn phong part 2, may be unnecessary to autoinclude within pigment functions
-	void bigCap(color_t *color);
-
-	void setColorT(color_t *color);
 	
 public:
 	float r, g, b, f;
