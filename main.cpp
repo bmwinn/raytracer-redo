@@ -30,9 +30,9 @@ int main(int argc, char *argv[]) {
 		return 1;
 	}
 
-	// for (int i = 0; i < allGeometry.size(); i++) {
-	// 	allGeometry.at(i)->print();
-	// }
+	for (int i = 0; i < allGeometry.size(); i++) {
+		allGeometry.at(i)->print();
+	}
 
 	Image img(width, height);
 	

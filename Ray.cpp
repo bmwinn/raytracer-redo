@@ -54,23 +54,26 @@ Ray::Ray(Ray initial, Point surface, Vector normal) {
 }
 
 // watch out for surface as your starting point
-Ray::Ray(Point surface, Vector initialDirection, Vector *normal, Vector view, float ior1, float ior2) {
+Ray::Ray(Point surface, Vector initialDirection, Vector normal, Vector view, float ior1, float ior2, bool *exiting) {
 	start = surface;
+	*exiting = false;
 
 	// check if exiting
-	if (view.dot(*normal) <= 0) {
-		// negate normal
-		*normal *= -1;
+	if (view.dot(normal) <= 0) {
+		*exiting = true;
+		
+		// negate normal - IRL
+		normal *= -1;
 
-		// swap iors
+		// swap iors - IRL??
 		// swap(ior1, ior2);
 		float temp = ior1;
 		ior1 = ior2;
 		ior2 = temp;
 	}
 
-	float rad = 1 - (pow(ior1 / ior2, 2) * (1 - pow(initialDirection.dot(*normal), 2)));
-	direction = (initialDirection - *normal * initialDirection.dot(*normal)) * (ior1 / ior2) - *normal * sqrt(rad);
+	float rad = 1 - (pow(ior1 / ior2, 2) * (1 - pow(initialDirection.dot(normal), 2)));
+	direction = (initialDirection - normal * initialDirection.dot(normal)) * (ior1 / ior2) - normal * sqrt(rad);
 	direction.normalize();
 
 	start += direction * 0.001;

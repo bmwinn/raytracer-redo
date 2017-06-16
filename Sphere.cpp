@@ -17,7 +17,7 @@ Vector Sphere::getNormal(Point surface, Ray ray) {
 	normal.normalize();
 	return normal;
 }
-void Sphere::setCenter(Point c) { center = c; }
+void Sphere::setCenter(Point c) { center = c; }	
 void Sphere::setRadius(float r) { radius = r; }
 
 Point Sphere::getCenter() { return center; }

@@ -4,13 +4,13 @@ void renderLoop(int width, int height, Image *img, vector<Geometry *> *allGeomet
 	for (int i = 0; i < width; i++) {
 		for (int j = 0; j < height; j++) {
 			Ray ray = Ray(i, j, width, height, camera);
-			// if (i == PW and j == PH)
-			// 	cout << "Iteration type: Primary" << endl;
+			if (i == PW and j == PH)
+				cout << "Iteration type: Primary" << endl;
 
 			Pigment fill = rayTrace(i, j, bounces, allGeometry, ray);
 
-			// if (i == PW and j == PH)
-			// 	cout << "Pixel [" << i << ", " << j << "] Color: (" << fill.r << " " << fill.g << " " << fill.b << ")" << endl;
+			if (i == PW and j == PH)
+				cout << "Pixel [" << i << ", " << j << "] Color: (" << fill.r << " " << fill.g << " " << fill.b << ")" << endl;
 			
 			colorPixel(i, j, img, fill);
 		}
@@ -59,12 +59,14 @@ Vector initialize(Geometry *&hitGeom, Point *surface, Vector *normal, int index,
 	hitGeom = aG->at(index);
 
 	*surface = findSurfacePoint(ray, distance);
+	// cout << "surface: "; surface->print();
 
 	*normal = hitGeom->getNormal(*surface, ray);
 	normal->normalize();
 	
 	Vector view = hitGeom->getCamera().getCenter() - *surface;
 	view.normalize();
+	// cout << "view: "; view.print();
 	return view;
 }
 
@@ -108,13 +110,6 @@ float schlicksApproximation(float ior, Vector normal, Vector view) {
 	float dot = normal.dot(view);
 	float schlicks = F0 + (1 - F0) * pow(1 - dot, 5);
 	
-	if (schlicks > 1 || schlicks < 0) {
-		// cout << "  ior: " << ior << endl;
-		cout << "  F0: " << F0 << endl;
-		cout << "  dot: " << dot << endl;
-		cout << "  schlicks: " << schlicks << endl;
-	}
-
 	return schlicks;
 }
 
@@ -123,8 +118,8 @@ Pigment addReflectionColor(int pw, int ph, vector<Geometry *> *aG, int bounces, 
 
 	if (reflCont > 0) {
 		Ray reflRay = Ray(ray, surface, normal);
-		// if (pw == PW and ph == PH)
-		// 	cout << "Iteration type: Reflection" << endl;
+		if (pw == PW and ph == PH)
+			cout << "Iteration type: Reflection" << endl;
 		reflColor = rayTrace(pw, ph, bounces, aG, reflRay);
 	}
 	else {
@@ -137,11 +132,28 @@ Pigment addReflectionColor(int pw, int ph, vector<Geometry *> *aG, int bounces, 
 Pigment addTransmissionColor(int pw, int ph, vector<Geometry *> *aG, int bounces,
 	float transCont, Vector initDir, Point surface, Vector normal, Vector view, float ior) {
 	Pigment transColor;
+	bool exiting;
 
 	if (transCont > 0) {
-		// if (pw == PW and ph == PH)
-		// 	cout << "Iteration type: Refraction" << endl;
-		Ray refrRay = Ray(surface, initDir, &normal, view, 1, ior);
+		if (pw == PW and ph == PH) {
+			cout << "Iteration type: Refraction" << endl;
+			cout << "view: "; view.print();
+			cout << "surface: "; surface.print();
+			cout << "normal before: "; normal.print();
+			cout << "dot: " << view.dot(normal) << endl;
+		}
+		Ray refrRay = Ray(surface, initDir, normal, view, 1, ior, &exiting);
+
+		if (exiting) {
+			normal *= -1;
+			ior = 1;
+		}
+
+		if (pw == PW and ph == PH) {
+			cout << "exiting: " << exiting << endl;
+			cout << "normal after: "; normal.print();
+			cout << endl;
+		}
 		transColor = rayTrace(pw, ph, bounces, aG, refrRay);
 	}
 	else {

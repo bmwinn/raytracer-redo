@@ -100,10 +100,6 @@ void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Lig
 					token = strtok(NULL, ", >}");
 					z = strtof(token, NULL);
 					camera->setLookAt(Point(x, y, z));
-
-					/* Initialize magnitude of up and right vectors */
-				// 	camera->getUp().setMagnitude(camera->getUp());
-				// 	camera->getRight().setMagnitude(camera->getRight());
 				}
 				else if (!strcmp(token, "light_source")) {
 					*light = Light();
@@ -182,10 +178,6 @@ void parse(fstream *povray, vector<Geometry *> *allGeometry, Camera *camera, Lig
 					token = strtok(NULL, " ,>");
 					float z = strtof(token, NULL);
 					plane->setNorm(Vector(x, y, z));
-
-					/* Set Magnitude of normal vector */
-					// plane->getNorm().setMagnitude(plane->getNorm());
-					// plane->getNorm().normalize();
 
 					/* Fill in distance along plane normal */
 					token = strtok(NULL, " ,");
@@ -305,6 +297,7 @@ void fillFinish(char *line, Geometry *geom) {
 	token = strtok(finishLine, " \t");
 
 	while ((token = strtok(NULL, " \t"))) {
+		cout << "token: " << token << endl;
 		if (!amb && !strcmp(token, "ambient")) {
 			token = strtok(NULL, " \t}");
 			amb = strtof(token, NULL);
@@ -328,6 +321,7 @@ void fillFinish(char *line, Geometry *geom) {
 		}
 		else if (!refl && !strcmp(token, "reflection")) {
 			token = strtok(NULL, " \t}");
+			cout << "token: " << token << endl;
 			refl = strtof(token, NULL);
 		}
 		else if (!iorFill && !strcmp(token, "ior")) {
@@ -335,12 +329,9 @@ void fillFinish(char *line, Geometry *geom) {
 			ior = strtof(token, NULL);
 			iorFill = true;
 		}
-		//else {
-		//	return false;
-		//}
 	}
 
-	geom->setFinish(Finish(amb, dif, spec, rou, refl, refr, ior));
+	cout << "refl: " << refl << endl;
 
-//	return true;
+	geom->setFinish(Finish(amb, dif, spec, refl, refr, rou, ior));
 }

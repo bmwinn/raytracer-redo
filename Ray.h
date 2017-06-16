@@ -13,7 +13,7 @@ public:
 	Ray(Point start, Vector direction);
 	Ray(int i, int j, int width, int height, Camera camera);
 	Ray(Ray initial, Point surface, Vector normal);
-	Ray(Point surface, Vector initialDirection, Vector *normal, Vector view, float ior1, float ior2);
+	Ray(Point surface, Vector initialDirection, Vector normal, Vector view, float ior1, float ior2, bool *exiting);
 	void print();
 
 	void setStart(Point s);

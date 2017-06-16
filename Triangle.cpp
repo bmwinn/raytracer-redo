@@ -15,24 +15,12 @@ Triangle::Triangle(Point vA, Point vB, Point vC, Pigment pigment, Finish finish)
 	vertexB = vB;
 	vertexC = vC;
 	setVectors();
-
-	// normal = Vector();
-	// AB.cross(&AC, &normal);
-	// normal.normalize();
 }
 
 void Triangle::setVectors() {
 	AB = vertexA - vertexB;
 	AC = vertexA - vertexC;
 }
-// void Triangle::setNormal(Ray *ray) {
-// 	AB.cross(&AC, &normal);
-// 	normal.normalize();
-
-// 	if (ray->getDirection()->dot(&normal) > 0)
-// 		normal *= -1;
-// }
-// void Triangle::setNormal(Point surface) {}
 void Triangle::setVertexA(Point vA) { vertexA = vA; }
 void Triangle::setVertexB(Point vB) { vertexB = vB; }
 void Triangle::setVertexC(Point vC) { vertexC = vC; }
@@ -46,7 +34,6 @@ Vector Triangle::getAB() { return AB; }
 Vector Triangle::getAC() { return AC; }
 Vector Triangle::getNormal(Point surface, Ray ray) {
 	Vector normal = AB.cross(AC);
-	// AB.cross(&AC, normal);
 	normal.normalize();
 
 	if (ray.getDirection().dot(normal) > 0)

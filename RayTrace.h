@@ -1,8 +1,8 @@
 #ifndef _RAY_TRACE_H_
 #define _RAY_TRACE_H_
 
-#define PW 295
-#define PH 265
+#define PW 315
+#define PH 185
 
 #include "Parse.h"
 #include "Image.h"
