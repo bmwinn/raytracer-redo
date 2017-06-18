@@ -88,7 +88,6 @@ Pigment Geometry::blinnPhongSpecular(Point surface, Vector normal) {
 
 // Send shadow feeler ray from current geometry
 // Return boolean that determines if another object blockes the light source from current object
-// bool Geometry::shadowFeeler(Light *light, vector<Geometry *> *allGeometry) {
 bool Geometry::shadowFeeler(int pw, int ph, Point surface) {
 	float dist = 0;
 	float lightDistance = surface.distance(light.getCenter());
@@ -109,17 +108,12 @@ bool Geometry::shadowFeeler(int pw, int ph, Point surface) {
 	return true;
 }
 
-// void Geometry::getNormal(Vector *n) {
-// 	normal = *n;
-// 	normal.magnitude = n->magnitude;
-// }
 void Geometry::setPigment(Pigment p) { pigment = p; }
 void Geometry::setFinish(Finish f) { finish = f; }
 void Geometry::setLight(Light l) { light = l; }
 void Geometry::setCamera(Camera c) { camera = c; }
 void Geometry::setAllGeometry(vector<Geometry *> *aG) { allGeometry = aG; }
 
-// Vector *Geometry::getNormal() { return &normal; }
 Pigment Geometry::getPigment() { return pigment; }
 Finish Geometry::getFinish() { return finish; }
 Light Geometry::getLight() { return light; }

@@ -15,8 +15,6 @@
 
 using namespace std;
 
-// TODO: clean up publics and privates
-
 /* Parent class to all Geometric objects */
 /* Passes to children normal Vector, Pigment value, and Finish value */
 /* Passes to children virtual classes to Print values and Intersect object with Ray */
@@ -54,7 +52,7 @@ protected:
 
 	Light light;
 	Camera camera;
-	vector<Geometry *> *allGeometry;
+	vector<Geometry *> *allGeometry; // vector list of all geometry objects, useful
 };
 
 #endif

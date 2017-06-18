@@ -297,7 +297,6 @@ void fillFinish(char *line, Geometry *geom) {
 	token = strtok(finishLine, " \t");
 
 	while ((token = strtok(NULL, " \t"))) {
-		cout << "token: " << token << endl;
 		if (!amb && !strcmp(token, "ambient")) {
 			token = strtok(NULL, " \t}");
 			amb = strtof(token, NULL);
@@ -321,17 +320,14 @@ void fillFinish(char *line, Geometry *geom) {
 		}
 		else if (!refl && !strcmp(token, "reflection")) {
 			token = strtok(NULL, " \t}");
-			cout << "token: " << token << endl;
 			refl = strtof(token, NULL);
 		}
 		else if (!iorFill && !strcmp(token, "ior")) {
-			token = strtok(NULL, " \t}");
+			token = strtok(NULL, " \t}"); 
 			ior = strtof(token, NULL);
 			iorFill = true;
 		}
 	}
-
-	cout << "refl: " << refl << endl;
 
 	geom->setFinish(Finish(amb, dif, spec, refl, refr, rou, ior));
 }

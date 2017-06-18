@@ -3,7 +3,7 @@
 
 #include "Geometry.h"
 
-/* Child of Geometry, inherits normal Vector and contains distance along normal Vecor */
+/* Child of Geometry, contains its own normal Vector and distance along normal */
 class Plane : public Geometry {
 public:
 	Plane();
