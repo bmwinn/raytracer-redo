@@ -1,0 +1,18 @@
+For simple.pov
+
+Add: specular 0.4 roughness 0.001 to the sphere to get a highlight.
+
+(Diffuse plane)
+Pixel: [120, 120] Ray: {0 0 14} -> {-0.374038 -0.224048 -0.899943} T=17.8533
+Ambient: (20, 20, 82) Diffuse: (37, 37, 147) Specular: (0, 0, 0)
+Feeler: {-0.539311290 0.601018608 0.589847445}
+
+(Specular highlight on sphere)
+Pixel: [295, 265] Ray: {0 0 14} -> {-0.0509036 0.0529814 -0.997297} T=12.247
+Ambient: (51, 0, 51) Diffuse: (135, 0, 135) Specular: (112, 0, 112)
+Feeler: {-0.579651773 0.579503298 0.572869658}
+
+(Shadow)
+Pixel: [420, 130] Ray: {0 0 14} -> {0.200006 -0.217917 -0.955254} T=18.3556
+Ambient: (20, 20, 82) Diffuse: (0, 0, 0) Specular: (0, 0, 0)
+Feeler: {-0.576993406 0.578823268 0.576231062}
