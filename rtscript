@@ -1,0 +1,21 @@
+#!/bin/bash
+
+rm tga/*
+cp pov/* .
+make
+./raytrace 640 480 simple.pov tga
+./raytrace 640 480 spheres.pov tga
+./raytrace 640 480 planes.pov tga
+./raytrace 640 480 simp_cam.pov tga
+./raytrace 640 480 simp_cam1.pov tga
+./raytrace 640 480 simp_cam2.pov tga
+./raytrace 640 480 simp_cam3.pov tga
+./raytrace 640 480 simple_tri.pov tga
+./raytrace 640 480 simple_reflect1.pov tga
+./raytrace 640 480 simple_reflect2.pov tga
+./raytrace 640 480 simple_reflect3.pov tga
+./raytrace 640 480 simple_refract.pov tga
+./raytrace 640 480 refract2.pov tga
+./raytrace 640 480 refract_refl.pov tga
+./raytrace 640 480 recurse_simp2.pov tga
+rm *.pov
