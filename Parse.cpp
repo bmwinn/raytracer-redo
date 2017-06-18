@@ -17,6 +17,7 @@ int fileOps(int argc, char *argv[], int *width, int *height, string *test, vecto
 	}
 	else {
 		cout << "Error opening file." << endl;
+		cout << ".pov file and executable must be in the same directory." << endl;
 		return 1;
 	}
 
