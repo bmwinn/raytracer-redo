@@ -1,8 +1,8 @@
 #ifndef _RAY_TRACE_H_
 #define _RAY_TRACE_H_
 
-#define PW 315
-#define PH 185
+#define PW -1 // define pixel width for recursive printing, debugging
+#define PH -1 // define pixel height for recursive printing, debugging
 
 #include "Parse.h"
 #include "Image.h"
@@ -43,7 +43,6 @@ Pigment addTransmissionColor(int pw, int ph, vector<Geometry *> *aG, int bounces
 
 void colorPixel(int pixelWidth, int pixelHeight, Image *img, Pigment pixel);
 
-/* Fill color_t variable (with Image.cpp compatibility) from my own Pigment class */
 void setColor(color_t *color, Pigment pixelPigment);
 
 

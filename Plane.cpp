@@ -30,7 +30,6 @@ void Plane::print() {
 void Plane::printType() { cout << "plane" << endl; }
 
  /* Return distance along ray to plane */
-// recompute point for shadows?
 float Plane::intersect(int pw, int ph, Ray ray) {
 	float intersectDistance;
 	Point surface = Point(norm.x * distance, norm.y * distance, norm.z * distance);
