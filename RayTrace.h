@@ -46,10 +46,4 @@ void colorPixel(int pixelWidth, int pixelHeight, Image *img, Pigment pixel);
 void setColor(color_t *color, Pigment pixelPigment);
 
 
-
-
-
-
-
-
 #endif

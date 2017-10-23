@@ -1,6 +1,3 @@
-/* Bridget Winn */
-/* Program 1 */
-
 /**
  * Bob Somers
  * rsomers@calpoly.edu

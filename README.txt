@@ -5,7 +5,8 @@ To run:
    run make
    ./raytrace <width> <height> ___.pov <destination directory>
 
-      ./raytrace 640 480 simple.pov tga
+   example:
+   ./raytrace 640 480 simple.pov tga
 
    The .pov file should be in the same directory as the executable.
    The program will name the resulting .tga file after the incoming
@@ -23,13 +24,27 @@ Part 1:
 - basic colors
 
 Part 2:
-- Blinn Phong shading
-- shadows (upcoming)
-- moving camera (upcoming)
+- Blinn-Phong shading
+   --> add another BRDF for fun, Cook-Torrance?
+- shadows
+- moving camera
 
 Part 3:
 - triangles
 - reflection
 - refraction
    * filter: 0 means 100% refractive, 1 means 0% refractive
-   * ask Ian Dunn.
+
+* Upcoming *
+Part 4:
+- transforms
+- anti aliasing (9 samples per pixel)
+- spatial data structure, will choose from:
+   --> bounding volume hierarchy
+   --> binary space partitioning tree
+   --> oct-tree
+
+TODOs
+- kill off vector and point classes
+   --> replace with glm
+   --> better for transforms later

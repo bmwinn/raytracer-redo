@@ -44,7 +44,7 @@ int main(int argc, char *argv[]) {
 	//    (allows up to 5 bounces for refractive/reflective objects)
 	renderLoop(width, height, &img, &allGeometry, camera, 5);
 	
-	// Write .tga file, all done, yay!
+	// Write .tga file
 	img.WriteTga((char *)outTGA.c_str(), true);
 
 	return 0;

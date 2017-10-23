@@ -1,3 +1,0 @@
-fix schlick's approximation for refraction
-bring in glm for transforms
-   -> kill off vector and point classes?
